@@ -19,3 +19,11 @@
 .btn-primary-narrow {
     padding: 0 6px;
 }
+
+.btn-primary-inner-light-blue {
+    background-image: linear-gradient(to bottom, #88c3ca 0, #87a2a2 100%);
+}
+
+.btn-primary-inner-light-green {
+    background-image: linear-gradient(to bottom, #5dca84 0, #89a21d 100%);
+}
