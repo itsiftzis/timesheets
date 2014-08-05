@@ -1,0 +1,76 @@
+@import java.text.SimpleDateFormat
+@import java.util.Locale
+
+<div class="row" ng-controller="WorkLogCtrl as wlog">
+    &NonBreakingSpace;
+    <div class="jumbotron">
+        <h2>Time Sheet Logs</h2>
+
+    </div>
+
+
+    <div class="row">
+        <div class="form-group">
+            <h3>
+                WorkLogs
+                <a ng-href="/worklog#/worklogs/create" class="btn btn-primary pull-right" id="btn_user_create">Add work log</a>
+            </h3>
+            <hr>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter WorkLogs...">
+            <hr>
+        </div>
+
+
+        <table id="user_list" class="table table-striped">
+            <thead>
+            <tr>
+                <th>username</th>
+                <th>date</th>
+                <th>total hours</th>
+                <th>project</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="wl in wlog.worklogs | filter:searchText">
+                <td>
+                    {{ wl.userName }}
+                </td>
+                <td>
+                    {{ wl.dateLog | date : 'dd/MM/yyyy'}}
+                </td>
+                <td>
+                    {{ wl.totalHours }}
+                </td>
+                <td>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>project</th>
+                                <th>region</th>
+                                <th>hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="pr in wl.projects">
+                            <td>{{ pr.name }} </td><td> {{ pr.region }} </td><td> {{ pr.hours }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr ng-hide="wlog.worklogs.length">
+                <td colspan="3">
+                    <p class="text-center">No WorkLogs Found</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr>
+        <h4>Debug:</h4>
+        <pre>{{ wlog.worklogs | json }}</pre>
+    </div>
+
+</div>

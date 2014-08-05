@@ -1,0 +1,54 @@
+<script src='@routes.Assets.at("javascripts/projects/ProjectService.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/projects/ProjectCtrl.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/projects/CreateProjectCtrl.js")' type="text/javascript"></script>
+
+<div class="row">
+    <div ng-controller="CreateProjectCtrl as pc">
+        <h1>Create Project</h1>
+
+        <form id="CreateProjectForm" name="CreateProjectForm" class="form-horizontal" role="form"
+              ng-submit="pc.createProject()">
+            <legend class="sm-col-12">Project details</legend>
+
+            <div class="form-group">
+                <label id="lbl_firstName" for="name" class="col-sm-4 control-label">project name</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="name" id="name" placeholder=""
+                           ng-model="pc.project.name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lbl_firstName" for="region" class="col-sm-4 control-label">region</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="region" id="region" placeholder=""
+                           ng-model="pc.project.region">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lbl_lastName" for="hours" class="col-sm-4 control-label">hours</label>
+
+                <div class="col-sm-8">
+                    <input type="number" class="form-control" name="hours" id="hours" placeholder=""
+                           ng-model="pc.project.hours">
+                </div>
+            </div>
+
+            <pre>{{ pc.project | json }}</pre>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8 text-right">
+                    <a ng-href="/worklog#/create" id="btn_cancel" class="btn btn-warning">Cancel</a>
+
+                    <button type="submit" class="btn btn-success" id="btn_create">Create Project</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+

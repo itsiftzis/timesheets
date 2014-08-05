@@ -1,0 +1,35 @@
+@(user: models.User)
+
+<html>
+    <body>
+        <h1>Users</h1>
+
+        <div>
+            <table>
+                <tr>
+                    <td>username:</td>
+                    <td><input type="text" value="@user.getUserName"></td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td><input type="password" value="@user.getPassword"></td>
+                </tr>
+                <tr>
+                    <td>email:</td>
+                    <td><input type="email" value="@user.getEmail"></td>
+                </tr>
+                <tr>
+                    <td>first name:</td>
+                    <td><input type="text" value="@user.getFirstName"></td>
+                </tr>
+                <tr>
+                    <td>last name:</td>
+                    <td><input type="text" value="@user.getLastName"></td>
+                </tr>
+                <tr>
+                    <td><a href="#" />update</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

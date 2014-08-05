@@ -10,12 +10,16 @@ scalaVersion := "2.11.1"
 
 resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
-libraryDependencies += "net.vz.mongodb.jackson" % "mongo-jackson-mapper" % "1.4.2"
+resolvers += "Apache Maven" at "http://mvnrepository.com/artifact"
 
 libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
   cache,
   javaWs,
-  "play2-crud" % "play2-crud_2.10" % "0.7.0"
+  "net.vz.mongodb.jackson" % "mongo-jackson-mapper" % "1.4.2",
+  "com.google.inject" % "guice" % "3.0",
+  "javax.inject" % "javax.inject" % "1",
+  "com.google.code.gson" % "gson" % "2.2.4",
+  "net.sf.flexjson" % "flexjson" % "3.2"
 )

@@ -7,6 +7,7 @@ import com.mongodb.DB;
 import com.mongodb.DBAddress;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
+import db.MongoDB;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
@@ -22,17 +23,7 @@ public class Task{
 
   public String label;
 
-  private static DBCollection dbCollection;
-
-  static {
-      try {
-          Mongo mongo = new Mongo( new DBAddress("localhost", "27017"));
-          DB db = mongo.getDB( "mydb" );
-          dbCollection = db.getCollection("test");
-      } catch (UnknownHostException e) {
-          e.printStackTrace();
-      }
-  }
+  private static DBCollection dbCollection = MongoDB.db.getCollection("task");
 
   private static JacksonDBCollection<Task, String> coll = JacksonDBCollection.wrap(dbCollection, Task.class,
           String.class);

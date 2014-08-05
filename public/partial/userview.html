@@ -1,0 +1,89 @@
+<div class="row" ng-controller="UserCtrl as uc">
+    &NonBreakingSpace;
+    <div class="jumbotron">
+        <h2>Application users</h2>
+
+    </div>
+
+
+    <div class="row">
+        <div class="form-group">
+            <h3>
+                Users
+                <a ng-href="/user#/users/create" class="btn btn-primary pull-right" id="btn_user_create">Add User</a>
+            </h3>
+            <hr>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter Users...">
+            <hr>
+        </div>
+
+
+        <table id="user_list" class="table table-striped">
+            <thead>
+            <tr style="font-weight: bold">
+                <td style="width:20%">Username</td>
+                <td style="width:20%">Password</td>
+                <td style="width:20%">Email</td>
+                <td style="width:20%">First Name</td>
+                <td style="width:20%">Last Name</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="usr in uc.users | filter:searchText">
+                <td>
+                    <span editable-text="usr.userName" e-name="userName" e-form="rowform" onbeforesave="checkName($data, usr.id)" e-required>
+                        {{ usr.userName || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="usr.password" e-name="password" e-form="rowform" onbeforesave="checkName($data, usr.id)" e-required>
+                        {{ usr.password }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="usr.email" e-name="email" e-form="rowform" onbeforesave="checkName($data, usr.id)" e-required>
+                        {{ usr.email }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="usr.firstName" e-name="firstName" e-form="rowform" onbeforesave="checkName($data, usr.id)" e-required>
+                        {{ usr.firstName }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="usr.lastName" e-name="lastName" e-form="rowform" onbeforesave="checkName($data, usr.id)" e-required>
+                        {{ usr.lastName }}
+                    </span>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="uc.saveUser($data, usr.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                            cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+                        <button class="btn btn-danger" ng-click="uc.removeUser(usr, $index)">del</button>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-hide="uc.users.length">
+                <td colspan="3">
+                    <p class="text-center">No Users Found</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr>
+        <h4>Debug:</h4>
+        <pre>{{ uc.users | json }}</pre>
+    </div>
+
+</div>

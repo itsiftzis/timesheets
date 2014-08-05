@@ -2,8 +2,26 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index()
+#login/logout
+GET     /login          controllers.Application.login
+POST    /login          controllers.Application.authenticate
+GET     /logout         controllers.Application.logout
+
+GET     /index          controllers.Application.index
+
+# view/edit users
+GET     /user                       controllers.Application.indexUser
+GET     /worklog                    controllers.Application.indexWorkLog
+
+#rest crud api
+GET     /users                      controllers.Application.users
+POST    /user                       controllers.Application.insertUser
+POST    /updateUser                 controllers.Application.updateUser
+POST    /deleteUser                 controllers.Application.deleteUser
+GET     /projects                   controllers.Application.projects
+POST    /project                    controllers.Application.insertProject
+GET     /worklogs                   controllers.Application.workLogs
+POST    /worklog                    controllers.Application.insertWorkLog
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
