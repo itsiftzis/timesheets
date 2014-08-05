@@ -15,3 +15,7 @@
 /* Ease Display */
 
 .pad { padding: 25px; }
+
+.btn-primary-narrow {
+    padding: 0 6px;
+}

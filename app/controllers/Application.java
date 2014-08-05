@@ -136,12 +136,14 @@ public class Application extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static Result insertWorkLog() {
         User currentUser = SessionManager.get("user");
+        if (currentUser == null || currentUser.getUserName().equals(""))
+            return badRequest("user not logged in");
         JsonNode json = request().body().asJson();
         ObjectMapper mapper = new ObjectMapper();
         try {
             WorkLog workLog = mapper.readValue(json.toString(), WorkLog.class);
             workLog.setUser(currentUser.getUserName());
-            workLog.create(workLog);
+            WorkLog.create(workLog);
         } catch (IOException e) {
             Logger.error("Error parsing json ", e);
             return badRequest("error parsing json");

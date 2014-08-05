@@ -25,39 +25,89 @@
 
         <table id="user_list" class="table table-striped">
             <thead>
-            <tr>
-                <th>username</th>
-                <th>date</th>
-                <th>total hours</th>
-                <th>project</th>
+            <tr style="font-weight: bold">
+                <td style="width:15%">Username</td>
+                <td style="width:15%">Date</td>
+                <td style="width:10%">Total Hours</td>
+                <td style="width:60%">Project</td>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="wl in wlog.worklogs | filter:searchText">
                 <td>
-                    {{ wl.userName }}
+                    <span>
+                        {{ wl.userName || 'empty' }}
+                    </span>
                 </td>
                 <td>
-                    {{ wl.dateLog | date : 'dd/MM/yyyy'}}
+                    <span editable-date="wl.dateLog" e-name="dateLog" e-form="rowform" onbeforesave="checkName($data, wl.id)" e-required>
+                        {{ wl.dateLog | date : 'dd/MM/yyyy' || 'empty' }}
+                    </span>
                 </td>
                 <td>
-                    {{ wl.totalHours }}
+                    <span editable-number="wl.totalHours" e-name="totalHours" e-form="rowform" onbeforesave="checkName($data, wl.id)" e-required>
+                        {{ wl.totalHours || 'empty' }}
+                    </span>
                 </td>
                 <td>
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th>project</th>
-                                <th>region</th>
-                                <th>hours</th>
+                            <tr style="font-weight: bold">
+                                <td style="width:33%">Project</td>
+                                <td style="width:33%">Region</td>
+                                <td style="width:33%">Hours</td>
                             </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="pr in wl.projects">
-                            <td>{{ pr.name }} </td><td> {{ pr.region }} </td><td> {{ pr.hours }}</td>
+                            <td>
+                                <span editable-text="pr.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, pr.id)" e-required>
+                                    {{ pr.name || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span editable-text="pr.region" e-name="region" e-form="rowform" onbeforesave="checkName($data, pr.id)" e-required>
+                                    {{ pr.region || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span editable-number="pr.hours" e-name="hours" e-form="rowform" onbeforesave="checkName($data, pr.id)" e-required>
+                                    {{ pr.hours || 'empty' }}
+                                </span>
+                            </td>
+                            <td style="white-space: nowrap">
+                                <!-- form -->
+                                <form editable-form name="innerrowform" ng-show="innerrowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                                    <button type="submit" ng-disabled="innerrowform.$waiting" class="btn btn-primary btn-primary-narrow">
+                                        save
+                                    </button>
+                                    <button type="button" ng-disabled="innerrowform.$waiting" ng-click="innerrowform.$cancel()" class="btn btn-default btn-primary-narrow">
+                                        cancel
+                                    </button>
+                                </form>
+                                <div class="buttons" ng-show="!innerrowform.$visible">
+                                    <button class="btn btn-primary btn-primary-narrow" ng-click="innerrowform.$show()">edit</button>
+                                    <button class="btn btn-danger btn-primary-narrow" ng-click="pr.removeWorkLog(wl, $index)">del</button>
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="wl.saveUser($data, wl.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-primary-narrow">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-primary-narrow">
+                            cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary btn-primary-narrow" ng-click="rowform.$show()">edit</button>
+                        <button class="btn btn-danger btn-primary-narrow" ng-click="wl.removeWorkLog(wl, $index)">del</button>
+                    </div>
                 </td>
             </tr>
             <tr ng-hide="wlog.worklogs.length">

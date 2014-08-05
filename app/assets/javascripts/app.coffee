@@ -18,7 +18,8 @@ dependencies2 = [
   'workl.controllers',
   'workl.directives',
   'workl.common',
-  'workl.routeConfig'
+  'workl.routeConfig',
+  'xeditable'
 ]
 
 app = angular.module('myApp', dependencies)
