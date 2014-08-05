@@ -77,7 +77,7 @@
                             </td>
                             <td style="white-space: nowrap">
                                 <!-- form -->
-                                <form editable-form name="innerrowform" ng-show="innerrowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                                <form editable-form name="innerrowform" ng-show="innerrowform.$visible" class="form-buttons form-inline" shown="inserted == pr">
                                     <button type="submit" ng-disabled="innerrowform.$waiting" class="btn btn-primary btn-primary-narrow">
                                         save
                                     </button>
@@ -87,7 +87,7 @@
                                 </form>
                                 <div class="buttons" ng-show="!innerrowform.$visible">
                                     <button class="btn btn-primary btn-primary-narrow btn-primary-inner-light-blue" ng-click="innerrowform.$show()">edit</button>
-                                    <button class="btn btn-danger btn-primary-narrow btn-primary-inner-light-green" ng-click="pr.removeWorkLog(wl, $index)">del</button>
+                                    <button class="btn btn-danger btn-primary-narrow" ng-click="pr.removeWorkLog(wl, $index)">del</button>
                                 </div>
                             </td>
                         </tr>
@@ -96,7 +96,7 @@
                 </td>
                 <td style="white-space: nowrap">
                     <!-- form -->
-                    <form editable-form name="rowform" onbeforesave="wl.saveUser($data, wl.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                    <form editable-form name="rowform" onbeforesave="wl.saveUser($data, wl.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == wl">
                         <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-primary-narrow">
                             save
                         </button>
