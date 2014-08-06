@@ -28,12 +28,12 @@
                 <label id="lbl_projects" for="projects" class="col-sm-4 control-label">Projects</label>
 
                 <div class="col-sm-8">
-                    <a class="btn pull-right" ng-click="cwlc.addInputRow()">add project</a>
+                    <a class="btn pull-right" ng-click="cwlc.addInputRowEdit()">add project</a>
                     <p ng-repeat="project in cwlc.worklogEdit.worklog.projects track by $index">
                         name:<input name="name" type="text" class="span2" ng-model="project.name"/>
                         region:<input name="region" type="text" class="span2" ng-model="project.region"/>
                         hours:<input name="hours" type="number" class="span3" ng-model="project.hours"/>
-                        <a class="class" ng-click="worklogEdit.deleteThis($index)">X</a>
+                        <a class="class" ng-click="cwlc.deleteThisEdit($index)">X</a>
                     </p>
                 </div>
             </div>

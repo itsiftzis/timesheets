@@ -63,5 +63,9 @@ class CreateWorkLogCtrl
         console.log(@projects)
     deleteThis: (st) ->
         @controlNumberOfInputRows.splice(st,1)
+    addInputRowEdit: () ->
+        @worklogEdit.worklog.projects.push({name:"", region:"", hours:""})
+    deleteThisEdit: (st) ->
+        @worklogEdit.worklog.projects.splice(st,1)
 
 controllersModule2.controller('CreateWorkLogCtrl', CreateWorkLogCtrl)
