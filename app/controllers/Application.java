@@ -100,6 +100,20 @@ public class Application extends Controller {
         return ok("deleted user");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteWorkLog() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            WorkLog worklog = mapper.readValue(json.toString(), WorkLog.class);
+            WorkLog.deleteWorklog(worklog);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("deleted worklog");
+    }
 
     public static Result projects() {
         List<Project> projects = Project.all();
@@ -130,6 +144,13 @@ public class Application extends Controller {
         List<WorkLog> workLogs = WorkLog.all();
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
+        return ok(json);
+    }
+
+    public static Result fetchWorklog(String id) {
+        WorkLog workLog = WorkLog.fetchWorklog(id);
+        Gson gson = new Gson();
+        String json = gson.toJson(workLog);
         return ok(json);
     }
 

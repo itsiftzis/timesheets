@@ -22,6 +22,8 @@ GET     /projects                   controllers.Application.projects
 POST    /project                    controllers.Application.insertProject
 GET     /worklogs                   controllers.Application.workLogs
 POST    /worklog                    controllers.Application.insertWorkLog
+GET     /fetchworklog/:id           controllers.Application.fetchWorklog(id: String)
+POST    /deleteWorklog              controllers.Application.deleteWorkLog
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

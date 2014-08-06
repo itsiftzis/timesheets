@@ -49,6 +49,9 @@ angular.module('workl.routeConfig', ['ngRoute'])
             .when('/worklogs/create', {
                   templateUrl: '/assets/partial/worklogcreate.html'
                 })
+            .when('/worklogs/edit/:worklog', {
+                templateUrl: '/assets/partial/worklogedit.html'
+              })
             .otherwise({redirectTo: '/'})
 
 @commonModule = angular.module('myApp.common', [])

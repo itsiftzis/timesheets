@@ -1,11 +1,25 @@
 
 class CreateWorkLogCtrl
 
-    constructor: (@$log, @$location,  @WorkLogService, @$scope) ->
+    constructor: (@$log, @$location,  @WorkLogService, @$scope, @$routeParams) ->
         @$log.debug "constructing CreateWorkLogController"
         @worklog = {}
         @controlNumberOfInputRows = []
         @projects = [];
+        @worklogEdit = []
+        @getObjectFromUrl(@$routeParams)
+
+    getObjectFromUrl: (@$routeParams) ->
+        @WorkLogService.fetchWorklog(@$routeParams)
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} WorkLog"
+            @worklogEdit.worklog = data
+            @$log.debug @worklogEdit.worklog
+        ,
+        (error) =>
+          @$log.error "Unable to create worklog: #{error}"
+        )
 
     createWorkLog: () ->
         @$log.debug "createWorkLog()"

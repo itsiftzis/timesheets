@@ -4,6 +4,7 @@ import db.MongoDB;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.Date;
 import java.util.List;
@@ -12,9 +13,19 @@ import java.util.List;
  * Created by giannis on 8/2/14.
  */
 public class WorkLog {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Id
     @ObjectId
     private String id;
+    @JsonSerialize(using = CustomSerialized.class)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = CustomSerialized2.class)
     private Date dateLog;
     private int totalHours;
     private List<Project> projects;
@@ -57,6 +68,8 @@ public class WorkLog {
         this.totalHours = totalHours;
     }
 
+    @JsonSerialize(using = CustomSerialized.class)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = CustomSerialized2.class)
     public Date getDateLog() {
         return dateLog;
     }
@@ -87,4 +100,11 @@ public class WorkLog {
         WorkLog.coll.drop();
     }
 
+    public static void deleteWorklog(WorkLog worklog) {
+        WorkLog.coll.remove(worklog);
+    }
+
+    public static WorkLog fetchWorklog(String id) {
+        return WorkLog.coll.findOneById(id);
+    }
 }
