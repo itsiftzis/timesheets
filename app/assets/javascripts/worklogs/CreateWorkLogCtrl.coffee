@@ -7,7 +7,9 @@ class CreateWorkLogCtrl
         @controlNumberOfInputRows = []
         @projects = [];
         @worklogEdit = []
-        @getObjectFromUrl(@$routeParams)
+        if @$routeParams.worklog
+          @getObjectFromUrl(@$routeParams)
+
 
     getObjectFromUrl: (@$routeParams) ->
         @WorkLogService.fetchWorklog(@$routeParams)
@@ -37,6 +39,18 @@ class CreateWorkLogCtrl
             (error) =>
                 @$log.error "Unable to create worklog: #{error}"
             )
+
+    editWorkLog: () ->
+        @$log.debug "editWorkLog()"
+        @$log.debug @worklogEdit.worklog
+        @WorkLogService.updateWorkLog(@worklogEdit.worklog)
+          .then(
+            (data) =>
+              @$log.debug "Promise returned #{data} "
+          ,
+          (error) =>
+            @$log.error "Unable to update worklog: #{error}"
+          )
 
     addFormField: ($scope) ->
       $scope.projects.fields.push('')

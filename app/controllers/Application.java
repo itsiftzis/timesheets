@@ -86,6 +86,21 @@ public class Application extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
+    public static Result updateWorkLog() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            WorkLog worklog = mapper.readValue(json.toString(), WorkLog.class);
+            WorkLog.update(worklog);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("updated user");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
     public static Result deleteUser() {
         JsonNode json = request().body().asJson();
         ObjectMapper mapper = new ObjectMapper();

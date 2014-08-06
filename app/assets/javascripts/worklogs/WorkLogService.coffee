@@ -37,6 +37,19 @@ class WorkLogService
         )
         deferred.promise
 
+    updateWorkLog: (data) ->
+        deferred = @$q.defer()
+        @$http.post('/updateWorkLog', data)
+        .success((data, status, headers) =>
+          @$log.info("Successfully updated Worklog - status #{status}")
+          deferred.resolve(data)
+        )
+        .error((data, status, headers) =>
+          @$log.error("Failed to update worklog - status #{status}")
+          deferred.reject(data);
+        )
+        deferred.promise
+
     createWorkLog: (worklog) ->
         @$log.debug "createWorkLog #{angular.toJson(worklog, true)}"
         deferred = @$q.defer()
