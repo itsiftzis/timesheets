@@ -4,6 +4,8 @@ import db.MongoDB;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
+import org.bson.types.BSONTimestamp;
+import play.Logger;
 
 import java.util.Date;
 import java.util.List;
@@ -66,6 +68,7 @@ public class WorkLog {
     }
 
     public Date getDateLog() {
+        Logger.info("getting date " + dateLog);
         return dateLog;
     }
 
@@ -75,6 +78,10 @@ public class WorkLog {
 
     public static List<WorkLog> all() {
         return WorkLog.coll.find().toArray();
+    }
+
+    public static List<WorkLog> worklogPerUser(String userName) {
+        return WorkLog.coll.find().is("userName", userName).toArray();
     }
 
     public static void create(WorkLog task) {

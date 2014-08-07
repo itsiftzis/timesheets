@@ -29,11 +29,13 @@ public class Application extends Controller {
     }
 
     public static Result indexWorkLog() {
-        return ok(views.html.worklogview.render());
+        User user = SessionManager.get("user");
+        String display = user.getUserName().equals("admin") ? "inline" : "none";
+        return ok(views.html.worklogview.render(display));
     }
 
     public static Result userEdit() {
-        User user = User.userByEmail("username");
+        User user = User.userByUsername("username");
         return ok(views.html.user.render(user));
     }
 
@@ -44,7 +46,7 @@ public class Application extends Controller {
     }
 
     public static Result user(String userName) {
-        User user = User.userByEmail(userName);
+        User user = User.userByUsername(userName);
         return ok(Json.toJson(user));
     }
 
@@ -97,7 +99,7 @@ public class Application extends Controller {
             return badRequest("error parsing json");
         }
 
-        return ok("updated user");
+        return ok("updated worklog");
     }
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -156,7 +158,8 @@ public class Application extends Controller {
     }
 
     public static Result workLogs() {
-        List<WorkLog> workLogs = WorkLog.all();
+        User user = SessionManager.get("user");
+        List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName());
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
         return ok(json);
@@ -209,7 +212,7 @@ public class Application extends Controller {
         } else {
             session().clear();
 
-            User user = User.userByEmail(loginForm.get().email);
+            User user = User.userByUsername(loginForm.get().userName);
             if (user != null && user.getPassword().equals(loginForm.get().password)) {
                 SessionManager.addSession("user", user);
                 return redirect(controllers.routes.Application.indexWorkLog());

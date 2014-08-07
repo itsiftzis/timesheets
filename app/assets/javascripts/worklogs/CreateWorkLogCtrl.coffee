@@ -25,10 +25,8 @@ class CreateWorkLogCtrl
 
     createWorkLog: () ->
         @$log.debug "createWorkLog()"
-        for key, val of @projects
-            console.log key + ': ' + val
-
         @worklog.projects = @projects
+        ###@worklog.dateLog = new Date(@worklog.dateLog).getTime()###
         @WorkLogService.createWorkLog(@worklog)
         .then(
             (data) =>
@@ -47,6 +45,7 @@ class CreateWorkLogCtrl
           .then(
             (data) =>
               @$log.debug "Promise returned #{data} "
+              @$location.path("/")
           ,
           (error) =>
             @$log.error "Unable to update worklog: #{error}"

@@ -1,4 +1,5 @@
-<!doctype html>
+@(display: String)
+<!doctype htms>
 <html lang="en" ng-app="workl">
 <head>
     <meta charset="utf-8">
@@ -23,7 +24,10 @@
                 </button>
                 <a class="navbar-brand" href="#/">Work Logs</a>
             </div>
-            <div>
+            <div style="float: right; padding: 5px; display:@display; ">
+                <img width="40px" height="40px" src='@routes.Assets.at("images/pablo.jpg")' />
+            </div>
+            <div style="padding: 5px;">
                 <a href="/logout" class="btn btn-primary pull-right" style="padding: 10px;">Logout</a>
             </div>
         </div>
