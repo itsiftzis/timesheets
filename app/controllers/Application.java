@@ -50,6 +50,7 @@ public class Application extends Controller {
         return ok(Json.toJson(user));
     }
 
+    @play.mvc.Security.Authenticated(Secured.class)
     public static Result users() {
         List<User> users = User.all();
         Gson gson = new Gson();
@@ -157,8 +158,11 @@ public class Application extends Controller {
         return ok("inserted project");
     }
 
+    @play.mvc.Security.Authenticated(Secured.class)
     public static Result workLogs() {
         User user = SessionManager.get("user");
+        if (user == null || user.getUserName().equals(""))
+            return badRequest("user not logged in");
         List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName());
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
