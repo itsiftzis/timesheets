@@ -1,6 +1,9 @@
 package models;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import db.MongoDB;
+import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
@@ -81,7 +84,7 @@ public class WorkLog {
     }
 
     public static List<WorkLog> worklogPerUser(String userName) {
-        return WorkLog.coll.find().is("userName", userName).toArray();
+        return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("date",-1)).toArray();
     }
 
     public static void create(WorkLog task) {

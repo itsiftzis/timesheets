@@ -38,7 +38,7 @@
                 </td>
                 <td>
                     <span>
-                        {{wl.dateLog | date:'medium'}}
+                        {{ wlog.formatDate(wl.dateLog) || 'empty' }}
                     </span>
                 </td>
                 <td>
@@ -106,6 +106,24 @@
                         <button class="btn btn-danger btn-primary-narrow" ng-click="wlog.removeWorkLog(wl, $index)">del</button>
                     </div>
                 </td>
+            </tr>
+            <tr>
+                <div class="pagination-div" ng-show="wlog.worklog.length">
+                    <ul>
+                        <li>
+                            <button type="button" ng-disabled="wlog.curPage == 0"
+                                    ng-click="wlog.curPage=wlog.curPage-1">PREV</button>
+                        </li>
+                        <li>
+                            <span>Page {{curPage + 1}} of {{ numberOfPages() }}</span>
+                        </li>
+                        <li>
+                            <button type="button"
+                                    ng-disabled="wlog.curPage >= wlog.worklog.length/pageSize - 1"
+                                    ng-click="wlog.curPage = wlog.curPage+1">NEXT </button>
+                        </li>
+                    </ul>
+                </div>
             </tr>
             <tr ng-hide="wlog.worklogs.length">
                 <td colspan="3">

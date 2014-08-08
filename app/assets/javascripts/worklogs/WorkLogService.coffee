@@ -68,8 +68,8 @@ class WorkLogService
     deleteWorkLog: (worklog) ->
       @$log.debug "deleteWorklog #{angular.toJson(worklog, true)}"
       deferred = @$q.defer()
-
-      @$http.post('/deleteWorklog', worklog)
+      @$log.debug " {\"id\": \"" + worklog.id + "\" }"
+      @$http.post('/deleteWorklog', '{"id":"' + worklog.id + '"}')
       .success((data, status, headers) =>
         @$log.info("Successfully deleted worklog - status #{status}")
         deferred.resolve(data)

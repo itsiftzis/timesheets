@@ -6,6 +6,9 @@ class WorkLogCtrl
         @worklogs = []
         @getAllWorkLogs()
         @$scope.pr = []
+        @curPage
+        @pageSize
+        @numberOfPages
 
     getAllWorkLogs: () ->
         @$log.debug "getAllWorkLogs()"
@@ -16,6 +19,10 @@ class WorkLogCtrl
                 @$log.debug "Promise returned #{data.length} WorkLogs"
                 @worklogs = data
                 @$scope.pr = data
+                @curPage = 0
+                @pageSize = 4
+                @numberOfPages = Math.ceil(@worklogs.length / @pageSize)
+                @$log.debug @numberOfPages
             ,
             (error) =>
                 @$log.error "Unable to get WorkLogs: #{error}"
@@ -43,5 +50,23 @@ class WorkLogCtrl
 
     editWorklog: (@wl) ->
       @$log.debug(@wl)
+
+    formatDate: (@date) ->
+      tempDate = new Date(@date)
+      return tempDate.getDay() + '/' + tempDate.getMonth() + '/' + tempDate.getFullYear()
+
+    fixDateFormat: (@tempWorklog) ->
+      tempDate = new Date(tempWorklog.dateLog)
+      @tempWorklog.dateLog = tempDate.getFullYear() + '-' + this.leadingZero(tempDate.getMonth()) + '-' + this.leadingZero(tempDate.getDate()) +
+        'T' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds() + '.' + tempDate.getMilliseconds() + 'Z'
+      ###2014-07-07T00:00:00.000Z###
+      return @tempWorklog
+
+    leadingZero: (value) ->
+      if(value < 10)
+        return "0" + value.toString()
+      else
+        return value.toString()
+
 
 controllersModule2.controller('WorkLogCtrl', WorkLogCtrl)

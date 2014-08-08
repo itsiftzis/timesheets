@@ -67,3 +67,8 @@ angular.module('workl.routeConfig', ['ngRoute'])
 @directivesModule2 = angular.module('workl.directives', [])
 @commonModule2 = angular.module('workl.common', [])
 @modelsModule2 = angular.module('workl.models', [])
+
+angular.module('workl').filter 'pagination', () ->
+  (input, start) ->
+     start = +start
+     return input.slice(start)

@@ -121,15 +121,8 @@ public class Application extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static Result deleteWorkLog() {
         JsonNode json = request().body().asJson();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            WorkLog worklog = mapper.readValue(json.toString(), WorkLog.class);
-            WorkLog.deleteWorklog(worklog);
-        } catch (IOException e) {
-            Logger.error("Error parsing json ", e);
-            return badRequest("error parsing json");
-        }
-
+        String value = ((JsonNode)json.elements().next()).textValue();
+        WorkLog.delete(value);
         return ok("deleted worklog");
     }
 
