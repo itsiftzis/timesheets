@@ -53,7 +53,7 @@ class WorkLogCtrl
 
     formatDate: (@date) ->
       tempDate = new Date(@date)
-      return tempDate.getDay() + '/' + tempDate.getMonth() + '/' + tempDate.getFullYear()
+      return tempDate.getDate() + '/' + (tempDate.getMonth()+1) + '/' + tempDate.getFullYear()
 
     fixDateFormat: (@tempWorklog) ->
       tempDate = new Date(tempWorklog.dateLog)

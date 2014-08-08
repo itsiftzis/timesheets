@@ -8,8 +8,11 @@ import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.bson.types.BSONTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 import play.Logger;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +31,8 @@ public class WorkLog {
     @Id
     @ObjectId
     private String id;
+    @DateTimeFormat(pattern = "dd.MM.yy hh:mm:ss")
+    @Temporal(value= TemporalType.TIMESTAMP)
     private Date dateLog;
     private int totalHours;
     private List<Project> projects;
