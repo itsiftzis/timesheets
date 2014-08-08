@@ -22,12 +22,26 @@ dependencies2 = [
   'xeditable'
 ]
 
+dependencies3 = [
+  'ngRoute',
+  'ui.bootstrap',
+  'totallogs.filters',
+  'totallogs.services',
+  'totallogs.controllers',
+  'totallogs.directives',
+  'totallogs.common',
+  'totallogs.routeConfig',
+  'xeditable'
+]
+
 app = angular.module('myApp', dependencies)
 
 app.run (editableOptions) ->
   editableOptions.theme = "bs3"
 
 angular.module('workl', dependencies2)
+
+angular.module('totallogs', dependencies3)
 
 angular.module('myApp.routeConfig', ['ngRoute'])
     .config ($routeProvider) ->
@@ -37,6 +51,14 @@ angular.module('myApp.routeConfig', ['ngRoute'])
             })
             .when('/users/create', {
                 templateUrl: '/assets/partial/usercreate.html'
+            })
+            .otherwise({redirectTo: '/'})
+
+angular.module('totallogs.routeConfig', ['ngRoute'])
+    .config ($routeProvider) ->
+        $routeProvider
+            .when('/', {
+                templateUrl: '/assets/partial/totallogsview.html'
             })
             .otherwise({redirectTo: '/'})
 
@@ -68,7 +90,10 @@ angular.module('workl.routeConfig', ['ngRoute'])
 @commonModule2 = angular.module('workl.common', [])
 @modelsModule2 = angular.module('workl.models', [])
 
-angular.module('workl').filter 'pagination', () ->
-  (input, start) ->
-     start = +start
-     return input.slice(start)
+@filtersModule3 = angular.module('totallogs.filters', [])
+@servicesModule3 = angular.module('totallogs.services', [])
+@controllersModule3 = angular.module('totallogs.controllers', [])
+@directivesModule3 = angular.module('totallogs.directives', [])
+@commonModule3 = angular.module('totallogs.common', [])
+@modelsModule3 = angular.module('totallogs.models', [])
+

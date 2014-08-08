@@ -23,6 +23,10 @@ public class Application extends Controller {
         return ok(views.html.index.render("welcome"));
     }
 
+    public static Result totallogs() {
+        return ok(views.html.totallogsview.render("inline"));
+    }
+
     @play.mvc.Security.Authenticated(Secured.class)
     public static Result indexUser() {
         return ok(views.html.userview.render());
@@ -157,6 +161,14 @@ public class Application extends Controller {
         if (user == null || user.getUserName().equals(""))
             return badRequest("user not logged in");
         List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName());
+        Gson gson = new Gson();
+        String json = gson.toJson(workLogs);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result allWorkLogs() {
+        List<WorkLog> workLogs = WorkLog.all();
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
         return ok(json);
