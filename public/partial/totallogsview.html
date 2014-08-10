@@ -1,8 +1,9 @@
 <div class="row" ng-controller="TotalWorkLogCtrl as totalwlog">
     &NonBreakingSpace;
     <div class="jumbotron">
-        <h2>Total Time Sheet Logs</h2>
-
+        <div style="float: left;"><h2>Total Time Sheet Logs</h2></div>
+        <div style="float: right;"><a href="worklog"><h2>Work Logs</h2></a></div>
+        &nbsp;
     </div>
 
 
@@ -15,7 +16,13 @@
             <hr>
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter WorkLogs...">
+            <div style="float: left; width: 70%">
+                <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter WorkLogs...">
+            </div>
+            <label for="datePick" style="padding-left: 10px; padding-top: 5px;">Select Month</label>
+            <div style="float: right; width: 20%; padding-top: 0px;">
+                <input type="month" ng-model="searchDate" />
+            </div>
             <hr>
         </div>
 
@@ -30,7 +37,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="wl in totalwlog.worklogs  | filter:searchText">
+            <tr ng-repeat="wl in totalwlog.worklogs  | filter:searchText | searchDateFilter">
                 <td>
                     <span>
                         {{ wl.userName || 'empty' }}

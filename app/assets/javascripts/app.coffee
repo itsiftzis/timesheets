@@ -96,4 +96,3 @@ angular.module('workl.routeConfig', ['ngRoute'])
 @directivesModule3 = angular.module('totallogs.directives', [])
 @commonModule3 = angular.module('totallogs.common', [])
 @modelsModule3 = angular.module('totallogs.models', [])
-
