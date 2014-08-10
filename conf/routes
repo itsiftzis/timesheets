@@ -21,7 +21,12 @@ POST    /deleteUser                 controllers.Application.deleteUser
 GET     /projects                   controllers.Application.projects
 POST    /project                    controllers.Application.insertProject
 GET     /worklogs                   controllers.Application.workLogs
+GET     /totallogs                  controllers.Application.totallogs
+GET     /totalworklogs              controllers.Application.allWorkLogs
 POST    /worklog                    controllers.Application.insertWorkLog
+GET     /fetchworklog/:id           controllers.Application.fetchWorklog(id: String)
+POST    /deleteWorklog              controllers.Application.deleteWorkLog
+POST    /updateWorkLog              controllers.Application.updateWorkLog
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

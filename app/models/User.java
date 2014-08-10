@@ -109,8 +109,8 @@ public class User {
         User.coll.drop();
     }
 
-    public static User userByEmail(String userName) {
-        DBCursor<User> cursor = coll.find().is("email", userName);
+    public static User userByUsername(String userName) {
+        DBCursor<User> cursor = coll.find().is("userName", userName);
         User user;
         if (cursor.hasNext()) {
             user = cursor.next();

@@ -1,6 +1,8 @@
 import play.PlayJava
 
-name := """play-db"""
+name := """mmbu-timesheets"""
+
+organization := "com.mgage.mmbu.internalapps.timesheets"
 
 version := "1.0-SNAPSHOT"
 

@@ -23,17 +23,23 @@ public class Application extends Controller {
         return ok(views.html.index.render("welcome"));
     }
 
+    public static Result totallogs() {
+        return ok(views.html.totallogsview.render("inline"));
+    }
+
     @play.mvc.Security.Authenticated(Secured.class)
     public static Result indexUser() {
         return ok(views.html.userview.render());
     }
 
     public static Result indexWorkLog() {
-        return ok(views.html.worklogview.render());
+        User user = SessionManager.get("user");
+        String display = user.getUserName().equals("admin") ? "inline" : "none";
+        return ok(views.html.worklogview.render(display));
     }
 
     public static Result userEdit() {
-        User user = User.userByEmail("username");
+        User user = User.userByUsername("username");
         return ok(views.html.user.render(user));
     }
 
@@ -44,10 +50,11 @@ public class Application extends Controller {
     }
 
     public static Result user(String userName) {
-        User user = User.userByEmail(userName);
+        User user = User.userByUsername(userName);
         return ok(Json.toJson(user));
     }
 
+    @play.mvc.Security.Authenticated(Secured.class)
     public static Result users() {
         List<User> users = User.all();
         Gson gson = new Gson();
@@ -86,6 +93,21 @@ public class Application extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
+    public static Result updateWorkLog() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            WorkLog worklog = mapper.readValue(json.toString(), WorkLog.class);
+            WorkLog.update(worklog);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("updated worklog");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
     public static Result deleteUser() {
         JsonNode json = request().body().asJson();
         ObjectMapper mapper = new ObjectMapper();
@@ -100,6 +122,13 @@ public class Application extends Controller {
         return ok("deleted user");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteWorkLog() {
+        JsonNode json = request().body().asJson();
+        String value = ((JsonNode)json.elements().next()).textValue();
+        WorkLog.delete(value);
+        return ok("deleted worklog");
+    }
 
     public static Result projects() {
         List<Project> projects = Project.all();
@@ -126,10 +155,29 @@ public class Application extends Controller {
         return ok("inserted project");
     }
 
+    @play.mvc.Security.Authenticated(Secured.class)
     public static Result workLogs() {
+        User user = SessionManager.get("user");
+        if (user == null || user.getUserName().equals(""))
+            return badRequest("user not logged in");
+        List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName());
+        Gson gson = new Gson();
+        String json = gson.toJson(workLogs);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result allWorkLogs() {
         List<WorkLog> workLogs = WorkLog.all();
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
+        return ok(json);
+    }
+
+    public static Result fetchWorklog(String id) {
+        WorkLog workLog = WorkLog.fetchWorklog(id);
+        Gson gson = new Gson();
+        String json = gson.toJson(workLog);
         return ok(json);
     }
 
@@ -173,7 +221,7 @@ public class Application extends Controller {
         } else {
             session().clear();
 
-            User user = User.userByEmail(loginForm.get().email);
+            User user = User.userByUsername(loginForm.get().userName);
             if (user != null && user.getPassword().equals(loginForm.get().password)) {
                 SessionManager.addSession("user", user);
                 return redirect(controllers.routes.Application.indexWorkLog());

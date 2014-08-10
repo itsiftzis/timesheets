@@ -1,0 +1,114 @@
+<div class="row" ng-controller="TotalWorkLogCtrl as totalwlog">
+    &NonBreakingSpace;
+    <div class="jumbotron">
+        <div style="float: left;"><h2>Total Time Sheet Logs</h2></div>
+        <div style="float: right;"><a href="worklog"><h2>Work Logs</h2></a></div>
+        &nbsp;
+    </div>
+
+
+    <div class="row">
+        <div class="form-group">
+            <h3>
+                Total WorkLogs
+                <!--<a ng-href="/worklog#/worklogs/create" class="btn btn-primary pull-right" id="btn_user_create">Add work log</a>-->
+            </h3>
+            <hr>
+        </div>
+        <div class="form-group">
+            <div style="float: left; width: 70%">
+                <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter WorkLogs...">
+            </div>
+            <label for="datePick" style="padding-left: 10px; padding-top: 5px;">Select Month</label>
+            <div style="float: right; width: 20%; padding-top: 0px;">
+                <input type="month" ng-model="searchDate" />
+            </div>
+            <hr>
+        </div>
+
+
+        <table id="user_list" class="table table-striped">
+            <thead>
+            <tr style="font-weight: bold">
+                <td style="width:15%">Username</td>
+                <td style="width:15%">Date</td>
+                <td style="width:10%">Total Hours</td>
+                <td style="width:60%">Project</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="wl in totalwlog.worklogs  | filter:searchText | searchDateFilter">
+                <td>
+                    <span>
+                        {{ wl.userName || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        {{ totalwlog.formatDate(wl.dateLog) || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        {{ wl.totalHours || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr style="font-weight: bold">
+                                <td style="width:33%">Project</td>
+                                <td style="width:33%">Region</td>
+                                <td style="width:33%">Hours</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="pr in wl.projects">
+                            <td>
+                                <span>
+                                    {{ pr.name || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{ pr.region || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{ pr.hours || 'empty' }}
+                                </span>
+                            </td>
+                            <td style="white-space: nowrap">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="totalwlog.saveWorklog($data, wl.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == wl">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-primary-narrow">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-primary-narrow">
+                            cancel
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+            <tr ng-hide="totalwlog.worklogs.length">
+                <td colspan="3">
+                    <p class="text-center">No WorkLogs Found</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr>
+        <h4>Debug:</h4>
+        <pre>{{ totalwlog.worklogs | json }}</pre>
+    </div>
+
+</div>

@@ -1,10 +1,18 @@
 package models;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import db.MongoDB;
+import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
+import org.bson.types.BSONTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+import play.Logger;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +20,19 @@ import java.util.List;
  * Created by giannis on 8/2/14.
  */
 public class WorkLog {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Id
     @ObjectId
     private String id;
+    @DateTimeFormat(pattern = "dd.MM.yy hh:mm:ss")
+    @Temporal(value= TemporalType.TIMESTAMP)
     private Date dateLog;
     private int totalHours;
     private List<Project> projects;
@@ -58,6 +76,7 @@ public class WorkLog {
     }
 
     public Date getDateLog() {
+        Logger.info("getting date " + dateLog);
         return dateLog;
     }
 
@@ -67,6 +86,10 @@ public class WorkLog {
 
     public static List<WorkLog> all() {
         return WorkLog.coll.find().toArray();
+    }
+
+    public static List<WorkLog> worklogPerUser(String userName) {
+        return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("date",-1)).toArray();
     }
 
     public static void create(WorkLog task) {
@@ -87,4 +110,15 @@ public class WorkLog {
         WorkLog.coll.drop();
     }
 
+    public static void deleteWorklog(WorkLog worklog) {
+        WorkLog.coll.remove(worklog);
+    }
+
+    public static WorkLog fetchWorklog(String id) {
+        return WorkLog.coll.findOneById(id);
+    }
+
+    public static void update(WorkLog worklog) {
+        WorkLog.coll.updateById(worklog.id, worklog);
+    }
 }

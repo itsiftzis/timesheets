@@ -11,7 +11,10 @@ public class Secured extends Security.Authenticator {
     @Override
     public String getUsername(Context ctx) {
         User user = SessionManager.get("user");
-        Logger.info("user logged in: " + user != null ? user.getUserName() : "N/A");
+        String userName = "N/A";
+        if (user != null)
+            userName = user.getUserName();
+        Logger.info("user logged in: " + userName);
         return user != null ? ((User)SessionManager.get("user")).getUserName() : null;
     }
 
