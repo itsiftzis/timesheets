@@ -27,3 +27,15 @@
 .btn-primary-inner-light-green {
     background-image: linear-gradient(to bottom, #5dca84 0, #89a21d 100%);
 }
+
+.span2 {
+    width: 130px;
+}
+
+.span3 {
+    width: 43px;
+}
+
+.span4 {
+    width: 80px;
+}

@@ -39,7 +39,7 @@
                 </td>
                 <td>
                     <span>
-                        {{ wl.formatDate(wl.dateLog) || 'empty' }}
+                        {{ wlog.formatDate(wl.dateLog) || 'empty' }}
                     </span>
                 </td>
                 <td>
@@ -51,7 +51,9 @@
                     <table class="table table-striped">
                         <thead>
                             <tr style="font-weight: bold">
+                                <td style="width:33%">Client</td>
                                 <td style="width:33%">Project</td>
+                                <td style="width:33%">Component</td>
                                 <td style="width:33%">Region</td>
                                 <td style="width:33%">Hours</td>
                             </tr>
@@ -60,7 +62,17 @@
                         <tr ng-repeat="pr in wl.projects">
                             <td>
                                 <span>
+                                    {{ pr.client || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
                                     {{ pr.name || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{ pr.component || 'empty' }}
                                 </span>
                             </td>
                             <td>
@@ -74,19 +86,6 @@
                                 </span>
                             </td>
                             <td style="white-space: nowrap">
-                                <!-- form -->
-                                <!--<form editable-form name="innerrowform" onbeforesave="wlog.saveProject(pr)" ng-show="innerrowform.$visible" class="form-buttons form-inline" shown="inserted == pr">
-                                    <button type="submit" ng-disabled="innerrowform.$waiting" ng-click="wlog.checkName($data)" class="btn btn-primary btn-primary-narrow">
-                                        save
-                                    </button>
-                                    <button type="button" ng-disabled="innerrowform.$waiting" ng-click="innerrowform.$cancel()" class="btn btn-default btn-primary-narrow">
-                                        cancel
-                                    </button>
-                                </form>
-                                <div class="buttons" ng-show="!innerrowform.$visible">
-                                    <button class="btn btn-primary btn-primary-narrow btn-primary-inner-light-blue" ng-click="innerrowform.$show()">edit</button>
-                                    <button class="btn btn-danger btn-primary-narrow" ng-click="pr.removeWorkLog(wl, $index)">del</button>
-                                </div>-->
                             </td>
                         </tr>
                         </tbody>

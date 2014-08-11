@@ -30,7 +30,9 @@
                 <div class="col-sm-8">
                     <a class="btn pull-right" ng-click="cwlc.addInputRow()">add project</a>
                     <p ng-repeat="project in cwlc.projects track by $index">
+                        client:<input name="client" type="text" class="span2" ng-model="cwlc.projects[$index].client"/>
                         name:<input name="name" type="text" class="span2" ng-model="cwlc.projects[$index].name"/>
+                        component:<input name="component" type="text" class="span2" ng-model="cwlc.projects[$index].component"/>
                         region:<input name="region" type="text" class="span2" ng-model="cwlc.projects[$index].region"/>
                         hours:<input name="hours" type="number" class="span3" ng-model="cwlc.projects[$index].hours"/>
                         <a class="class" ng-click="cwlc.deleteThis($index)">X</a>

@@ -23,8 +23,9 @@ public class Application extends Controller {
         return ok(views.html.index.render("welcome"));
     }
 
+    @play.mvc.Security.Authenticated(Secured.class)
     public static Result totallogs() {
-        return ok(views.html.totallogsview.render("inline"));
+        return ok(views.html.totallogsview.render(showAdminLogo()));
     }
 
     @play.mvc.Security.Authenticated(Secured.class)
@@ -32,10 +33,14 @@ public class Application extends Controller {
         return ok(views.html.userview.render());
     }
 
-    public static Result indexWorkLog() {
+    private static String showAdminLogo() {
         User user = SessionManager.get("user");
         String display = user.getUserName().equals("admin") ? "inline" : "none";
-        return ok(views.html.worklogview.render(display));
+        return display;
+    }
+
+    public static Result indexWorkLog() {
+        return ok(views.html.worklogview.render(showAdminLogo()));
     }
 
     public static Result userEdit() {
@@ -90,6 +95,12 @@ public class Application extends Controller {
         }
 
         return ok("updated user");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result serveJson() {
+        JsonNode json = request().body().asJson();
+        return ok(json);
     }
 
     @BodyParser.Of(BodyParser.Json.class)

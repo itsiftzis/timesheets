@@ -58,12 +58,12 @@ class CreateWorkLogCtrl
 
     addInputRow: () ->
         @controlNumberOfInputRows.push(0)
-        @projects.push({name:"", region:"", hours:""})
+        @projects.push({client:"", name:"", component:"", region:"", hours:""})
         console.log(@projects)
     deleteThis: (st) ->
         @controlNumberOfInputRows.splice(st,1)
     addInputRowEdit: () ->
-        @worklogEdit.worklog.projects.push({name:"", region:"", hours:""})
+        @worklogEdit.worklog.projects.push({client:"", name:"", component:"", region:"", hours:""})
     deleteThisEdit: (st) ->
         @worklogEdit.worklog.projects.splice(st,1)
 

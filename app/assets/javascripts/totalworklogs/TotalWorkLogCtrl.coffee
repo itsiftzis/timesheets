@@ -5,6 +5,7 @@ class TotalWorkLogCtrl
         @$log.debug "constructing TotalWorkLogController"
         @worklogs = []
         @getAllWorkLogs()
+        @filteredWorklogs = []
 
     getAllWorkLogs: () ->
         @$log.debug "getAllWorkLogs()"
@@ -28,5 +29,16 @@ class TotalWorkLogCtrl
         return "0" + value.toString()
       else
         return value.toString()
+
+    download: () ->
+      @$log.debug "downloading " + @$scope.filteredWorklogs.length + " worklogs"
+      ###@TotalWorkLogService.download(@$scope.filteredWorklogs)
+      .then(
+        (data) =>
+          @$log.debug "Promise returned #{data.length} download request"
+      ,
+      (error) =>
+        @$log.error "Unable to download csv: #{error}"
+      )###
 
 controllersModule3.controller('TotalWorkLogCtrl', TotalWorkLogCtrl)

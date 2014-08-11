@@ -11,7 +11,7 @@
 
                 <div class="col-sm-8">
                     <input type="date" class="form-control" name="date" id="date" placeholder=""
-                           ng-model="cwlc.worklogEdit.worklog.dateLog" value="{{ cwlc.worklogEdit.worklog.dateLog | date: 'dd/MM/yyyy' }}" >
+                           ng-model="cwlc.worklogEdit.worklog.dateLog" value="{{ cwlc.formatDate(cwlc.worklogEdit.worklog.dateLog) }}" >
                 </div>
             </div>
 
@@ -30,8 +30,10 @@
                 <div class="col-sm-8">
                     <a class="btn pull-right" ng-click="cwlc.addInputRowEdit()">add project</a>
                     <p ng-repeat="project in cwlc.worklogEdit.worklog.projects track by $index">
+                        client:<input name="client" type="text" class="span2" ng-model="project.client"/>
                         name:<input name="name" type="text" class="span2" ng-model="project.name"/>
-                        region:<input name="region" type="text" class="span2" ng-model="project.region"/>
+                        component:<input name="component" type="text" class="span2" ng-model="project.component"/>
+                        region:<input name="region" type="text" class="span4" ng-model="project.region"/>
                         hours:<input name="hours" type="number" class="span3" ng-model="project.hours"/>
                         <a class="class" ng-click="cwlc.deleteThisEdit($index)">X</a>
                     </p>

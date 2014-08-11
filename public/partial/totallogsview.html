@@ -85,19 +85,10 @@
                         </tbody>
                     </table>
                 </td>
-                <td style="white-space: nowrap">
-                    <!-- form -->
-                    <form editable-form name="rowform" onbeforesave="totalwlog.saveWorklog($data, wl.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == wl">
-                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-primary-narrow">
-                            save
-                        </button>
-                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-primary-narrow">
-                            cancel
-                        </button>
-                    </form>
-                </td>
             </tr>
-
+            <tr>
+                <a class="btn btn-primary pull-right" ng-click="totalwlog.download()">Export</a>
+            </tr>
             <tr ng-hide="totalwlog.worklogs.length">
                 <td colspan="3">
                     <p class="text-center">No WorkLogs Found</p>
@@ -110,5 +101,4 @@
         <h4>Debug:</h4>
         <pre>{{ totalwlog.worklogs | json }}</pre>
     </div>
-
 </div>
