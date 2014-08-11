@@ -87,7 +87,7 @@
                 </td>
             </tr>
             <tr>
-                <a class="btn btn-primary pull-right" ng-click="totalwlog.download()">Export</a>
+                <a class="btn btn-primary" ng-csv="this.filteredWorklogs" filename="timesheets.csv">Export on csv</a>
             </tr>
             <tr ng-hide="totalwlog.worklogs.length">
                 <td colspan="3">

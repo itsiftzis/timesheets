@@ -13,7 +13,15 @@ public class ProjectComponent {
     @Id
     @ObjectId
     private String id;
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
+    }
+
     private String component;
-    private ProjectName projectName;
 
 }

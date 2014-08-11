@@ -31,7 +31,8 @@ dependencies3 = [
   'totallogs.directives',
   'totallogs.common',
   'totallogs.routeConfig',
-  'xeditable'
+  'ngCsv',
+  'ngSanitize'
 ]
 
 app = angular.module('myApp', dependencies)

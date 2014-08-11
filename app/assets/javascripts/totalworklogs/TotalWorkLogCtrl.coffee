@@ -31,14 +31,6 @@ class TotalWorkLogCtrl
         return value.toString()
 
     download: () ->
-      @$log.debug "downloading " + @$scope.filteredWorklogs.length + " worklogs"
-      ###@TotalWorkLogService.download(@$scope.filteredWorklogs)
-      .then(
-        (data) =>
-          @$log.debug "Promise returned #{data.length} download request"
-      ,
-      (error) =>
-        @$log.error "Unable to download csv: #{error}"
-      )###
+      @$log.debug @filteredWorklogs;
 
 controllersModule3.controller('TotalWorkLogCtrl', TotalWorkLogCtrl)

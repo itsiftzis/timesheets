@@ -6,6 +6,7 @@ import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.MongoCollection;
 import net.vz.mongodb.jackson.ObjectId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +47,30 @@ public class ProjectFull {
 
     public static void create(ProjectFull project) {
         ProjectFull.coll.save(project);
+    }
+
+    public static void helperCreate() {
+        ProjectComponent projectComponent = new ProjectComponent();
+        projectComponent.setComponent("component");
+        List<ProjectComponent> projectComponents = new ArrayList<ProjectComponent>();
+        projectComponents.add(projectComponent);
+
+        List<ProjectName> projectNames = new ArrayList<ProjectName>();
+        ProjectName projectName = new ProjectName();
+        projectName.setProjectComponents(projectComponents);
+        projectNames.add(projectName);
+
+        ProjectClient projectClient = new ProjectClient();
+        projectClient.setClient("client");
+        projectClient.setProjectNames(projectNames);
+
+        List<ProjectClient> projectClients = new ArrayList<ProjectClient>();
+        projectClients.add(projectClient);
+
+        ProjectFull pr = new ProjectFull();
+        pr.setProejctClients(projectClients);
+
+        ProjectFull.create(pr);
     }
 
     public static void deleteProjectFull(ProjectFull pr) {

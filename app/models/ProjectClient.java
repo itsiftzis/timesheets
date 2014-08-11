@@ -17,6 +17,23 @@ public class ProjectClient {
     @ObjectId
     private String id;
     private String client;
+
+    public String getClient() {
+
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public List<ProjectName> getProjectNames() {
+        return projectNames;
+    }
+
+    public void setProjectNames(List<ProjectName> projectNames) {
+        this.projectNames = projectNames;
+    }
+
     private List<ProjectName> projectNames;
-    private ProjectFull projectFull;
 }

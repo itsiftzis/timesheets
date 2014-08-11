@@ -15,7 +15,15 @@ public class ProjectName {
     @Id
     @ObjectId
     private String id;
+
+    public List<ProjectComponent> getProjectComponents() {
+        return projectComponents;
+    }
+
+    public void setProjectComponents(List<ProjectComponent> projectComponents) {
+        this.projectComponents = projectComponents;
+    }
+
     private List<ProjectComponent> projectComponents;
-    private ProjectClient projectClient;
 
 }
