@@ -39,6 +39,7 @@ public class Application extends Controller {
         return display;
     }
 
+    @play.mvc.Security.Authenticated(Secured.class)
     public static Result indexWorkLog() {
         return ok(views.html.worklogview.render(showAdminLogo()));
     }
