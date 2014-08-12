@@ -53,6 +53,21 @@ angular.module('ngCsv.services').
         return data ? 'TRUE' : 'FALSE';
       }
 
+      if (typeof data === 'object') {
+          var temp ='';
+          for (var index=0; index<data.length; index++) {
+              temp += ' project' + (index+1) + ':';
+              for (var prop in data[index]) {
+                  if (data[index][prop] && data[index][prop] != 'undefined')
+                    temp +=  ' ' + data[index][prop];
+              }
+              console.log(temp);
+              /*temp += '\n';*/
+
+          }
+          return encodeURIComponent(temp);
+      }
+
       return data;
     };
 
