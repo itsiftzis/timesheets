@@ -89,7 +89,7 @@ public class WorkLog {
     }
 
     public static List<WorkLog> worklogPerUser(String userName) {
-        return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("date",-1)).toArray();
+        return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).toArray();
     }
 
     public static void create(WorkLog task) {
