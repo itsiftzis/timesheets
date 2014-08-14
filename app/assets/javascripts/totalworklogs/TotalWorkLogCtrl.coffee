@@ -31,6 +31,7 @@ class TotalWorkLogCtrl
         return value.toString()
 
     download: () ->
-      @$log.debug @filteredWorklogs;
+      @$log.debug @$scope.searchText + '-' + @$scope.searchDate;
+      location.href="/downloadcsv/" + @$scope.searchText + "/" + @$scope.searchDate
 
 controllersModule3.controller('TotalWorkLogCtrl', TotalWorkLogCtrl)

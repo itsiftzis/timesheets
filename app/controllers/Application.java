@@ -13,6 +13,11 @@ import play.mvc.*;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static play.data.Form.form;
@@ -210,6 +215,50 @@ public class Application extends Controller {
         }
 
         return ok("inserted workLog");
+    }
+
+    public static Result downloadCsv(String user, String period) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        StringBuffer stringBuffer = new StringBuffer();
+        try {
+            Date parsedDate = sdf.parse(period);
+            Calendar startDate = Calendar.getInstance();
+            startDate.setTime(parsedDate);
+            startDate.set(Calendar.DAY_OF_MONTH, 0);
+
+            Calendar endDate = Calendar.getInstance();
+            endDate.setTime(parsedDate);
+            endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DATE));
+
+            if (user==null || user.equals("") || user.equals("undefined"))
+                user = "all";
+
+            Logger.debug("User: " + user + " Start date:" + startDate.getTime() + " End date:" + endDate.getTime());
+
+            List<WorkLog> workLogs = WorkLog.getReport(startDate.getTime(), endDate.getTime(), user);
+            stringBuffer.append("username,").append("date,").append("totalHours,").append("Project Client,").append("Project Name,")
+                    .append("Project Component,").append("Hours,").append("Region").append("\n");
+            for (WorkLog worklog:workLogs) {
+                stringBuffer.append(worklog.getUserName()).append(",");
+                stringBuffer.append(worklog.getDateLog()).append(",");
+                stringBuffer.append(worklog.getTotalHours()).append(",");
+                for (Project project:worklog.getProjects()) {
+                    stringBuffer.append("\n");
+                    stringBuffer.append(",").append(",").append(",").append(project.getClient()).append(",");
+                    stringBuffer.append(project.getName()).append(",");
+                    stringBuffer.append(project.getComponent()).append(",");
+                    stringBuffer.append(project.getHours()).append(",");
+                    stringBuffer.append(project.getRegion());
+                }
+                stringBuffer.append("\n");
+            }
+
+        } catch (ParseException e) {
+            Logger.error("error parsing date", e);
+        }
+        response().setContentType("text/csv; charset=utf-8");
+        response().setHeader("Content-Disposition", "attachment; filename=report_" + user +"_" + period +".csv");
+        return ok(stringBuffer.toString()).as("text/csv");
     }
 
     public static Result login() {

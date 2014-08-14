@@ -13,6 +13,7 @@ import play.Logger;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -120,5 +121,12 @@ public class WorkLog {
 
     public static void update(WorkLog worklog) {
         WorkLog.coll.updateById(worklog.id, worklog);
+    }
+
+    public static List<WorkLog> getReport(Date startDate, Date endDate, String user) {
+        if (user!="all")
+            return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).is("userName", user).toArray();
+        else
+            return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).toArray();
     }
 }
