@@ -19,7 +19,13 @@ POST    /user                       controllers.Application.insertUser
 POST    /updateUser                 controllers.Application.updateUser
 POST    /deleteUser                 controllers.Application.deleteUser
 GET     /projects                   controllers.Application.projects
+GET     /projectclients             controllers.Application.projectclients
+GET     /projectnames               controllers.Application.projectnames
+GET     /projectcomponents          controllers.Application.projectcomponents
 POST    /project                    controllers.Application.insertProject
+POST    /projectclient              controllers.Application.insertProjectClient
+POST    /projectname                controllers.Application.insertProjectName
+POST    /projectcomponent           controllers.Application.insertProjectComponent
 GET     /worklogs                   controllers.Application.workLogs
 GET     /totallogs                  controllers.Application.totallogs
 GET     /totalworklogs              controllers.Application.allWorkLogs

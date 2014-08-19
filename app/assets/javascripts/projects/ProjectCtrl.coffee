@@ -2,21 +2,51 @@ class ProjectCtrl
 
     constructor: (@$log, @ProjectService) ->
         @$log.debug "constructing ProjectController"
-        projects = []
-        @getAllProjects()
+        @projectclients = []
+        @projectnames = []
+        @projectcomponents = []
+        @getAllProjectClient()
+        @getAllProjectNames()
+        @getAllProjectComponents()
 
-    getAllProjects: () ->
-        @$log.debug "getAllProjects()"
+    getAllProjectClient: () ->
+        @$log.debug "getAllProjectClients()"
 
-        @ProjectService.listProjects()
+        @ProjectService.listProjectClients()
         .then(
             (data) =>
-                @$log.debug "Promise returned #{data.length} Projects"
-                @projects = data
+                @$log.debug "Promise returned #{data.length} Project clients"
+                @projectclients = data
             ,
             (error) =>
-                @$log.error "Unable to get Projects: #{error}"
+                @$log.error "Unable to get Project clients: #{error}"
             )
 
+    getAllProjectNames: () ->
+        @$log.debug "getAllProjectNames()"
 
-controllersModule3.controller('ProjectCtrl', ProjectCtrl)
+        @ProjectService.listProjectNames()
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data.length} Project names"
+            @projectnames = data
+        ,
+        (error) =>
+          @$log.error "Unable to get Project names: #{error}"
+        )
+
+    getAllProjectComponents: () ->
+        @$log.debug "getAllProjectComponents()"
+
+        @ProjectService.listProjectComponents()
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data.length} Project components"
+            @projectcomponents = data
+        ,
+        (error) =>
+          @$log.error "Unable to get Project components: #{error}"
+        )
+
+
+controllersModule4.controller('ProjectCtrl', ProjectCtrl)

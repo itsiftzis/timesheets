@@ -18,15 +18,17 @@ public class ProjectFull {
     @Id
     @ObjectId
     private String id;
-    private List<ProjectClient> proejctClients;
 
-    public List<ProjectClient> getProejctClients() {
-        return proejctClients;
+    public List<Project> getProjects() {
+        return projects;
     }
 
-    public void setProejctClients(List<ProjectClient> proejctClients) {
-        this.proejctClients = proejctClients;
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
+
+    private List<Project> projects;
+
 
     public String getId() {
         return id;
@@ -35,6 +37,35 @@ public class ProjectFull {
     public void setId(String id) {
         this.id = id;
     }
+
+    private ProjectClient projectClient;
+    private ProjectName projectName;
+
+    public ProjectClient getProjectClient() {
+        return projectClient;
+    }
+
+    public void setProjectClient(ProjectClient projectClient) {
+        this.projectClient = projectClient;
+    }
+
+    public ProjectName getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(ProjectName projectName) {
+        this.projectName = projectName;
+    }
+
+    public ProjectComponent getProjectComponent() {
+        return projectComponent;
+    }
+
+    public void setProjectComponent(ProjectComponent projectComponent) {
+        this.projectComponent = projectComponent;
+    }
+
+    private ProjectComponent projectComponent;
 
     public ProjectFull() {}
 
@@ -51,24 +82,17 @@ public class ProjectFull {
 
     public static void helperCreate() {
         ProjectComponent projectComponent = new ProjectComponent();
-        projectComponent.setComponent("component");
-        List<ProjectComponent> projectComponents = new ArrayList<ProjectComponent>();
-        projectComponents.add(projectComponent);
+        projectComponent.setComponent("project component");
 
-        List<ProjectName> projectNames = new ArrayList<ProjectName>();
         ProjectName projectName = new ProjectName();
-        projectName.setProjectComponents(projectComponents);
-        projectNames.add(projectName);
+        projectName.setName("project name");
 
         ProjectClient projectClient = new ProjectClient();
         projectClient.setClient("client");
-        projectClient.setProjectNames(projectNames);
-
-        List<ProjectClient> projectClients = new ArrayList<ProjectClient>();
-        projectClients.add(projectClient);
 
         ProjectFull pr = new ProjectFull();
-        pr.setProejctClients(projectClients);
+
+        pr.setProjectClient(projectClient);
 
         ProjectFull.create(pr);
     }

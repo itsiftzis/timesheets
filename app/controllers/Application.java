@@ -1,10 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Login;
-import models.Project;
-import models.User;
-import models.WorkLog;
+import models.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import play.*;
 import play.data.Form;
@@ -148,8 +145,7 @@ public class Application extends Controller {
     }
 
     public static Result projects() {
-        List<Project> projects = Project.all();
-        return ok(Json.toJson(projects  ));
+        return ok(views.html.projectview.render());
     }
 
     public static Result project(String projectName) {
@@ -172,6 +168,51 @@ public class Application extends Controller {
         return ok("inserted project");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result insertProjectClient() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectClient project = mapper.readValue(json.toString(), ProjectClient.class);
+            ProjectClient.create(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted project client");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result insertProjectComponent() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectComponent project = mapper.readValue(json.toString(), ProjectComponent.class);
+            ProjectComponent.create(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted project client");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result insertProjectName() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
+            ProjectName.create(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted project name");
+    }
+
     @play.mvc.Security.Authenticated(Secured.class)
     public static Result workLogs() {
         User user = SessionManager.get("user");
@@ -188,6 +229,30 @@ public class Application extends Controller {
         List<WorkLog> workLogs = WorkLog.all();
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result projectclients() {
+        List<ProjectClient> projectClients = ProjectClient.all();
+        Gson gson = new Gson();
+        String json = gson.toJson(projectClients);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result projectnames() {
+        List<ProjectName> projectNames = ProjectName.all();
+        Gson gson = new Gson();
+        String json = gson.toJson(projectNames);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result projectcomponents() {
+        List<ProjectComponent> projectComponents = ProjectComponent.all();
+        Gson gson = new Gson();
+        String json = gson.toJson(projectComponents);
         return ok(json);
     }
 

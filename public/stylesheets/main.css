@@ -39,3 +39,8 @@
 .span4 {
     width: 80px;
 }
+
+.project_menu {
+    float: left;
+    width: 30%;
+}

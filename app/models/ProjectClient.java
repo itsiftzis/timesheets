@@ -1,6 +1,8 @@
 package models;
 
+import db.MongoDB;
 import net.vz.mongodb.jackson.Id;
+import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.MongoCollection;
 import net.vz.mongodb.jackson.ObjectId;
 
@@ -10,7 +12,6 @@ import java.util.List;
  * Created by itsiftzis on 8/11/2014.
  */
 
-@MongoCollection(name = "projectClient")
 public class ProjectClient {
 
     @Id
@@ -27,13 +28,23 @@ public class ProjectClient {
         this.client = client;
     }
 
-    public List<ProjectName> getProjectNames() {
-        return projectNames;
+
+    private static JacksonDBCollection<ProjectClient, String> coll = JacksonDBCollection.wrap(MongoDB.db.getCollection("projectClient"),
+            ProjectClient.class, String.class);
+
+    public static void create(ProjectClient component) {
+        ProjectClient.coll.save(component);
     }
 
-    public void setProjectNames(List<ProjectName> projectNames) {
-        this.projectNames = projectNames;
+    public static void deleteWorklog(ProjectClient component) {
+        ProjectClient.coll.remove(component);
     }
 
-    private List<ProjectName> projectNames;
+    public static void update(ProjectClient component) {
+        ProjectClient.coll.updateById(component.id, component);
+    }
+
+    public static List<ProjectClient> all() {
+        return ProjectClient.coll.find().toArray();
+    }
 }
