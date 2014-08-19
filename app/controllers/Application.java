@@ -203,6 +203,23 @@ public class Application extends Controller {
         }
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result fetchComponentsForName() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
+            List<ProjectComponent> projects = ProjectComponent.findByName(project.getName());
+
+            Gson gson = new Gson();
+            String jsonr = gson.toJson(projects);
+            return ok(jsonr);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+    }
+
     public static Result projects() {
         return ok(views.html.projectview.render(showAdminLogo()));
     }

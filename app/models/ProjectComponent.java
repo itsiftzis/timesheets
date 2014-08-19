@@ -72,5 +72,9 @@ public class ProjectComponent {
     public static List<ProjectComponent> all() {
         return ProjectComponent.coll.find().toArray();
     }
+
+    public static List<ProjectComponent> findByName(String name) {
+        return ProjectComponent.coll.find().is("name", name).toArray();
+    }
 }
 

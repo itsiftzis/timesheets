@@ -21,6 +21,7 @@ POST    /deleteProjectClient        controllers.Application.deleteProjectClient
 POST    /deleteProjectName          controllers.Application.deleteProjectName
 POST    /deleteProjectComponent     controllers.Application.deleteProjectComponent
 POST    /fetchNamesForClient        controllers.Application.fetchNamesForClient
+POST    /fetchComponentsForName     controllers.Application.fetchComponentsForName
 GET     /projects                   controllers.Application.projects
 GET     /projectclients             controllers.Application.projectclients
 GET     /projectnames               controllers.Application.projectnames

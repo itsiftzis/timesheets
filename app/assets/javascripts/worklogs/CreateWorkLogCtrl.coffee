@@ -9,7 +9,48 @@ class CreateWorkLogCtrl
         @worklogEdit = []
         if @$routeParams.worklog
           @getObjectFromUrl(@$routeParams)
+        @prclients = {}
+        @prnames = {}
+        @prcomps = {}
+        @prccurrentclient = {}
+        @prcurrentname = {}
+        @fetchProjectClients()
 
+    fetchProjectClients: () ->
+      @$log.debug "fetchProjectClients()"
+      @WorkLogService.listProjectClients()
+      .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} Project"
+            @prclients = data
+        ,
+        (error) =>
+          @$log.error "Unable to fetch Project Clients: #{error}"
+        )
+
+    fillNames: (@name, @index) ->
+      @$log.debug @name
+      @WorkLogService.fetchNamesForClient(@name)
+      .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} Project"
+            @prnames[@index] = data
+        ,
+        (error) =>
+          @$log.error "Unable to get Project names: #{error}"
+        )
+
+    fillComponents: (@name, @index) ->
+      @$log.debug @name
+      @WorkLogService.fetchComponentsForName(@name)
+      .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} Project"
+            @prcomps[@index] = data
+        ,
+        (error) =>
+          @$log.error "Unable to get Project names: #{error}"
+        )
 
     getObjectFromUrl: (@$routeParams) ->
         @WorkLogService.fetchWorklog(@$routeParams)
@@ -25,7 +66,7 @@ class CreateWorkLogCtrl
 
     createWorkLog: () ->
         @$log.debug "createWorkLog()"
-        @worklog.projects = @projects
+        @worklog.projects = this.formatProjects(@projects)
         ###@worklog.dateLog = new Date(@worklog.dateLog).getTime()###
         @WorkLogService.createWorkLog(@worklog)
         .then(
@@ -37,6 +78,14 @@ class CreateWorkLogCtrl
             (error) =>
                 @$log.error "Unable to create worklog: #{error}"
             )
+
+    formatProjects: (@projects) ->
+        @tempPrs = []
+        for pr in projects
+          @$log.debug pr
+          pr.client = pr.client.client
+          pr.name = pr.name.name
+          pr.component = pr.component.component
 
     editWorkLog: () ->
         @$log.debug "editWorkLog()"

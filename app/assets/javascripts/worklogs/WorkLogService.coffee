@@ -80,4 +80,47 @@ class WorkLogService
       )
       deferred.promise
 
+    listProjectClients: () ->
+      @$log.debug "listProjectClients()"
+      deferred = @$q.defer()
+
+      @$http.get("/projectclients")
+      .success((data, status, headers) =>
+          @$log.info("Successfully listed Projects - status #{status}")
+          deferred.resolve(data)
+        )
+      .error((data, status, headers) =>
+          @$log.error("Failed to list Projects - status #{status}")
+          deferred.reject(data);
+        )
+      deferred.promise
+
+    fetchNamesForClient: (client) ->
+      deferred = @$q.defer()
+
+      @$http.post('/fetchNamesForClient', client)
+      .success((data, status, headers) =>
+          @$log.info("Successfully fetched Project names - status #{status}")
+          deferred.resolve(data)
+        )
+      .error((data, status, headers) =>
+          @$log.error("Failed to delete Project name - status #{status}")
+          deferred.reject(data);
+        )
+      deferred.promise
+
+    fetchComponentsForName: (name) ->
+      deferred = @$q.defer()
+
+      @$http.post('/fetchComponentsForName', name)
+      .success((data, status, headers) =>
+          @$log.info("Successfully fetched Project components - status #{status}")
+          deferred.resolve(data)
+        )
+      .error((data, status, headers) =>
+          @$log.error("Failed to delete Project components - status #{status}")
+          deferred.reject(data);
+        )
+      deferred.promise
+
 servicesModule2.service('WorkLogService', WorkLogService)
