@@ -13,6 +13,14 @@ import java.util.List;
  */
 public class ProjectName {
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Id
     @ObjectId
     private String id;
@@ -44,7 +52,7 @@ public class ProjectName {
         ProjectName.coll.save(component);
     }
 
-    public static void deleteWorklog(ProjectName component) {
+    public static void delete(ProjectName component) {
         ProjectName.coll.remove(component);
     }
 
@@ -54,6 +62,10 @@ public class ProjectName {
 
     public static List<ProjectName> all() {
         return ProjectName.coll.find().toArray();
+    }
+
+    public static List<ProjectName> findByClient(String client) {
+        return ProjectName.coll.find().is("client", client).toArray();
     }
 
 }

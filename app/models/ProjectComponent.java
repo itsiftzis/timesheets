@@ -13,9 +13,36 @@ import java.util.List;
  */
 public class ProjectComponent {
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Id
     @ObjectId
     private String id;
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String client;
+    private String name;
 
     public String getComponent() {
         return component;
@@ -34,7 +61,7 @@ public class ProjectComponent {
         ProjectComponent.coll.save(component);
     }
 
-    public static void deleteWorklog(ProjectComponent component) {
+    public static void delete(ProjectComponent component) {
         ProjectComponent.coll.remove(component);
     }
 

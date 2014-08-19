@@ -44,3 +44,13 @@
     float: left;
     width: 30%;
 }
+
+.selected {
+    font-weight: bold;
+    color: darkblue !important;
+    font-size: 20px;
+}
+
+.top-padding {
+    padding-top: 45px;
+}

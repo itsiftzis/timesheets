@@ -98,4 +98,60 @@ class ProjectService
         )
         deferred.promise
 
+    deleteProjectClient: (prj) ->
+      deferred = @$q.defer()
+
+      @$http.post('/deleteProjectClient', prj)
+      .success((data, status, headers) =>
+          @$log.info("Successfully deleted Project client - status #{status}")
+          deferred.resolve(data)
+        )
+      .error((data, status, headers) =>
+          @$log.error("Failed to delete Project client - status #{status}")
+          deferred.reject(data);
+        )
+      deferred.promise
+
+    deleteProjectName: (prj) ->
+      deferred = @$q.defer()
+
+      @$http.post('/deleteProjectName', prj)
+      .success((data, status, headers) =>
+          @$log.info("Successfully deleted Project name - status #{status}")
+          deferred.resolve(data)
+        )
+      .error((data, status, headers) =>
+          @$log.error("Failed to delete Project name - status #{status}")
+          deferred.reject(data);
+        )
+      deferred.promise
+
+    deleteProjectComponent: (prj) ->
+      deferred = @$q.defer()
+
+      @$http.post('/deleteProjectComponent', prj)
+      .success((data, status, headers) =>
+          @$log.info("Successfully deleted Project comp - status #{status}")
+          deferred.resolve(data)
+        )
+      .error((data, status, headers) =>
+          @$log.error("Failed to delete Project comp - status #{status}")
+          deferred.reject(data);
+        )
+      deferred.promise
+
+    fetchNamesForClient: (client) ->
+      deferred = @$q.defer()
+
+      @$http.post('/fetchNamesForClient', client)
+      .success((data, status, headers) =>
+          @$log.info("Successfully fetched Project names - status #{status}")
+          deferred.resolve(data)
+        )
+      .error((data, status, headers) =>
+          @$log.error("Failed to delete Project name - status #{status}")
+          deferred.reject(data);
+        )
+      deferred.promise
+
 servicesModule4.service('ProjectService', ProjectService)

@@ -17,7 +17,10 @@ GET     /worklog                    controllers.Application.indexWorkLog
 GET     /users                      controllers.Application.users
 POST    /user                       controllers.Application.insertUser
 POST    /updateUser                 controllers.Application.updateUser
-POST    /deleteUser                 controllers.Application.deleteUser
+POST    /deleteProjectClient        controllers.Application.deleteProjectClient
+POST    /deleteProjectName          controllers.Application.deleteProjectName
+POST    /deleteProjectComponent     controllers.Application.deleteProjectComponent
+POST    /fetchNamesForClient        controllers.Application.fetchNamesForClient
 GET     /projects                   controllers.Application.projects
 GET     /projectclients             controllers.Application.projectclients
 GET     /projectnames               controllers.Application.projectnames

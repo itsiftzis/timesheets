@@ -1,17 +1,30 @@
 <div class="row">
-    <div ng-controller="CreateProjectCtrl as cpc">
+    <div ng-controller="CreateProjectCtrl as cpcc">
         <h1>Create Project Component</h1>
 
         <form id="CreateProjectComponentForm" name="CreateProjectComponentForm" class="form-horizontal" role="form"
-              ng-submit="cpc.createProjectComponent()">
+              ng-submit="cpcc.createProjectComponent()">
             <legend class="sm-col-12">Project Component</legend>
 
             <div class="form-group">
-                <label id="lbl_firstName" for="client" class="col-sm-4 control-label">Project Component</label>
+
+                <label id="lbl_projectClient" for="curclient" class="col-sm-4 control-label">Project Client</label>
 
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" name="client" id="client" placeholder=""
-                           ng-model="cpc.projectcomponent.component">
+                    <select ng-change="cpcc.fillNames(cpcc.prccurrentclient)" class="form-control" name="curclient" id="curclient" ng-model="cpcc.prccurrentclient" ng-options="prclient.client for prclient in cpcc.prclients  track by prclient.client"></select>
+                </div>
+
+                <label id="lbl_projectClient" for="curname" class="col-sm-4 control-label">Project Name</label>
+
+                <div class="col-sm-8">
+                    <select class="form-control" name="curname" id="curname" ng-model="cpcc.prcurrentname" ng-options="prname.name for prname in cpcc.prnames track by prname.name"></select>
+                </div>
+
+                <label id="lbl_firstName" for="component" class="col-sm-4 control-label">Project Component</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="component" id="component"
+                           ng-model="cpcc.projectcomponent.component">
                 </div>
             </div>
 

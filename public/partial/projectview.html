@@ -1,15 +1,7 @@
 <div class="row" ng-controller="ProjectCtrl as pc">
-    &NonBreakingSpace;
-    <div class="jumbotron">
-        <h2>Projects</h2>
-
-    </div>
-
-
-    <div class="row">
+    <div class="row top-padding">
         <div class="form-group">
             <h3>
-                Projects
                 <div>
                 <div class="project_menu"><a ng-href="/projects#/client/create" class="btn btn-primary pull-right" id="btn_client_create">Add Project Client</a></div>
                 <div class="project_menu"><a ng-href="/projects#/name/create" class="btn btn-primary pull-right" id="btn_name_create">Add Project Name</a></div>
@@ -44,8 +36,8 @@
                         </button>
                     </form>
                     <div class="buttons" ng-show="!rowform.$visible">
-                        <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-                        <button class="btn btn-danger" ng-click="uc.removeProjectClient(prc, $index)">del</button>
+                        <!--<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>-->
+                        <button class="btn btn-danger" ng-click="pc.removeProjectClient(prc, $index)">del</button>
                     </div>
                 </td>
             </tr>
@@ -87,8 +79,8 @@
                         </button>
                     </form>
                     <div class="buttons" ng-show="!rowform.$visible">
-                        <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-                        <button class="btn btn-danger" ng-click="uc.removeProjectName(prc, $index)">del</button>
+                        <!--<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>-->
+                        <button class="btn btn-danger" ng-click="pc.removeProjectName(prc, $index)">del</button>
                     </div>
                 </td>
             </tr>
@@ -103,11 +95,23 @@
         <table id="pr_comp_list" class="table table-striped">
             <thead>
             <tr style="font-weight: bold">
+                <td style="width:20%">Project Client</td>
+                <td style="width:20%">Project Name</td>
                 <td style="width:20%">Project Components</td>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="prc in pc.projectcomponents">
+                <td>
+                    <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.client || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="prc.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.name || 'empty' }}
+                    </span>
+                </td>
                 <td>
                     <span editable-text="prc.component" e-name="component" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
                         {{ prc.component || 'empty' }}
@@ -124,8 +128,8 @@
                         </button>
                     </form>
                     <div class="buttons" ng-show="!rowform.$visible">
-                        <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-                        <button class="btn btn-danger" ng-click="uc.removeProjectComponent(prc, $index)">del</button>
+                        <!--<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>-->
+                        <button class="btn btn-danger" ng-click="pc.removeProjectComponent(prc, $index)">del</button>
                     </div>
                 </td>
             </tr>

@@ -32,7 +32,7 @@ public class Application extends Controller {
 
     @play.mvc.Security.Authenticated(Secured.class)
     public static Result indexUser() {
-        return ok(views.html.userview.render());
+        return ok(views.html.userview.render(showAdminLogo()));
     }
 
     private static String showAdminLogo() {
@@ -144,8 +144,67 @@ public class Application extends Controller {
         return ok("deleted worklog");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteProjectClient() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectClient project = mapper.readValue(json.toString(), ProjectClient.class);
+            ProjectClient.deleteProjectClient(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+        return ok("deleted project client");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteProjectName() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
+            ProjectName.delete(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+        return ok("deleted project name");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteProjectComponent() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectComponent project = mapper.readValue(json.toString(), ProjectComponent.class);
+            ProjectComponent.delete(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+        return ok("deleted project comp");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result fetchNamesForClient() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectClient project = mapper.readValue(json.toString(), ProjectClient.class);
+            List<ProjectName> projects = ProjectName.findByClient(project.getClient());
+
+            Gson gson = new Gson();
+            String jsonr = gson.toJson(projects);
+            return ok(jsonr);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+    }
+
     public static Result projects() {
-        return ok(views.html.projectview.render());
+        return ok(views.html.projectview.render(showAdminLogo()));
     }
 
     public static Result project(String projectName) {

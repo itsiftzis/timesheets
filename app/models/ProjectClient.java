@@ -14,6 +14,14 @@ import java.util.List;
 
 public class ProjectClient {
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Id
     @ObjectId
     private String id;
@@ -36,7 +44,7 @@ public class ProjectClient {
         ProjectClient.coll.save(component);
     }
 
-    public static void deleteWorklog(ProjectClient component) {
+    public static void deleteProjectClient(ProjectClient component) {
         ProjectClient.coll.remove(component);
     }
 

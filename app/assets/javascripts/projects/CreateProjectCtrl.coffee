@@ -6,6 +6,9 @@ class CreateProjectCtrl
         @projectname = {}
         @projectcomponent = {}
         @prclients = {}
+        @prnames = {}
+        @prccurrentclient = {}
+        @prcurrentname = {}
         @fetchProjectClients()
 
     fetchProjectClients: () ->
@@ -36,6 +39,7 @@ class CreateProjectCtrl
 
     createProjectName: () ->
         @$log.debug "createProjectName()"
+        @projectname.client = @prccurrentclient.client
         @$log.debug @projectname
         @ProjectService.createProjectName(@projectname)
         .then(
@@ -50,6 +54,8 @@ class CreateProjectCtrl
 
     createProjectComponent: () ->
         @$log.debug "createProjectComponent()"
+        @projectcomponent.client = @prccurrentclient.client
+        @projectcomponent.name = @prcurrentname.name
         @ProjectService.createProjectComponent(@projectcomponent)
         .then(
             (data) =>
@@ -60,5 +66,17 @@ class CreateProjectCtrl
             (error) =>
               @$log.error "Unable to create Project Component: #{error}"
             )
+
+    fillNames: (@name) ->
+        @$log.debug @name
+        @ProjectService.fetchNamesForClient(@name)
+        .then(
+            (data) =>
+              @$log.debug "Promise returned #{data} Project"
+              @prnames = data
+          ,
+          (error) =>
+            @$log.error "Unable to get Project names: #{error}"
+          )
 
 controllersModule4.controller('CreateProjectCtrl', CreateProjectCtrl)

@@ -7,10 +7,10 @@
             <legend class="sm-col-12">Project Name</legend>
 
             <div class="form-group">
-                <label id="lbl_projectClient" for="client" class="col-sm-4 control-label">Project Client</label>
+                <label id="lbl_projectClient" for="curclient" class="col-sm-4 control-label">Project Client</label>
 
                 <div class="col-sm-8">
-                    <select class="form-control" name="client" id="client" ng-model="cpcn.projectname" ng-options="prclient.client for prclient in cpcn.prclients  track by prclient.client"></select>
+                    <select class="form-control" name="curclient" id="curclient" ng-model="cpcn.prccurrentclient" ng-options="prclient.client for prclient in cpcn.prclients  track by prclient.client"></select>
                 </div>
 
                 <label id="lbl_firstName" for="name" class="col-sm-4 control-label">Project Name</label>
