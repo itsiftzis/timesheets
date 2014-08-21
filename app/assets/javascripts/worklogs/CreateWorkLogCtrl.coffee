@@ -66,7 +66,14 @@ class CreateWorkLogCtrl
 
     createWorkLog: () ->
         @$log.debug "createWorkLog()"
-        @worklog.projects = this.formatProjects(@projects)
+
+        for pr in @projects
+          @$log.debug pr
+          pr.client = pr.client.client
+          pr.name = pr.name.name
+          pr.component = pr.component.component
+
+        @worklog.projects = @projects
         ###@worklog.dateLog = new Date(@worklog.dateLog).getTime()###
         @WorkLogService.createWorkLog(@worklog)
         .then(
@@ -78,14 +85,6 @@ class CreateWorkLogCtrl
             (error) =>
                 @$log.error "Unable to create worklog: #{error}"
             )
-
-    formatProjects: (@projects) ->
-        @tempPrs = []
-        for pr in projects
-          @$log.debug pr
-          pr.client = pr.client.client
-          pr.name = pr.name.name
-          pr.component = pr.component.component
 
     editWorkLog: () ->
         @$log.debug "editWorkLog()"
