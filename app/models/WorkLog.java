@@ -86,7 +86,7 @@ public class WorkLog {
     }
 
     public static List<WorkLog> all() {
-        return WorkLog.coll.find().toArray();
+        return WorkLog.coll.find().sort(new BasicDBObject("dateLog",-1)).toArray();
     }
 
     public static List<WorkLog> worklogPerUser(String userName) {
@@ -115,7 +115,7 @@ public class WorkLog {
         WorkLog.coll.remove(worklog);
     }
 
-    public static WorkLog fetchWorklog(String id) {
+    public static WorkLog fetchWorklog(String id)    {
         return WorkLog.coll.findOneById(id);
     }
 
