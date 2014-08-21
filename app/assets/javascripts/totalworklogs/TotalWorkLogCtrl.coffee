@@ -5,6 +5,7 @@ class TotalWorkLogCtrl
         @$log.debug "constructing TotalWorkLogController"
         @worklogs = []
         @getAllWorkLogs()
+        @filteredWorklogs = []
 
     getAllWorkLogs: () ->
         @$log.debug "getAllWorkLogs()"
@@ -28,5 +29,9 @@ class TotalWorkLogCtrl
         return "0" + value.toString()
       else
         return value.toString()
+
+    download: () ->
+      @$log.debug @$scope.searchText + '-' + @$scope.searchDate;
+      location.href="/downloadcsv/" + @$scope.searchText + "/" + @$scope.searchDate
 
 controllersModule3.controller('TotalWorkLogCtrl', TotalWorkLogCtrl)

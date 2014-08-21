@@ -25,12 +25,17 @@
             </div>
 
             <div class="form-group">
-                <label id="lbl_projects" for="projects" class="col-sm-4 control-label">Projects</label>
+                <label id="lbl_projects" for="projects" class="col-sm-4 control-label width20">Projects</label>
 
-                <div class="col-sm-8">
+                <div class="col-sm-8 width80">
                     <a class="btn pull-right" ng-click="cwlc.addInputRow()">add project</a>
                     <p ng-repeat="project in cwlc.projects track by $index">
-                        name:<input name="name" type="text" class="span2" ng-model="cwlc.projects[$index].name"/>
+                        <!--<input name="client" type="text" class="span2" ng-model="cwlc.projects[$index].client"/>-->
+                        client:<select ng-change="cwlc.fillNames(cwlc.projects[$index].client, $index)" class="span2" name="client" ng-model="cwlc.projects[$index].client" ng-options="prclient.client for prclient in cwlc.prclients  track by prclient.client"></select>
+                        <!--<input name="name" type="text" class="span2" ng-model="cwlc.projects[$index].name"/>-->
+                        name:<select ng-change="cwlc.fillComponents(cwlc.projects[$index].name, $index)" class="span2" name="name" ng-model="cwlc.projects[$index].name" ng-options="prname.name for prname in cwlc.prnames[$index] track by prname.name"></select>
+                        <!--<input name="component" type="text" class="span2" ng-model="cwlc.projects[$index].component"/>-->
+                        component:<select class="span2" name="component" ng-model="cwlc.projects[$index].component" ng-options="prcomp.component for prcomp in cwlc.prcomps[$index] track by prcomp.component"></select>
                         region:<input name="region" type="text" class="span2" ng-model="cwlc.projects[$index].region"/>
                         hours:<input name="hours" type="number" class="span3" ng-model="cwlc.projects[$index].hours"/>
                         <a class="class" ng-click="cwlc.deleteThis($index)">X</a>
@@ -39,7 +44,7 @@
             </div>
 
 
-            <pre>{{ cwlc.worklogs | json }}</pre>
+            <!--<pre>{{ cwlc.worklogs | json }}</pre>-->
 
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8 text-right">

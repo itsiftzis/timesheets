@@ -1,10 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Login;
-import models.Project;
-import models.User;
-import models.WorkLog;
+import models.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import play.*;
 import play.data.Form;
@@ -13,6 +10,11 @@ import play.mvc.*;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static play.data.Form.form;
@@ -23,19 +25,25 @@ public class Application extends Controller {
         return ok(views.html.index.render("welcome"));
     }
 
+    @play.mvc.Security.Authenticated(Secured.class)
     public static Result totallogs() {
-        return ok(views.html.totallogsview.render("inline"));
+        return ok(views.html.totallogsview.render(showAdminLogo()));
     }
 
     @play.mvc.Security.Authenticated(Secured.class)
     public static Result indexUser() {
-        return ok(views.html.userview.render());
+        return ok(views.html.userview.render(showAdminLogo()));
     }
 
-    public static Result indexWorkLog() {
+    private static String showAdminLogo() {
         User user = SessionManager.get("user");
         String display = user.getUserName().equals("admin") ? "inline" : "none";
-        return ok(views.html.worklogview.render(display));
+        return display;
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result indexWorkLog() {
+        return ok(views.html.worklogview.render(showAdminLogo()));
     }
 
     public static Result userEdit() {
@@ -93,6 +101,12 @@ public class Application extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
+    public static Result serveJson() {
+        JsonNode json = request().body().asJson();
+        return ok(json);
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
     public static Result updateWorkLog() {
         JsonNode json = request().body().asJson();
         ObjectMapper mapper = new ObjectMapper();
@@ -130,9 +144,84 @@ public class Application extends Controller {
         return ok("deleted worklog");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteProjectClient() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectClient project = mapper.readValue(json.toString(), ProjectClient.class);
+            ProjectClient.deleteProjectClient(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+        return ok("deleted project client");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteProjectName() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
+            ProjectName.delete(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+        return ok("deleted project name");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result deleteProjectComponent() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectComponent project = mapper.readValue(json.toString(), ProjectComponent.class);
+            ProjectComponent.delete(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+        return ok("deleted project comp");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result fetchNamesForClient() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectClient project = mapper.readValue(json.toString(), ProjectClient.class);
+            List<ProjectName> projects = ProjectName.findByClient(project.getClient());
+
+            Gson gson = new Gson();
+            String jsonr = gson.toJson(projects);
+            return ok(jsonr);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result fetchComponentsForName() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
+            List<ProjectComponent> projects = ProjectComponent.findByName(project.getName());
+
+            Gson gson = new Gson();
+            String jsonr = gson.toJson(projects);
+            return ok(jsonr);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+    }
+
     public static Result projects() {
-        List<Project> projects = Project.all();
-        return ok(Json.toJson(projects  ));
+        return ok(views.html.projectview.render(showAdminLogo()));
     }
 
     public static Result project(String projectName) {
@@ -155,6 +244,51 @@ public class Application extends Controller {
         return ok("inserted project");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result insertProjectClient() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectClient project = mapper.readValue(json.toString(), ProjectClient.class);
+            ProjectClient.create(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted project client");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result insertProjectComponent() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectComponent project = mapper.readValue(json.toString(), ProjectComponent.class);
+            ProjectComponent.create(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted project client");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result insertProjectName() {
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
+            ProjectName.create(project);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted project name");
+    }
+
     @play.mvc.Security.Authenticated(Secured.class)
     public static Result workLogs() {
         User user = SessionManager.get("user");
@@ -171,6 +305,30 @@ public class Application extends Controller {
         List<WorkLog> workLogs = WorkLog.all();
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result projectclients() {
+        List<ProjectClient> projectClients = ProjectClient.all();
+        Gson gson = new Gson();
+        String json = gson.toJson(projectClients);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result projectnames() {
+        List<ProjectName> projectNames = ProjectName.all();
+        Gson gson = new Gson();
+        String json = gson.toJson(projectNames);
+        return ok(json);
+    }
+
+    @play.mvc.Security.Authenticated(Secured.class)
+    public static Result projectcomponents() {
+        List<ProjectComponent> projectComponents = ProjectComponent.all();
+        Gson gson = new Gson();
+        String json = gson.toJson(projectComponents);
         return ok(json);
     }
 
@@ -198,6 +356,50 @@ public class Application extends Controller {
         }
 
         return ok("inserted workLog");
+    }
+
+    public static Result downloadCsv(String user, String period) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        StringBuffer stringBuffer = new StringBuffer();
+        try {
+            Date parsedDate = sdf.parse(period);
+            Calendar startDate = Calendar.getInstance();
+            startDate.setTime(parsedDate);
+            startDate.set(Calendar.DAY_OF_MONTH, 0);
+
+            Calendar endDate = Calendar.getInstance();
+            endDate.setTime(parsedDate);
+            endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DATE));
+
+            if (user==null || user.equals("") || user.equals("undefined"))
+                user = "all";
+
+            Logger.debug("User: " + user + " Start date:" + startDate.getTime() + " End date:" + endDate.getTime());
+
+            List<WorkLog> workLogs = WorkLog.getReport(startDate.getTime(), endDate.getTime(), user);
+            stringBuffer.append("username,").append("date,").append("totalHours,").append("Project Client,").append("Project Name,")
+                    .append("Project Component,").append("Hours,").append("Region").append("\n");
+            for (WorkLog worklog:workLogs) {
+                stringBuffer.append(worklog.getUserName()).append(",");
+                stringBuffer.append(worklog.getDateLog()).append(",");
+                stringBuffer.append(worklog.getTotalHours()).append(",");
+                for (Project project:worklog.getProjects()) {
+                    stringBuffer.append("\n");
+                    stringBuffer.append(",").append(",").append(",").append(project.getClient()).append(",");
+                    stringBuffer.append(project.getName()).append(",");
+                    stringBuffer.append(project.getComponent()).append(",");
+                    stringBuffer.append(project.getHours()).append(",");
+                    stringBuffer.append(project.getRegion());
+                }
+                stringBuffer.append("\n");
+            }
+
+        } catch (ParseException e) {
+            Logger.error("error parsing date", e);
+        }
+        response().setContentType("text/csv; charset=utf-8");
+        response().setHeader("Content-Disposition", "attachment; filename=report_" + user +"_" + period +".csv");
+        return ok(stringBuffer.toString()).as("text/csv");
     }
 
     public static Result login() {

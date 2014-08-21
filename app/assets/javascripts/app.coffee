@@ -30,8 +30,18 @@ dependencies3 = [
   'totallogs.controllers',
   'totallogs.directives',
   'totallogs.common',
-  'totallogs.routeConfig',
-  'xeditable'
+  'totallogs.routeConfig'
+]
+
+dependencies4 = [
+  'ngRoute',
+  'ui.bootstrap',
+  'projectapp.filters',
+  'projectapp.services',
+  'projectapp.controllers',
+  'projectapp.directives',
+  'projectapp.common',
+  'projectapp.routeConfig'
 ]
 
 app = angular.module('myApp', dependencies)
@@ -42,6 +52,8 @@ app.run (editableOptions) ->
 angular.module('workl', dependencies2)
 
 angular.module('totallogs', dependencies3)
+
+angular.module('projectapp', dependencies4)
 
 angular.module('myApp.routeConfig', ['ngRoute'])
     .config ($routeProvider) ->
@@ -76,6 +88,24 @@ angular.module('workl.routeConfig', ['ngRoute'])
               })
             .otherwise({redirectTo: '/'})
 
+angular.module('projectapp.routeConfig', ['ngRoute'])
+    .config ($routeProvider) ->
+        $routeProvider
+            .when('/', {
+                templateUrl: '/assets/partial/projectview.html'
+              })
+            .when('/client/create', {
+                templateUrl: '/assets/partial/projectclientcreate.html'
+              })
+            .when('/name/create', {
+                templateUrl: '/assets/partial/projectnamecreate.html'
+              })
+            .when('/component/create', {
+                templateUrl: '/assets/partial/projectcomponentcreate.html'
+              })
+            .otherwise({redirectTo: '/'})
+
+
 @commonModule = angular.module('myApp.common', [])
 @controllersModule = angular.module('myApp.controllers', [])
 @servicesModule = angular.module('myApp.services', [])
@@ -96,3 +126,10 @@ angular.module('workl.routeConfig', ['ngRoute'])
 @directivesModule3 = angular.module('totallogs.directives', [])
 @commonModule3 = angular.module('totallogs.common', [])
 @modelsModule3 = angular.module('totallogs.models', [])
+
+@filtersModule4 = angular.module('projectapp.filters', [])
+@servicesModule4 = angular.module('projectapp.services', [])
+@controllersModule4 = angular.module('projectapp.controllers', [])
+@directivesModule4 = angular.module('projectapp.directives', [])
+@commonModule4 = angular.module('projectapp.common', [])
+@modelsModule4 = angular.module('projectapp.models', [])

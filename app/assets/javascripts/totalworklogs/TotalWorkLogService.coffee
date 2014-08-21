@@ -22,4 +22,19 @@ class TotalWorkLogService
             )
         deferred.promise
 
+    download: (jsonData) ->
+        @$log.debug "listWorkLogs()"
+        deferred = @$q.defer()
+
+        @$http.post("/serveJson", jsonData)
+        .success((data, status, headers) =>
+          @$log.info("Successfully served total TotalWorklogs - status #{status}")
+          deferred.resolve(data)
+        )
+        .error((data, status, headers) =>
+          @$log.error("Failed to serve total workklogs - status #{status}")
+          deferred.reject(data);
+        )
+        deferred.promise
+
 servicesModule3.service('TotalWorkLogService', TotalWorkLogService)

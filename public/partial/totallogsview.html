@@ -1,13 +1,5 @@
 <div class="row" ng-controller="TotalWorkLogCtrl as totalwlog">
-    &NonBreakingSpace;
-    <div class="jumbotron">
-        <div style="float: left;"><h2>Total Time Sheet Logs</h2></div>
-        <div style="float: right;"><a href="worklog"><h2>Work Logs</h2></a></div>
-        &nbsp;
-    </div>
-
-
-    <div class="row">
+    <div class="row top-padding">
         <div class="form-group">
             <h3>
                 Total WorkLogs
@@ -57,16 +49,28 @@
                     <table class="table table-striped">
                         <thead>
                             <tr style="font-weight: bold">
-                                <td style="width:33%">Project</td>
-                                <td style="width:33%">Region</td>
-                                <td style="width:33%">Hours</td>
+                                <td style="width:25%">Client</td>
+                                <td style="width:25%">Project</td>
+                                <td style="width:25%">Component</td>
+                                <td style="width:15%">Region</td>
+                                <td style="width:10%">Hours</td>
                             </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="pr in wl.projects">
                             <td>
                                 <span>
+                                    {{ pr.client || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
                                     {{ pr.name || 'empty' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{ pr.component || 'empty' }}
                                 </span>
                             </td>
                             <td>
@@ -85,19 +89,10 @@
                         </tbody>
                     </table>
                 </td>
-                <td style="white-space: nowrap">
-                    <!-- form -->
-                    <form editable-form name="rowform" onbeforesave="totalwlog.saveWorklog($data, wl.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == wl">
-                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-primary-narrow">
-                            save
-                        </button>
-                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-primary-narrow">
-                            cancel
-                        </button>
-                    </form>
-                </td>
             </tr>
-
+            <tr>
+                <a class="btn btn-primary" ng-click="totalwlog.download()">Export to csv</a>
+            </tr>
             <tr ng-hide="totalwlog.worklogs.length">
                 <td colspan="3">
                     <p class="text-center">No WorkLogs Found</p>
@@ -106,9 +101,8 @@
             </tbody>
         </table>
 
-        <hr>
+        <!--<hr>
         <h4>Debug:</h4>
-        <pre>{{ totalwlog.worklogs | json }}</pre>
+        <pre>{{ totalwlog.worklogs | json }}</pre>-->
     </div>
-
 </div>

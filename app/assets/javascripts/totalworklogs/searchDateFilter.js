@@ -10,6 +10,7 @@ filtersModule3.filter('searchDateFilter', function () {
                     filtered.push(item);
                 }
             }
+            this.filteredWorklogs = filtered;
             return filtered;
         } else
             return items;

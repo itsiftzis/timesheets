@@ -24,6 +24,15 @@
                 </button>
                 <a class="navbar-brand" href="#/">Total Work Logs</a>
             </div>
+            <div style="padding: 5px; float: left;">
+                <a href="/user" class="navbar-brand" style="padding: 10px;">User Management</a>
+            </div>
+            <div style="padding: 5px; float: left;">
+                <a href="/worklog" class="navbar-brand" style="padding: 10px;">Worklogs</a>
+            </div>
+            <div style="padding: 5px; float: left;">
+                <a href="/projects" class="navbar-brand" style="padding: 10px;">Project Management</a>
+            </div>
             <div style="float: right; padding: 5px; display:@display; ">
                 <img width="40px" height="40px" src='@routes.Assets.at("images/pablo.jpg")' />
             </div>
@@ -47,10 +56,10 @@
 </div>
 </body>
 
+
 <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js' type="text/javascript"></script>
 <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js' type="text/javascript"></script>
 <script src='@routes.Assets.at("javascripts/vendor/bootstrap.js")' type="text/javascript"></script>
-    
 
 <!-- Coffee script compilled resources-->
 <script src='@routes.Assets.at("javascripts/app.js")' type="text/javascript"></script>
@@ -60,7 +69,5 @@
 <script src='@routes.Assets.at("javascripts/totalworklogs/TotalWorkLogCtrl.js")' type="text/javascript"></script>
 <script src='@routes.Assets.at("javascripts/totalworklogs/TotalWorkLogService.js")' type="text/javascript"></script>
 <script src='@routes.Assets.at("javascripts/totalworklogs/searchDateFilter.js")' type="text/javascript"></script>
-
-<script src='@routes.Assets.at("javascripts/xeditable.js")'></script>
 
 </html>

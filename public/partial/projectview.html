@@ -1,0 +1,149 @@
+<div class="row" ng-controller="ProjectCtrl as pc">
+    <div class="row top-padding">
+        <div class="form-group">
+            <h3>
+                <div>
+                <div class="project_menu"><a ng-href="/projects#/client/create" class="btn btn-primary pull-right" id="btn_client_create">Add Project Client</a></div>
+                <div class="project_menu"><a ng-href="/projects#/name/create" class="btn btn-primary pull-right" id="btn_name_create">Add Project Name</a></div>
+                <div class="project_menu"><a ng-href="/projects#/component/create" class="btn btn-primary pull-right" id="btn_component_create">Add Project Component</a></div>
+                </div>
+            </h3>
+            <hr>
+        </div>
+
+
+        <table id="user_list" class="table table-striped">
+            <thead>
+            <tr style="font-weight: bold">
+                <td style="width:20%">Project Clients</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="prc in pc.projectclients">
+                <td>
+                    <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.client || 'empty' }}
+                    </span>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="prc.saveProjectClient($data, prc.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == prc">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                            cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <!--<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>-->
+                        <button class="btn btn-danger" ng-click="pc.removeProjectClient(prc, $index)">del</button>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-hide="pc.projectclients.length">
+                <td colspan="3">
+                    <p class="text-center">No Project Clients Found</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table id="pr_name_list" class="table table-striped">
+            <thead>
+            <tr style="font-weight: bold">
+                <td style="width:20%">Project Client</td>
+                <td style="width:20%">Project Names</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="prc in pc.projectnames">
+                <td>
+                    <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.client || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="prc.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.name || 'empty' }}
+                    </span>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="prc.saveProjectName($data, prc.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == prc">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                            cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <!--<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>-->
+                        <button class="btn btn-danger" ng-click="pc.removeProjectName(prc, $index)">del</button>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-hide="pc.projectnames.length">
+                <td colspan="3">
+                    <p class="text-center">No Project Names Found</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table id="pr_comp_list" class="table table-striped">
+            <thead>
+            <tr style="font-weight: bold">
+                <td style="width:20%">Project Client</td>
+                <td style="width:20%">Project Name</td>
+                <td style="width:20%">Project Components</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="prc in pc.projectcomponents">
+                <td>
+                    <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.client || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="prc.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.name || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="prc.component" e-name="component" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
+                        {{ prc.component || 'empty' }}
+                    </span>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="prc.saveProjectComponent($data, prc.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == prc">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                            cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <!--<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>-->
+                        <button class="btn btn-danger" ng-click="pc.removeProjectComponent(prc, $index)">del</button>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-hide="pc.projectcomponents.length">
+                <td colspan="3">
+                    <p class="text-center">No Project Components Found</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--<hr>
+        <h4>Debug:</h4>
+        <pre>{{ uc.users | json }}</pre>-->
+    </div>
+
+</div>

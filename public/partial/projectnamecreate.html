@@ -1,0 +1,38 @@
+<div class="row">
+    <div ng-controller="CreateProjectCtrl as cpcn">
+        <h1>Create Project Name</h1>
+
+        <form id="CreateProjectNameForm" name="CreateProjectNameForm" class="form-horizontal" role="form"
+              ng-submit="cpcn.createProjectName()">
+            <legend class="sm-col-12">Project Name</legend>
+
+            <div class="form-group">
+                <label id="lbl_projectClient" for="curclient" class="col-sm-4 control-label">Project Client</label>
+
+                <div class="col-sm-8">
+                    <select class="form-control" name="curclient" id="curclient" ng-model="cpcn.prccurrentclient" ng-options="prclient.client for prclient in cpcn.prclients  track by prclient.client"></select>
+                </div>
+
+                <label id="lbl_firstName" for="name" class="col-sm-4 control-label">Project Name</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="name" id="name" placeholder=""
+                           ng-model="cpcn.projectname.name">
+                </div>
+            </div>
+
+            <!--<pre>{{ cuc.user | json }}</pre>-->
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8 text-right">
+                    <a ng-href="/projects#/" id="btn_cancel" class="btn btn-warning">Cancel</a>
+
+                    <button type="submit" class="btn btn-success" id="btn_create">Create Project Name</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+

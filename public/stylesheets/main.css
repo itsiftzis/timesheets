@@ -27,3 +27,38 @@
 .btn-primary-inner-light-green {
     background-image: linear-gradient(to bottom, #5dca84 0, #89a21d 100%);
 }
+
+.span2 {
+    width: 130px;
+}
+
+.span3 {
+    width: 43px;
+}
+
+.span4 {
+    width: 80px;
+}
+
+.project_menu {
+    float: left;
+    width: 30%;
+}
+
+.selected {
+    font-weight: bold;
+    color: darkblue !important;
+    font-size: 20px;
+}
+
+.top-padding {
+    padding-top: 45px;
+}
+
+.width20 {
+    width: 20%;
+}
+
+.width80 {
+    width: 80%;
+}

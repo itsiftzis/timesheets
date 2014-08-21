@@ -13,6 +13,7 @@ import play.Logger;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -89,7 +90,7 @@ public class WorkLog {
     }
 
     public static List<WorkLog> worklogPerUser(String userName) {
-        return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("date",-1)).toArray();
+        return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).toArray();
     }
 
     public static void create(WorkLog task) {
@@ -120,5 +121,12 @@ public class WorkLog {
 
     public static void update(WorkLog worklog) {
         WorkLog.coll.updateById(worklog.id, worklog);
+    }
+
+    public static List<WorkLog> getReport(Date startDate, Date endDate, String user) {
+        if (user!="all")
+            return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).is("userName", user).toArray();
+        else
+            return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).toArray();
     }
 }

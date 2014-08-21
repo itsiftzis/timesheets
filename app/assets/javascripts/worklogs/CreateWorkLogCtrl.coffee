@@ -9,7 +9,48 @@ class CreateWorkLogCtrl
         @worklogEdit = []
         if @$routeParams.worklog
           @getObjectFromUrl(@$routeParams)
+        @prclients = {}
+        @prnames = {}
+        @prcomps = {}
+        @prccurrentclient = {}
+        @prcurrentname = {}
+        @fetchProjectClients()
 
+    fetchProjectClients: () ->
+      @$log.debug "fetchProjectClients()"
+      @WorkLogService.listProjectClients()
+      .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} Project"
+            @prclients = data
+        ,
+        (error) =>
+          @$log.error "Unable to fetch Project Clients: #{error}"
+        )
+
+    fillNames: (@name, @index) ->
+      @$log.debug @name
+      @WorkLogService.fetchNamesForClient(@name)
+      .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} Project"
+            @prnames[@index] = data
+        ,
+        (error) =>
+          @$log.error "Unable to get Project names: #{error}"
+        )
+
+    fillComponents: (@name, @index) ->
+      @$log.debug @name
+      @WorkLogService.fetchComponentsForName(@name)
+      .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} Project"
+            @prcomps[@index] = data
+        ,
+        (error) =>
+          @$log.error "Unable to get Project names: #{error}"
+        )
 
     getObjectFromUrl: (@$routeParams) ->
         @WorkLogService.fetchWorklog(@$routeParams)
@@ -25,6 +66,13 @@ class CreateWorkLogCtrl
 
     createWorkLog: () ->
         @$log.debug "createWorkLog()"
+
+        for pr in @projects
+          @$log.debug pr
+          pr.client = pr.client.client
+          pr.name = pr.name.name
+          pr.component = pr.component.component
+
         @worklog.projects = @projects
         ###@worklog.dateLog = new Date(@worklog.dateLog).getTime()###
         @WorkLogService.createWorkLog(@worklog)
@@ -58,12 +106,12 @@ class CreateWorkLogCtrl
 
     addInputRow: () ->
         @controlNumberOfInputRows.push(0)
-        @projects.push({name:"", region:"", hours:""})
+        @projects.push({client:"", name:"", component:"", region:"", hours:""})
         console.log(@projects)
     deleteThis: (st) ->
         @controlNumberOfInputRows.splice(st,1)
     addInputRowEdit: () ->
-        @worklogEdit.worklog.projects.push({name:"", region:"", hours:""})
+        @worklogEdit.worklog.projects.push({client:"", name:"", component:"", region:"", hours:""})
     deleteThisEdit: (st) ->
         @worklogEdit.worklog.projects.splice(st,1)
 

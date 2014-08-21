@@ -16,7 +16,9 @@ public class Project {
     @Id
     @ObjectId
     private String id;
+    private String client;
     private String name;
+    private String component;
     private String region;
     private int hours;
 
@@ -24,14 +26,32 @@ public class Project {
 
     }
 
-    public Project(String name, String region, int hours) {
+    public Project(String client, String name, String component, String region, int hours) {
+        this.client = client;
         this.name = name;
+        this.component = component;
         this.region = region;
         this.hours = hours;
     }
 
     private static JacksonDBCollection<Project, String> coll = JacksonDBCollection.wrap(MongoDB.db.getCollection("project"),
             Project.class, String.class);
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
+    }
 
     public int getHours() {
         return hours;
@@ -65,8 +85,8 @@ public class Project {
         Project.coll.save(task);
     }
 
-    public static void create(String name, String region, int hours){
-        create(new Project(name, region, hours));
+    public static void create(String client, String name, String component, String region, int hours){
+        create(new Project(client, name, component, region, hours));
     }
 
     public static void delete(String id) {
