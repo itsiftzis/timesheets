@@ -10,8 +10,18 @@
                 <label id="lbl_date" for="date" class="col-sm-4 control-label">date</label>
 
                 <div class="col-sm-8">
-                    <input type="date" class="form-control" name="date" date='dd/MM/yyyy' id="date" placeholder=""
-                           ng-model="cwlc.worklog.dateLog">
+                    <!--<input type="date" class="form-control" date-format="dd/MM/yyyy" date-type="string" name="date" date='dd/MM/yyyy' id="date" placeholder=""
+                           ng-model="cwlc.worklog.dateLog" value="{{ cwlc.worklog.dateLog | date: dd/MM/yyyy}}">-->
+                    <div class="col-md-6">
+                        <p class="input-group">
+                            <input type="text" class="form-control" datepicker-popup="dd-MM-yyyy" ng-model="cwlc.worklog.dateLog"
+                                   is-open="cwlc.$scope.opened" datepicker-options="{formatYear: 'yyyy'}" date-disabled="disabled(date, mode)"
+                                   ng-required="true" close-text="Close"/>
+                            <!--<span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="cwlc.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>-->
+                        </p>
+                    </div>
                 </div>
             </div>
 

@@ -16,6 +16,9 @@ class CreateWorkLogCtrl
         @prcurrentname = {}
         @fetchProjectClients()
 
+    open: (@event) ->
+      @$scope.opened = true;
+
     fetchProjectClients: () ->
       @$log.debug "fetchProjectClients()"
       @WorkLogService.listProjectClients()
