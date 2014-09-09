@@ -16,8 +16,10 @@ class CreateWorkLogCtrl
         @prcurrentname = {}
         @fetchProjectClients()
 
-    open: (@event) ->
-      @$scope.opened = true;
+    open: ($event) ->
+        $event.preventDefault();
+        $event.stopPropagation();
+        @$scope.opened = true;
 
     fetchProjectClients: () ->
       @$log.debug "fetchProjectClients()"
