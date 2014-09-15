@@ -62,8 +62,8 @@ class CreateWorkLogCtrl
         .then(
           (data) =>
             @$log.debug "Promise returned #{data} WorkLog"
-            tempDate = new Date(Date.parse(data.dateLog))
-            data.dateLog = tempDate
+            ###tempDate = new Date(Date.parse(data.dateLog))
+            data.dateLog = tempDate###
             @worklogEdit.worklog = data
             @$log.debug @worklogEdit.worklog
         ,
@@ -79,7 +79,7 @@ class CreateWorkLogCtrl
           pr.client = pr.client.client
           pr.name = pr.name.name
           pr.component = pr.component.component
-
+        @worklog.dateLog.setHours(18)
         @worklog.projects = @projects
         ###@worklog.dateLog = new Date(@worklog.dateLog).getTime()###
         @WorkLogService.createWorkLog(@worklog)

@@ -1,19 +1,16 @@
 package models;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import db.MongoDB;
 import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
-import org.bson.types.BSONTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import play.Logger;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
