@@ -361,15 +361,26 @@ public class Application extends Controller {
     public static Result downloadCsv(String user, String period) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         StringBuffer stringBuffer = new StringBuffer();
-        try {
-            Date parsedDate = sdf.parse(period);
-            Calendar startDate = Calendar.getInstance();
-            startDate.setTime(parsedDate);
-            startDate.set(Calendar.DAY_OF_MONTH, 0);
 
+        try {
+            Calendar startDate = Calendar.getInstance();
             Calendar endDate = Calendar.getInstance();
-            endDate.setTime(parsedDate);
-            endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DATE));
+
+            if (period==null || period.equals("undefined")) {
+                startDate.set(Calendar.YEAR, 2014);
+                startDate.set(Calendar.MONTH, 1);
+
+            } else {
+
+                Date parsedDate = sdf.parse(period);
+                startDate = Calendar.getInstance();
+                startDate.setTime(parsedDate);
+                startDate.set(Calendar.DAY_OF_MONTH, 0);
+
+                endDate = Calendar.getInstance();
+                endDate.setTime(parsedDate);
+                endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DATE));
+            }
 
             if (user==null || user.equals("") || user.equals("undefined"))
                 user = "all";
@@ -383,13 +394,16 @@ public class Application extends Controller {
                 stringBuffer.append(worklog.getUserName()).append(",");
                 stringBuffer.append(worklog.getDateLog()).append(",");
                 stringBuffer.append(worklog.getTotalHours()).append(",");
+                int line=0;
                 for (Project project:worklog.getProjects()) {
-                    stringBuffer.append("\n");
-                    stringBuffer.append(",").append(",").append(",").append(project.getClient()).append(",");
-                    stringBuffer.append(project.getName()).append(",");
-                    stringBuffer.append(project.getComponent()).append(",");
-                    stringBuffer.append(project.getHours()).append(",");
-                    stringBuffer.append(project.getRegion());
+                    if (line == 0)
+                        stringBuffer.append(project.getClient()).append(",").append(project.getName()).append(",").append(project.getComponent())
+                                .append(",").append(project.getHours()).append(",").append(project.getRegion()).append("\n");
+                    else
+                        stringBuffer.append(worklog.getUserName()).append(",").append(worklog.getDateLog()).append(",").append(worklog.getTotalHours()).
+                                append(",").append(project.getClient()).append(",").append(project.getName()).append(",").append(project.getComponent()).
+                                append(",").append(project.getHours()).append(",").append(project.getRegion()).append("\n");
+                    line++;
                 }
                 stringBuffer.append("\n");
             }
