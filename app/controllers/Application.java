@@ -380,6 +380,9 @@ public class Application extends Controller {
                 endDate = Calendar.getInstance();
                 endDate.setTime(parsedDate);
                 endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DATE));
+                endDate.add(Calendar.HOUR_OF_DAY, 23);
+                endDate.add(Calendar.MINUTE, 59);
+                endDate.add(Calendar.SECOND, 59);
             }
 
             if (user==null || user.equals("") || user.equals("undefined"))
@@ -391,18 +394,18 @@ public class Application extends Controller {
             stringBuffer.append("username,").append("date,").append("totalHours,").append("Project Client,").append("Project Name,")
                     .append("Project Component,").append("Hours,").append("Region").append("\n");
             for (WorkLog worklog:workLogs) {
-                stringBuffer.append(worklog.getUserName()).append(",");
-                stringBuffer.append(worklog.getDateLog()).append(",");
-                stringBuffer.append(worklog.getTotalHours()).append(",");
+                stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",");
+                stringBuffer.append("\"").append(worklog.getDateLog()).append("\"").append(",");
+                stringBuffer.append("\"").append(worklog.getTotalHours()).append("\"").append(",");
                 int line=0;
                 for (Project project:worklog.getProjects()) {
                     if (line == 0)
-                        stringBuffer.append(project.getClient()).append(",").append(project.getName()).append(",").append(project.getComponent())
-                                .append(",").append(project.getHours()).append(",").append(project.getRegion()).append("\n");
+                        stringBuffer.append("\"").append(project.getClient()).append("\"").append(",").append("\"").append(project.getName()).append("\"").append(",").append("\"")
+                                .append(project.getComponent()).append("\"").append(",").append("\"").append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     else
-                        stringBuffer.append(worklog.getUserName()).append(",").append(worklog.getDateLog()).append(",").append(worklog.getTotalHours()).
-                                append(",").append(project.getClient()).append(",").append(project.getName()).append(",").append(project.getComponent()).
-                                append(",").append(project.getHours()).append(",").append(project.getRegion()).append("\n");
+                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(worklog.getDateLog()).append("\"").append(",").append("\"").append(worklog.getTotalHours()).append("\"").
+                                append(",").append("\"").append(project.getClient()).append("\"").append(",").append("\"").append(project.getName()).append("\"").append(",").append("\"").append(project.getComponent()).append("\"").
+                                append(",").append("\"").append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     line++;
                 }
                 stringBuffer.append("\n");
