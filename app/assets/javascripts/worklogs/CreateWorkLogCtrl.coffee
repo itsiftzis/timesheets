@@ -33,29 +33,34 @@ class CreateWorkLogCtrl
           @$log.error "Unable to fetch Project Clients: #{error}"
         )
 
+    notEmpty: (@thi) ->
+      @$log.debug(@thi)
+
     fillNames: (@name, @index) ->
       @$log.debug @name
-      @WorkLogService.fetchNamesForClient(@name)
-      .then(
-          (data) =>
-            @$log.debug "Promise returned #{data} Project"
-            @prnames[@index] = data
-        ,
-        (error) =>
-          @$log.error "Unable to get Project names: #{error}"
-        )
+      if (@name != undefined )
+        @WorkLogService.fetchNamesForClient(@name)
+        .then(
+            (data) =>
+              @$log.debug "Promise returned #{data} Project"
+              @prnames[@index] = data
+          ,
+          (error) =>
+            @$log.error "Unable to get Project names: #{error}"
+          )
 
     fillComponents: (@name, @index) ->
       @$log.debug @name
-      @WorkLogService.fetchComponentsForName(@name)
-      .then(
-          (data) =>
-            @$log.debug "Promise returned #{data} Project"
-            @prcomps[@index] = data
-        ,
-        (error) =>
-          @$log.error "Unable to get Project names: #{error}"
-        )
+      if (@name != undefined )
+        @WorkLogService.fetchComponentsForName(@name)
+        .then(
+            (data) =>
+              @$log.debug "Promise returned #{data} Project"
+              @prcomps[@index] = data
+          ,
+          (error) =>
+            @$log.error "Unable to get Project names: #{error}"
+          )
 
     getObjectFromUrl: (@$routeParams) ->
         @WorkLogService.fetchWorklog(@$routeParams)
