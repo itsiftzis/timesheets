@@ -376,6 +376,9 @@ public class Application extends Controller {
                 startDate = Calendar.getInstance();
                 startDate.setTime(parsedDate);
                 startDate.set(Calendar.DAY_OF_MONTH, 0);
+                startDate.add(Calendar.HOUR_OF_DAY, 23);
+                startDate.add(Calendar.MINUTE, 59);
+                startDate.add(Calendar.SECOND, 59);
 
                 endDate = Calendar.getInstance();
                 endDate.setTime(parsedDate);
