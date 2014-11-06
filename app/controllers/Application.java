@@ -394,24 +394,25 @@ public class Application extends Controller {
             Logger.debug("User: " + user + " Start date:" + startDate.getTime() + " End date:" + endDate.getTime());
 
             List<WorkLog> workLogs = WorkLog.getReport(startDate.getTime(), endDate.getTime(), user);
-            stringBuffer.append("username,").append("date,").append("totalHours,").append("Project Client,").append("Project Name,")
+            stringBuffer.append("username,").append("date,").append("Project Client,").append("Project Name,")
                     .append("Project Component,").append("Hours,").append("Region").append("\n");
             for (WorkLog worklog:workLogs) {
                 stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",");
                 stringBuffer.append("\"").append(worklog.getDateLog()).append("\"").append(",");
-                stringBuffer.append("\"").append(worklog.getTotalHours()).append("\"").append(",");
                 int line=0;
                 for (Project project:worklog.getProjects()) {
                     if (line == 0)
-                        stringBuffer.append("\"").append(project.getClient()).append("\"").append(",").append("\"").append(project.getName()).append("\"").append(",").append("\"")
-                                .append(project.getComponent()).append("\"").append(",").append("\"").append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
+                        stringBuffer.append("\"").append(project.getClient()).append("\"").append(",").append("\"").
+                                append(project.getName()).append("\"").append(",").append("\"")
+                                .append(project.getComponent()).append("\"").append(",").append("\"")
+                                .append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     else
-                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(worklog.getDateLog()).append("\"").append(",").append("\"").append(worklog.getTotalHours()).append("\"").
-                                append(",").append("\"").append(project.getClient()).append("\"").append(",").append("\"").append(project.getName()).append("\"").append(",").append("\"").append(project.getComponent()).append("\"").
+                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(worklog.getDateLog()).
+                                append("\"").append(",").append("\"").append(project.getClient()).append("\"").append(",").append("\"").
+                                append(project.getName()).append("\"").append(",").append("\"").append(project.getComponent()).append("\"").
                                 append(",").append("\"").append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     line++;
                 }
-                stringBuffer.append("\n");
             }
 
         } catch (ParseException e) {
