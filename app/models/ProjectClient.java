@@ -1,5 +1,6 @@
 package models;
 
+import com.mongodb.BasicDBObject;
 import db.MongoDB;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
@@ -53,6 +54,6 @@ public class ProjectClient {
     }
 
     public static List<ProjectClient> all() {
-        return ProjectClient.coll.find().toArray();
+        return ProjectClient.coll.find().sort(new BasicDBObject("client", 1)).toArray();
     }
 }
