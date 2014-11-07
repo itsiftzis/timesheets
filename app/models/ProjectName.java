@@ -62,7 +62,9 @@ public class ProjectName {
     }
 
     public static List<ProjectName> all() {
-        return ProjectName.coll.find().sort(new BasicDBObject("client", 1)).sort(new BasicDBObject("name",1)).toArray();
+        BasicDBObject sort = new BasicDBObject("client", 1);
+        sort.append("name", 1);
+        return ProjectName.coll.find().sort(sort).toArray();
     }
 
     public static List<ProjectName> findByClient(String client) {

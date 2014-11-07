@@ -71,7 +71,10 @@ public class ProjectComponent {
     }
 
     public static List<ProjectComponent> all() {
-        return ProjectComponent.coll.find().sort(new BasicDBObject("client", 1)).sort(new BasicDBObject("name", 1)).sort(new BasicDBObject("component", 1)).toArray();
+        BasicDBObject sort = new BasicDBObject("client", 1);
+        sort.append("name", 1);
+        sort.append("component", 1);
+        return ProjectComponent.coll.find().sort(sort).toArray();
     }
 
     public static List<ProjectComponent> findByName(String name) {
