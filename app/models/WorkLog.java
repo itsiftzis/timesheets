@@ -74,7 +74,6 @@ public class WorkLog {
     }
 
     public Date getDateLog() {
-        Logger.info("getting date " + dateLog);
         return dateLog;
     }
 

@@ -395,10 +395,10 @@ public class Application extends Controller {
 
             List<WorkLog> workLogs = WorkLog.getReport(startDate.getTime(), endDate.getTime(), user);
             stringBuffer.append("username,").append("date,").append("Project Client,").append("Project Name,")
-                    .append("Project Component,").append("Hours,").append("Region").append("\n");
+                    .append("Project Component,").append("Hours,").append("Description").append("\n");
             for (WorkLog worklog:workLogs) {
                 stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",");
-                stringBuffer.append("\"").append(worklog.getDateLog()).append("\"").append(",");
+                stringBuffer.append("\"").append(formatDate(worklog.getDateLog())).append("\"").append(",");
                 int line=0;
                 for (Project project:worklog.getProjects()) {
                     if (line == 0)
@@ -421,6 +421,11 @@ public class Application extends Controller {
         response().setContentType("text/csv; charset=utf-8");
         response().setHeader("Content-Disposition", "attachment; filename=report_" + user +"_" + period +".csv");
         return ok(stringBuffer.toString()).as("text/csv");
+    }
+
+    private static String formatDate(Date dateLog) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+        return sdf.format(dateLog).toString();
     }
 
     public static Result login() {
