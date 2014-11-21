@@ -407,7 +407,7 @@ public class Application extends Controller {
                                 .append(project.getComponent()).append("\"").append(",").append("\"")
                                 .append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     else
-                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(worklog.getDateLog()).
+                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(formatDate(worklog.getDateLog())).
                                 append("\"").append(",").append("\"").append(project.getClient()).append("\"").append(",").append("\"").
                                 append(project.getName()).append("\"").append(",").append("\"").append(project.getComponent()).append("\"").
                                 append(",").append("\"").append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
