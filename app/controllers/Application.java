@@ -209,7 +209,7 @@ public class Application extends Controller {
         ObjectMapper mapper = new ObjectMapper();
         try {
             ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
-            List<ProjectComponent> projects = ProjectComponent.findByName(project.getName());
+            List<ProjectComponent> projects = ProjectComponent.findByNameClient(project.getName(), project.getClient());
 
             Gson gson = new Gson();
             String jsonr = gson.toJson(projects);
