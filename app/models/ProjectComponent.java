@@ -80,5 +80,9 @@ public class ProjectComponent {
     public static List<ProjectComponent> findByName(String name) {
         return ProjectComponent.coll.find().is("name", name).toArray();
     }
+
+    public static List<ProjectComponent> findByNameClient(String name, String client) {
+        return ProjectComponent.coll.find().is("name", name).is("client", client).toArray();
+    }
 }
 
