@@ -109,10 +109,10 @@ class WorkLogService
         )
       deferred.promise
 
-    fetchComponentsForName: (name, param2) ->
+    fetchComponentsForName: (name) ->
       deferred = @$q.defer()
 
-      @$http.post('/fetchComponentsForName', name, param2)
+      @$http.post('/fetchComponentsForName', name)
       .success((data, status, headers) =>
           @$log.info("Successfully fetched Project components - status #{status}")
           deferred.resolve(data)

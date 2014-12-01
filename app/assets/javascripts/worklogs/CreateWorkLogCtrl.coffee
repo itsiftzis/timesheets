@@ -49,10 +49,10 @@ class CreateWorkLogCtrl
             @$log.error "Unable to get Project names: #{error}"
           )
 
-    fillComponents: (@name, @param2, @index) ->
+    fillComponents: (@name,@index) ->
       @$log.debug @name
       if (@name != undefined )
-        @WorkLogService.fetchComponentsForName(@name, @param2)
+        @WorkLogService.fetchComponentsForName(@name,)
         .then(
             (data) =>
               @$log.debug "Promise returned #{data} Project"
