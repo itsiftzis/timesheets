@@ -209,7 +209,7 @@ public class Application extends Controller {
         ObjectMapper mapper = new ObjectMapper();
         try {
             ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
-            List<ProjectComponent> projects = ProjectComponent.findByName(project.getName());
+            List<ProjectComponent> projects = ProjectComponent.findByNameClient(project.getName(), project.getClient());
 
             Gson gson = new Gson();
             String jsonr = gson.toJson(projects);
@@ -376,10 +376,16 @@ public class Application extends Controller {
                 startDate = Calendar.getInstance();
                 startDate.setTime(parsedDate);
                 startDate.set(Calendar.DAY_OF_MONTH, 0);
+                startDate.add(Calendar.HOUR_OF_DAY, 23);
+                startDate.add(Calendar.MINUTE, 59);
+                startDate.add(Calendar.SECOND, 59);
 
                 endDate = Calendar.getInstance();
                 endDate.setTime(parsedDate);
                 endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DATE));
+                endDate.add(Calendar.HOUR_OF_DAY, 23);
+                endDate.add(Calendar.MINUTE, 59);
+                endDate.add(Calendar.SECOND, 59);
             }
 
             if (user==null || user.equals("") || user.equals("undefined"))
@@ -388,24 +394,25 @@ public class Application extends Controller {
             Logger.debug("User: " + user + " Start date:" + startDate.getTime() + " End date:" + endDate.getTime());
 
             List<WorkLog> workLogs = WorkLog.getReport(startDate.getTime(), endDate.getTime(), user);
-            stringBuffer.append("username,").append("date,").append("totalHours,").append("Project Client,").append("Project Name,")
-                    .append("Project Component,").append("Hours,").append("Region").append("\n");
+            stringBuffer.append("username,").append("date,").append("Project Client,").append("Project Name,")
+                    .append("Project Component,").append("Hours,").append("Description").append("\n");
             for (WorkLog worklog:workLogs) {
-                stringBuffer.append(worklog.getUserName()).append(",");
-                stringBuffer.append(worklog.getDateLog()).append(",");
-                stringBuffer.append(worklog.getTotalHours()).append(",");
+                stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",");
+                stringBuffer.append("\"").append(formatDate(worklog.getDateLog())).append("\"").append(",");
                 int line=0;
                 for (Project project:worklog.getProjects()) {
                     if (line == 0)
-                        stringBuffer.append(project.getClient()).append(",").append(project.getName()).append(",").append(project.getComponent())
-                                .append(",").append(project.getHours()).append(",").append(project.getRegion()).append("\n");
+                        stringBuffer.append("\"").append(project.getClient()).append("\"").append(",").append("\"").
+                                append(project.getName()).append("\"").append(",").append("\"")
+                                .append(project.getComponent()).append("\"").append(",").append("\"")
+                                .append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     else
-                        stringBuffer.append(worklog.getUserName()).append(",").append(worklog.getDateLog()).append(",").append(worklog.getTotalHours()).
-                                append(",").append(project.getClient()).append(",").append(project.getName()).append(",").append(project.getComponent()).
-                                append(",").append(project.getHours()).append(",").append(project.getRegion()).append("\n");
+                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(formatDate(worklog.getDateLog())).
+                                append("\"").append(",").append("\"").append(project.getClient()).append("\"").append(",").append("\"").
+                                append(project.getName()).append("\"").append(",").append("\"").append(project.getComponent()).append("\"").
+                                append(",").append("\"").append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     line++;
                 }
-                stringBuffer.append("\n");
             }
 
         } catch (ParseException e) {
@@ -414,6 +421,11 @@ public class Application extends Controller {
         response().setContentType("text/csv; charset=utf-8");
         response().setHeader("Content-Disposition", "attachment; filename=report_" + user +"_" + period +".csv");
         return ok(stringBuffer.toString()).as("text/csv");
+    }
+
+    private static String formatDate(Date dateLog) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+        return sdf.format(dateLog).toString();
     }
 
     public static Result login() {

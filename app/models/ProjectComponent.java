@@ -1,5 +1,6 @@
 package models;
 
+import com.mongodb.BasicDBObject;
 import db.MongoDB;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
@@ -70,11 +71,18 @@ public class ProjectComponent {
     }
 
     public static List<ProjectComponent> all() {
-        return ProjectComponent.coll.find().toArray();
+        BasicDBObject sort = new BasicDBObject("client", 1);
+        sort.append("name", 1);
+        sort.append("component", 1);
+        return ProjectComponent.coll.find().sort(sort).toArray();
     }
 
     public static List<ProjectComponent> findByName(String name) {
         return ProjectComponent.coll.find().is("name", name).toArray();
+    }
+
+    public static List<ProjectComponent> findByNameClient(String name, String client) {
+        return ProjectComponent.coll.find().is("name", name).is("client", client).toArray();
     }
 }
 

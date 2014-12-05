@@ -20,7 +20,7 @@ public class Project {
     private String name;
     private String component;
     private String region;
-    private int hours;
+    private double hours;
 
     public Project() {
 
@@ -53,11 +53,11 @@ public class Project {
         this.component = component;
     }
 
-    public int getHours() {
+    public double getHours() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHours(double hours) {
         this.hours = hours;
     }
 
