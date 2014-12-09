@@ -19,7 +19,8 @@ dependencies2 = [
   'workl.directives',
   'workl.common',
   'workl.routeConfig',
-  'xeditable'
+  'xeditable',
+  'angularUtils.directives.dirPagination'
 ]
 
 dependencies3 = [
@@ -30,7 +31,8 @@ dependencies3 = [
   'totallogs.controllers',
   'totallogs.directives',
   'totallogs.common',
-  'totallogs.routeConfig'
+  'totallogs.routeConfig',
+  'angularUtils.directives.dirPagination'
 ]
 
 dependencies4 = [

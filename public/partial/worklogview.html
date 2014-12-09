@@ -23,7 +23,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="wl in wlog.worklogs | filter:searchText">
+            <tr dir-paginate="wl in wlog.worklogs | itemsPerPage: 10 | filter:searchText">
                 <td>
                     <span>
                         {{ wl.userName || 'empty' }}
@@ -124,7 +124,10 @@
             </tr>
             </tbody>
         </table>
-
+        <div style="text-align: center;">
+            <dir-pagination-controls template-url='/assets/partial/dirPagination.tpl.html'>
+            </dir-pagination-controls>
+        </div>
         <!--<hr>
         <h4>Debug:</h4>
         <pre>{{ wlog.worklogs | json }}</pre>-->
