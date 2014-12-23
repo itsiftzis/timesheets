@@ -101,7 +101,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="prc in pc.projectcomponents">
+            <tr dir-paginate="prc in pc.projectcomponents | itemsPerPage: 10">
                 <td>
                     <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
                         {{ prc.client || 'empty' }}
@@ -137,6 +137,12 @@
                 <td colspan="3">
                     <p class="text-center">No Project Components Found</p>
                 </td>
+            </tr>
+            <tr>
+                <div style="text-align: center;">
+                    <dir-pagination-controls template-url='/assets/partial/dirPagination.tpl.html'>
+                    </dir-pagination-controls>
+                </div>
             </tr>
             </tbody>
         </table>

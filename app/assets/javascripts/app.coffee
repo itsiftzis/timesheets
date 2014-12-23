@@ -43,7 +43,8 @@ dependencies4 = [
   'projectapp.controllers',
   'projectapp.directives',
   'projectapp.common',
-  'projectapp.routeConfig'
+  'projectapp.routeConfig',
+  'angularUtils.directives.dirPagination'
 ]
 
 app = angular.module('myApp', dependencies)
