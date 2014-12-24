@@ -89,6 +89,9 @@ angular.module('workl.routeConfig', ['ngRoute'])
             .when('/worklogs/edit/:worklog', {
                 templateUrl: '/assets/partial/worklogedit.html'
               })
+            .when('/worklogs/batch', {
+                templateUrl: '/assets/partial/worklogbatch.html'
+              })
             .otherwise({redirectTo: '/'})
 
 angular.module('projectapp.routeConfig', ['ngRoute'])

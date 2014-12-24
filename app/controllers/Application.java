@@ -10,12 +10,12 @@ import play.mvc.*;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static play.data.Form.form;
 
@@ -350,6 +350,39 @@ public class Application extends Controller {
             WorkLog workLog = mapper.readValue(json.toString(), WorkLog.class);
             workLog.setUser(currentUser.getUserName());
             WorkLog.create(workLog);
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted workLog");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result batchWorkLog() {
+        User currentUser = SessionManager.get("user");
+        if (currentUser == null || currentUser.getUserName().equals(""))
+            return badRequest("user not logged in");
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            BatchWorkLog workLog = mapper.readValue(json.toString(), BatchWorkLog.class);
+            long millis = workLog.getDateLogTo().getTime() - workLog.getDateLogFrom().getTime();
+            long days = TimeUnit.DAYS.convert(millis, TimeUnit.MILLISECONDS);
+            int iDays = (int)days + 1;
+            Logger.info("inserting worklogs for " + iDays + " period");
+            for (int i=0; i<iDays; i++) {
+                WorkLog workLogBatch = new WorkLog();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(workLog.getDateLogFrom());
+                calendar.add(Calendar.DAY_OF_MONTH, i);
+                calendar.set(Calendar.HOUR, 18);
+                workLogBatch.setDateLog(calendar.getTime());
+                workLogBatch.setProjects(workLog.getProjects());
+                workLogBatch.setTotalHours(workLog.getTotalHours());
+                workLogBatch.setUser(currentUser.getUserName());
+                WorkLog.create(workLogBatch);
+            }
         } catch (IOException e) {
             Logger.error("Error parsing json ", e);
             return badRequest("error parsing json");
