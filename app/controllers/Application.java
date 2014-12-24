@@ -381,7 +381,9 @@ public class Application extends Controller {
                 workLogBatch.setProjects(workLog.getProjects());
                 workLogBatch.setTotalHours(workLog.getTotalHours());
                 workLogBatch.setUser(currentUser.getUserName());
-                WorkLog.create(workLogBatch);
+                if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && calendar.get(Calendar.DAY_OF_WEEK)
+                        != Calendar.SUNDAY)
+                    WorkLog.create(workLogBatch);
             }
         } catch (IOException e) {
             Logger.error("Error parsing json ", e);
