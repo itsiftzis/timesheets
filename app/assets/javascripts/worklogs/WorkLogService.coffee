@@ -65,6 +65,21 @@ class WorkLogService
             )
         deferred.promise
 
+    batchWorkLog: (worklog) ->
+      @$log.debug "batchWorkLog #{angular.toJson(worklog, true)}"
+      deferred = @$q.defer()
+
+      @$http.post('/batchworklog', worklog)
+      .success((data, status, headers) =>
+        @$log.info("Successfully created batchworklog - status #{status}")
+        deferred.resolve(data)
+      )
+      .error((data, status, headers) =>
+        @$log.error("Failed to create batch worklog - status #{status}")
+        deferred.reject(data);
+      )
+      deferred.promise
+
     deleteWorkLog: (worklog) ->
       @$log.debug "deleteWorklog #{angular.toJson(worklog, true)}"
       deferred = @$q.defer()
