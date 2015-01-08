@@ -1,6 +1,7 @@
 logs
 project/project
 project/target
+project/.idea
 target
 tmp
 .history
