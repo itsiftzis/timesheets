@@ -479,17 +479,25 @@ public class Application extends Controller {
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
         if (loginForm.hasErrors()) {
+            loginForm.reject("Enter user name and password");
             Logger.info("form errors " + loginForm.errors());
             return badRequest(views.html.login.render(loginForm));
         } else {
             session().clear();
 
             User user = User.userByUsername(loginForm.get().userName);
-            if (user != null && user.getPassword().equals(loginForm.get().password)) {
+            if (user != null && user.getPassword() != null && user.getPassword().equals(loginForm.get().password)) {
                 SessionManager.addSession("user", user);
                 return redirect(controllers.routes.Application.indexWorkLog());
-            }  else
+            }  else {
+                if (user.getUserName() == null)
+                    loginForm.reject("Unknown User");
+                else if (user.getPassword() != null && !user.getPassword().equals(loginForm.get().password))
+                    loginForm.reject("Wrong Password for user " + user.getUserName());
+                else
+                    loginForm.reject("Wrong user name or password");
                 return badRequest(views.html.login.render(loginForm));
+            }
 
         }
     }
