@@ -10,12 +10,12 @@ import play.mvc.*;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static play.data.Form.form;
 
@@ -209,7 +209,7 @@ public class Application extends Controller {
         ObjectMapper mapper = new ObjectMapper();
         try {
             ProjectName project = mapper.readValue(json.toString(), ProjectName.class);
-            List<ProjectComponent> projects = ProjectComponent.findByName(project.getName());
+            List<ProjectComponent> projects = ProjectComponent.findByNameClient(project.getName(), project.getClient());
 
             Gson gson = new Gson();
             String jsonr = gson.toJson(projects);
@@ -358,6 +358,41 @@ public class Application extends Controller {
         return ok("inserted workLog");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result batchWorkLog() {
+        User currentUser = SessionManager.get("user");
+        if (currentUser == null || currentUser.getUserName().equals(""))
+            return badRequest("user not logged in");
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            BatchWorkLog workLog = mapper.readValue(json.toString(), BatchWorkLog.class);
+            long millis = workLog.getDateLogTo().getTime() - workLog.getDateLogFrom().getTime();
+            long days = TimeUnit.DAYS.convert(millis, TimeUnit.MILLISECONDS);
+            int iDays = (int)days + 1;
+            Logger.info("inserting worklogs for " + iDays + " period");
+            for (int i=0; i<iDays; i++) {
+                WorkLog workLogBatch = new WorkLog();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(workLog.getDateLogFrom());
+                calendar.add(Calendar.DAY_OF_MONTH, i);
+                calendar.set(Calendar.HOUR, 18);
+                workLogBatch.setDateLog(calendar.getTime());
+                workLogBatch.setProjects(workLog.getProjects());
+                workLogBatch.setTotalHours(workLog.getTotalHours());
+                workLogBatch.setUser(currentUser.getUserName());
+                if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && calendar.get(Calendar.DAY_OF_WEEK)
+                        != Calendar.SUNDAY)
+                    WorkLog.create(workLogBatch);
+            }
+        } catch (IOException e) {
+            Logger.error("Error parsing json ", e);
+            return badRequest("error parsing json");
+        }
+
+        return ok("inserted workLog");
+    }
+
     public static Result downloadCsv(String user, String period) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         StringBuffer stringBuffer = new StringBuffer();
@@ -395,10 +430,10 @@ public class Application extends Controller {
 
             List<WorkLog> workLogs = WorkLog.getReport(startDate.getTime(), endDate.getTime(), user);
             stringBuffer.append("username,").append("date,").append("Project Client,").append("Project Name,")
-                    .append("Project Component,").append("Hours,").append("Region").append("\n");
+                    .append("Project Component,").append("Hours,").append("Description").append("\n");
             for (WorkLog worklog:workLogs) {
                 stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",");
-                stringBuffer.append("\"").append(worklog.getDateLog()).append("\"").append(",");
+                stringBuffer.append("\"").append(formatDate(worklog.getDateLog())).append("\"").append(",");
                 int line=0;
                 for (Project project:worklog.getProjects()) {
                     if (line == 0)
@@ -407,7 +442,7 @@ public class Application extends Controller {
                                 .append(project.getComponent()).append("\"").append(",").append("\"")
                                 .append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
                     else
-                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(worklog.getDateLog()).
+                        stringBuffer.append("\"").append(worklog.getUserName()).append("\"").append(",").append("\"").append(formatDate(worklog.getDateLog())).
                                 append("\"").append(",").append("\"").append(project.getClient()).append("\"").append(",").append("\"").
                                 append(project.getName()).append("\"").append(",").append("\"").append(project.getComponent()).append("\"").
                                 append(",").append("\"").append(project.getHours()).append("\"").append(",").append("\"").append(project.getRegion()).append("\"").append("\n");
@@ -421,6 +456,11 @@ public class Application extends Controller {
         response().setContentType("text/csv; charset=utf-8");
         response().setHeader("Content-Disposition", "attachment; filename=report_" + user +"_" + period +".csv");
         return ok(stringBuffer.toString()).as("text/csv");
+    }
+
+    private static String formatDate(Date dateLog) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+        return sdf.format(dateLog).toString();
     }
 
     public static Result login() {
@@ -439,17 +479,25 @@ public class Application extends Controller {
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
         if (loginForm.hasErrors()) {
+            loginForm.reject("Enter user name and password");
             Logger.info("form errors " + loginForm.errors());
             return badRequest(views.html.login.render(loginForm));
         } else {
             session().clear();
 
             User user = User.userByUsername(loginForm.get().userName);
-            if (user != null && user.getPassword().equals(loginForm.get().password)) {
+            if (user != null && user.getPassword() != null && user.getPassword().equals(loginForm.get().password)) {
                 SessionManager.addSession("user", user);
                 return redirect(controllers.routes.Application.indexWorkLog());
-            }  else
+            }  else {
+                if (user.getUserName() == null)
+                    loginForm.reject("Unknown User");
+                else if (user.getPassword() != null && !user.getPassword().equals(loginForm.get().password))
+                    loginForm.reject("Wrong Password for user " + user.getUserName());
+                else
+                    loginForm.reject("Wrong user name or password");
                 return badRequest(views.html.login.render(loginForm));
+            }
 
         }
     }

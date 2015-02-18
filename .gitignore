@@ -1,6 +1,7 @@
 logs
 project/project
 project/target
+project/.idea
 target
 tmp
 .history
@@ -14,3 +15,5 @@ dist
 /RUNNING_PID
 /.settings
 application-log-*
+dump/
+*.gz

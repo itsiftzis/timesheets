@@ -5,6 +5,7 @@
             <h3>
                 WorkLogs
                 <a ng-href="/worklog#/worklogs/create" class="btn btn-primary pull-right" id="btn_user_create">Add work log</a>
+                <a ng-href="/worklog#/worklogs/batch" class="btn btn-primary pull-right stripped" id="btn_user_batch_create">Batch add work log</a>
             </h3>
             <hr>
         </div>
@@ -24,7 +25,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="wl in wlog.worklogs | filter:searchText">
+            <tr dir-paginate="wl in wlog.worklogs | itemsPerPage: 10 | filter:searchText">
                 <td>
                     <span>
                         {{ wl.userName || 'empty' }}
@@ -44,11 +45,11 @@
                     <table class="table table-striped">
                         <thead>
                             <tr style="font-weight: bold">
-                                <td style="width:33%">Client</td>
-                                <td style="width:33%">Project</td>
-                                <td style="width:33%">Component</td>
-                                <td style="width:33%">Region</td>
-                                <td style="width:33%">Hours</td>
+                                <td style="width:25%">Client</td>
+                                <td style="width:25%">Project</td>
+                                <td style="width:20%">Component</td>
+                                <td style="width:40%">Description</td>
+                                <td style="width:30%">Hours</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,7 +126,10 @@
             </tr>
             </tbody>
         </table>
-
+        <div style="text-align: center;">
+            <dir-pagination-controls template-url='/assets/partial/dirPagination.tpl.html'>
+            </dir-pagination-controls>
+        </div>
         <!--<hr>
         <h4>Debug:</h4>
         <pre>{{ wlog.worklogs | json }}</pre>-->

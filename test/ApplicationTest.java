@@ -44,7 +44,7 @@ public class ApplicationTest {
     public void findWorkLogsPerUser() {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
-                Project project = new Project("projectname", "usa", 8);
+                Project project = new Project("projectname", "usa", "component", "region", 8);
                 List<Project> worklogs = new ArrayList<Project>();
                 worklogs.add(project);
                 WorkLog workLog = new WorkLog(new Date(), 8, worklogs, "admin");
@@ -60,7 +60,7 @@ public class ApplicationTest {
     public void editWorkLog() {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
-                Project project = new Project("projectname", "usa", 8);
+                Project project = new Project("projectname", "usa", "component", "region", 8);
                 List<Project> worklogs = new ArrayList<Project>();
                 worklogs.add(project);
                 WorkLog workLog = new WorkLog(new Date(), 8, worklogs, "admin");
@@ -70,7 +70,7 @@ public class ApplicationTest {
                 WorkLog fromDB = worklogsPerUser.get(0);
                 Date now = new Date();
                 fromDB.setDateLog(now);
-                fromDB.setProjects(new ArrayList<Project>(Arrays.asList(new Project("name", "region", 1))));
+                fromDB.setProjects(new ArrayList<Project>(Arrays.asList(new Project("client", "name", "component", "region", 1))));
                 fromDB.setTotalHours(1);
                 fromDB.setUser("seconduser");
                 WorkLog.update(fromDB);

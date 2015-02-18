@@ -30,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="wl in totalwlog.worklogs  | filter:searchText | searchDateFilter">
+            <tr dir-paginate="wl in totalwlog.worklogs | itemsPerPage: 10">
                 <td>
                     <span>
                         {{ wl.userName || 'empty' }}
@@ -101,6 +101,10 @@
             </tr>
             </tbody>
         </table>
+        <div style="text-align: center;">
+            <dir-pagination-controls template-url='/assets/partial/dirPagination.tpl.html'>
+            </dir-pagination-controls>
+        </div>
 
         <!--<hr>
         <h4>Debug:</h4>

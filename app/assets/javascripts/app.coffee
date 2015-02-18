@@ -19,7 +19,8 @@ dependencies2 = [
   'workl.directives',
   'workl.common',
   'workl.routeConfig',
-  'xeditable'
+  'xeditable',
+  'angularUtils.directives.dirPagination'
 ]
 
 dependencies3 = [
@@ -30,7 +31,8 @@ dependencies3 = [
   'totallogs.controllers',
   'totallogs.directives',
   'totallogs.common',
-  'totallogs.routeConfig'
+  'totallogs.routeConfig',
+  'angularUtils.directives.dirPagination'
 ]
 
 dependencies4 = [
@@ -41,7 +43,8 @@ dependencies4 = [
   'projectapp.controllers',
   'projectapp.directives',
   'projectapp.common',
-  'projectapp.routeConfig'
+  'projectapp.routeConfig',
+  'angularUtils.directives.dirPagination'
 ]
 
 app = angular.module('myApp', dependencies)
@@ -85,6 +88,9 @@ angular.module('workl.routeConfig', ['ngRoute'])
                 })
             .when('/worklogs/edit/:worklog', {
                 templateUrl: '/assets/partial/worklogedit.html'
+              })
+            .when('/worklogs/batch', {
+                templateUrl: '/assets/partial/worklogbatch.html'
               })
             .otherwise({redirectTo: '/'})
 

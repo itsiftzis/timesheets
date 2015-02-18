@@ -53,7 +53,7 @@
                         component:<select class="span2" name="component" ng-model="cwlc.projects[$index].component" ng-options="prcomp.component for prcomp in cwlc.prcomps[$index] track by prcomp.component">
                         <option value=" "></option>
                         </select>
-                        region:<input name="region" type="text" class="span2" ng-model="cwlc.projects[$index].region"/>
+                        description:<input name="region" type="text" class="span2" ng-model="cwlc.projects[$index].region"/>
                         hours:<input name="hours" type="number" min="0.01" max="23" step="0.01" ng-required="true" class="span3" ng-model="cwlc.projects[$index].hours"/>
                         <a class="class" ng-click="cwlc.deleteThis($index)">X</a>
                     </p>

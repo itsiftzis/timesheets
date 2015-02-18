@@ -35,6 +35,7 @@ GET     /totallogs                  controllers.Application.totallogs
 GET     /totalworklogs              controllers.Application.allWorkLogs
 POST    /serveJson                  controllers.Application.serveJson
 POST    /worklog                    controllers.Application.insertWorkLog
+POST    /batchworklog               controllers.Application.batchWorkLog
 GET     /fetchworklog/:id           controllers.Application.fetchWorklog(id: String)
 POST    /deleteWorklog              controllers.Application.deleteWorkLog
 POST    /updateWorkLog              controllers.Application.updateWorkLog

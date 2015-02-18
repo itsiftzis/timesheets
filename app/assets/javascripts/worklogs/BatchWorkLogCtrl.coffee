@@ -1,8 +1,8 @@
 
-class CreateWorkLogCtrl
+class BatchWorkLogCtrl
 
     constructor: (@$log, @$location,  @WorkLogService, @$scope, @$routeParams) ->
-        @$log.debug "constructing CreateWorkLogController"
+        @$log.debug "constructing BatchWorkLogController"
         @worklog = {}
         @controlNumberOfInputRows = []
         @projects = [];
@@ -16,10 +16,11 @@ class CreateWorkLogCtrl
         @prcurrentname = {}
         @fetchProjectClients()
 
-    open: ($event) ->
+    open: ($event, id) ->
         $event.preventDefault();
         $event.stopPropagation();
-        @$scope.opened = true;
+        @$scope.opened = [];
+        @$scope.opened[id] = true;
 
     fetchProjectClients: () ->
       @$log.debug "fetchProjectClients()"
@@ -76,7 +77,7 @@ class CreateWorkLogCtrl
           @$log.error "Unable to create worklog: #{error}"
         )
 
-    createWorkLog: () ->
+    batchWorkLog: () ->
         @$log.debug "createWorkLog()"
 
         for pr in @projects
@@ -84,10 +85,9 @@ class CreateWorkLogCtrl
           pr.client = pr.client.client
           pr.name = pr.name.name
           pr.component = pr.component.component
-        @worklog.dateLog.setHours(18)
         @worklog.projects = @projects
         ###@worklog.dateLog = new Date(@worklog.dateLog).getTime()###
-        @WorkLogService.createWorkLog(@worklog)
+        @WorkLogService.batchWorkLog(@worklog)
         .then(
             (data) =>
                 @$log.debug "Promise returned #{data} WorkLog"
@@ -128,4 +128,4 @@ class CreateWorkLogCtrl
     deleteThisEdit: (st) ->
         @worklogEdit.worklog.projects.splice(st,1)
 
-controllersModule2.controller('CreateWorkLogCtrl', CreateWorkLogCtrl)
+controllersModule2.controller('BatchWorkLogCtrl', BatchWorkLogCtrl)
