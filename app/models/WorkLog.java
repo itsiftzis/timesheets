@@ -125,4 +125,12 @@ public class WorkLog {
         else
             return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).toArray();
     }
+
+    public static List<WorkLog> getWorkLogsPerMonth(String user, Date startDate, Date endDate) {
+        return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).is("userName", user).toArray();
+    }
+
+    public static List<WorkLog> getWorkLogs(String user) {
+        return WorkLog.coll.find(DBQuery.is("userName", user)).toArray();
+    }
 }

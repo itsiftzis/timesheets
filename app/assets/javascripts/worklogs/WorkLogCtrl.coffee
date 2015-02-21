@@ -9,6 +9,8 @@ class WorkLogCtrl
         @curPage
         @pageSize
         @numberOfPages
+        @missinghours
+        @getMissingHours()
 
     getAllWorkLogs: () ->
         @$log.debug "getAllWorkLogs()"
@@ -27,6 +29,19 @@ class WorkLogCtrl
             (error) =>
                 @$log.error "Unable to get WorkLogs: #{error}"
             )
+
+    getMissingHours: () ->
+        @$log.debug "getMissingHours()"
+
+        @WorkLogService.getMissingHours('all')
+        .then(
+            (data) =>
+              @$log.debug "Promise returned #{data.length} WorkLogs"
+              @missinghours = data.totalHours
+        ,
+          (error) =>
+            @$log.error "Unable to get WorkLogs: #{error}"
+        )
 
     saveProject: (@pr) ->
       @$log.debug "saveProject()"

@@ -393,6 +393,42 @@ public class Application extends Controller {
         return ok("inserted workLog");
     }
 
+    public static Result fetchTotalHoursPerMonth(String date) throws ParseException {
+        User user = SessionManager.get("user");
+        String userName = user == null ? "" : user.getUserName();
+        List<WorkLog> workLog;
+        if (date != null && !date.equals("all")) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+            Calendar startDate = Calendar.getInstance();
+            startDate.setTime(sdf.parse(date));
+            startDate.set(Calendar.DAY_OF_MONTH, 0);
+            startDate.add(Calendar.HOUR_OF_DAY, 23);
+            startDate.add(Calendar.MINUTE, 59);
+            startDate.add(Calendar.SECOND, 59);
+
+            Calendar endDate = Calendar.getInstance();
+            endDate.setTime(sdf.parse(date));
+            endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DATE));
+            endDate.add(Calendar.HOUR_OF_DAY, 23);
+            endDate.add(Calendar.MINUTE, 59);
+            endDate.add(Calendar.SECOND, 59);
+
+         workLog = WorkLog.getWorkLogsPerMonth(userName, startDate.getTime(), endDate.getTime());
+        } else {
+            workLog = WorkLog.getWorkLogs(userName);
+        }
+        double totalMissingHours = 0;
+        for (WorkLog wl:workLog) {
+            double workingHours = 8;
+            for (Project pr:wl.getProjects()) {
+                double missingHours = workingHours - pr.getHours();
+                totalMissingHours += missingHours;
+            }
+        }
+        String result = "{\"totalHours\":" + totalMissingHours + "}";
+        return ok(result);
+    }
+
     public static Result downloadCsv(String user, String period) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         StringBuffer stringBuffer = new StringBuffer();
