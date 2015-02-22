@@ -300,6 +300,10 @@ public class Application extends Controller {
         return ok(json);
     }
 
+    public static Result missinghours() {
+        return ok(views.html.missinghoursview.render(showAdminLogo()));
+    }
+
     @play.mvc.Security.Authenticated(Secured.class)
     public static Result allWorkLogs() {
         List<WorkLog> workLogs = WorkLog.all();
@@ -391,6 +395,18 @@ public class Application extends Controller {
         }
 
         return ok("inserted workLog");
+    }
+
+    public static Result fetchTotalMissingHours() {
+        User loggedUser = SessionManager.get("user");
+        if (loggedUser == null || loggedUser.getUserName().equals(""))
+            return notFound("logged user not found");
+
+        List<WorkLog> missingHourLogs = WorkLog.fetchMissingHourWlogs(loggedUser.getUserName());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(missingHourLogs);
+        return ok(json);
     }
 
     public static Result fetchTotalHoursPerMonth(String date) throws ParseException {

@@ -133,4 +133,8 @@ public class WorkLog {
     public static List<WorkLog> getWorkLogs(String user) {
         return WorkLog.coll.find(DBQuery.is("userName", user)).toArray();
     }
+
+    public static List<WorkLog> fetchMissingHourWlogs(String userName) {
+        return WorkLog.coll.find(DBQuery.is("userName", userName)).lessThan("projects.hours",8).toArray();
+    }
 }

@@ -1,19 +1,12 @@
-<div class="row" ng-controller="WorkLogCtrl as wlog">
-    <div style="font-weight: bolder;font-size: 20px;">
-        <a href="/missinghours">Total Missing hours: <b>{{wlog.missinghours}}</b></a>
+<div class="row" ng-controller="MissingHoursCtrl as mhours">
+    <div style="color:#ff6161; font-weight: bolder;font-size: 20px;">
+        Total Missing hours: <b>{{mhours.missinghours}}</b>
     </div>
     <div class="row">
     	<div class="blur"></div>
+
         <div class="form-group">
-            <h3>
-                WorkLogs
-                <a ng-href="/worklog#/worklogs/create" class="btn btn-primary pull-right" id="btn_user_create">Add work log</a>
-                <a ng-href="/worklog#/worklogs/batch" class="btn btn-primary pull-right stripped" id="btn_user_batch_create">Batch add work log</a>
-            </h3>
-            <hr>
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter WorkLogs...">
+            <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter Missing entries...">
             <hr>
         </div>
 
@@ -23,27 +16,21 @@
             <tr style="font-weight: bold">
                 <td style="width:15%">Username</td>
                 <td style="width:15%">Date</td>
-                <!--<td style="width:10%">Total Hours</td>-->
                 <td style="width:60%">Project</td>
             </tr>
             </thead>
             <tbody>
-            <tr dir-paginate="wl in wlog.worklogs | itemsPerPage: 10 | filter:searchText">
+            <tr dir-paginate="ml in mhours.worklogs | itemsPerPage: 10 | filter:searchText">
                 <td>
-                    <span>
-                        {{ wl.userName || 'empty' }}
-                    </span>
+                    <a href="/worklog#/worklogs/edit/{{ml.id}}">
+                        {{ ml.userName || 'empty' }}
+                    </a>
                 </td>
                 <td>
                     <span>
-                        {{ wlog.formatDate(wl.dateLog) || 'empty' }}
+                        {{ mhours.formatDate(ml.dateLog) || 'empty' }}
                     </span>
                 </td>
-                <!--<td>
-                    <span>
-                        {{ wl.totalHours || 'empty' }}
-                    </span>
-                </td>-->
                 <td>
                     <table class="table table-striped">
                         <thead>
@@ -56,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="pr in wl.projects">
+                        <tr ng-repeat="pr in ml.projects">
                             <td>
                                 <span>
                                     {{ pr.client || 'empty' }}
@@ -88,41 +75,26 @@
                         </tbody>
                     </table>
                 </td>
-                <td style="white-space: nowrap">
-                    <!-- form -->
-                    <form editable-form name="rowform" onbeforesave="wlog.saveWorklog($data, wl.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == wl">
-                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-primary-narrow">
-                            save
-                        </button>
-                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-primary-narrow">
-                            cancel
-                        </button>
-                    </form>
-                    <div class="buttons" ng-show="!rowform.$visible">
-                        <a ng-href="/worklog#/worklogs/edit/{{wl.id}}" class="btn btn-primary btn-primary-narrow">edit</a>
-                        <button class="btn btn-danger btn-primary-narrow" ng-click="wlog.removeWorkLog(wl, $index)">del</button>
-                    </div>
-                </td>
             </tr>
             <tr>
-                <div class="pagination-div" ng-show="wlog.worklog.length">
+                <div class="pagination-div" ng-show="mhours.worklog.length">
                     <ul>
                         <li>
-                            <button type="button" ng-disabled="wlog.curPage == 0"
-                                    ng-click="wlog.curPage=wlog.curPage-1">PREV</button>
+                            <button type="button" ng-disabled="mhours.curPage == 0"
+                                    ng-click="mhours.curPage=mhours.curPage-1">PREV</button>
                         </li>
                         <li>
                             <span>Page {{curPage + 1}} of {{ numberOfPages() }}</span>
                         </li>
                         <li>
                             <button type="button"
-                                    ng-disabled="wlog.curPage >= wlog.worklog.length/pageSize - 1"
-                                    ng-click="wlog.curPage = wlog.curPage+1">NEXT </button>
+                                    ng-disabled="mhours.curPage >= mhours.worklog.length/pageSize - 1"
+                                    ng-click="mhours.curPage = mhours.curPage+1">NEXT </button>
                         </li>
                     </ul>
                 </div>
             </tr>
-            <tr ng-hide="wlog.worklogs.length">
+            <tr ng-hide="mhours.worklogs.length">
                 <td colspan="3">
                     <p class="text-center">No WorkLogs Found</p>
                 </td>
@@ -133,9 +105,6 @@
             <dir-pagination-controls template-url='/assets/partial/dirPagination.tpl.html'>
             </dir-pagination-controls>
         </div>
-        <!--<hr>
-        <h4>Debug:</h4>
-        <pre>{{ wlog.worklogs | json }}</pre>-->
     </div>
 
 </div>

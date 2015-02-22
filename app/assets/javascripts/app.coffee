@@ -47,6 +47,18 @@ dependencies4 = [
   'angularUtils.directives.dirPagination'
 ]
 
+dependencies5 = [
+  'ngRoute',
+  'ui.bootstrap',
+  'mhours.filters',
+  'mhours.services',
+  'mhours.controllers',
+  'mhours.directives',
+  'mhours.common',
+  'mhours.routeConfig',
+  'angularUtils.directives.dirPagination'
+]
+
 app = angular.module('myApp', dependencies)
 
 app.run (editableOptions) ->
@@ -57,6 +69,8 @@ angular.module('workl', dependencies2)
 angular.module('totallogs', dependencies3)
 
 angular.module('projectapp', dependencies4)
+
+angular.module('mhours', dependencies5)
 
 angular.module('myApp.routeConfig', ['ngRoute'])
     .config ($routeProvider) ->
@@ -111,6 +125,14 @@ angular.module('projectapp.routeConfig', ['ngRoute'])
               })
             .otherwise({redirectTo: '/'})
 
+angular.module('mhours.routeConfig', ['ngRoute'])
+    .config ($routeProvider) ->
+      $routeProvider
+      .when('/', {
+          templateUrl: '/assets/partial/missinghoursview.html'
+        })
+      .otherwise({redirectTo: '/'})
+
 
 @commonModule = angular.module('myApp.common', [])
 @controllersModule = angular.module('myApp.controllers', [])
@@ -139,3 +161,10 @@ angular.module('projectapp.routeConfig', ['ngRoute'])
 @directivesModule4 = angular.module('projectapp.directives', [])
 @commonModule4 = angular.module('projectapp.common', [])
 @modelsModule4 = angular.module('projectapp.models', [])
+
+@filtersModule5 = angular.module('mhours.filters', [])
+@servicesModule5 = angular.module('mhours.services', [])
+@controllersModule5 = angular.module('mhours.controllers', [])
+@directivesModule5 = angular.module('mhours.directives', [])
+@commonModule5 = angular.module('mhours.common', [])
+@modelsModule5 = angular.module('mhours.models', [])
