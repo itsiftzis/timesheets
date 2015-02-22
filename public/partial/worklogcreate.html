@@ -1,8 +1,59 @@
 <div class="row">
     <div ng-controller="CreateWorkLogCtrl as cwlc">
-        <h1>Create Worklog</h1>
+        <div>
+            <div style="float: left; width:33%;"><b>Create Worklog</b></div>
 
-        <form id="CreateWorkLogForm" name="CreateWorkLogForm" class="form-horizontal" role="form"
+            <div style="float: left; width:33%;" ng-controller="ModalDemoCtrl">
+                <script type="text/ng-template" id="myModalContent.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Select Recent Worklog</h3>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li ng-repeat="item in items">
+                                <a ng-click="selected.item = item">{{ item }}</a>
+                            </li>
+                        </ul>
+                        Selected: <b>{{ selected.item }}</b>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="ok()">OK</button>
+                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                    </div>
+                </script>
+
+                <button class="btn btn-success" ng-click="open()">Recent Worklogs</button>
+                <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+            </div>
+
+
+            <div style="float: left; width:33%;" ng-controller="ModalDemoCtrl">
+                <script type="text/ng-template" id="myModalContent2.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Select Frequent Worklog</h3>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li ng-repeat="item in items">
+                                <a ng-click="selected.item = item">{{ item }}</a>
+                            </li>
+                        </ul>
+                        Selected: <b>{{ selected.item }}</b>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="ok()">OK</button>
+                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                    </div>
+                </script>
+
+                <button class="btn btn-success" ng-click="open()">Frequent Worklogs</button>
+                <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+            </div>
+
+        </div>
+
+
+            <form id="CreateWorkLogForm" name="CreateWorkLogForm" class="form-horizontal" role="form"
               ng-submit="cwlc.createWorkLog()">
             <legend class="sm-col-12">Work Log Entry</legend>
 
