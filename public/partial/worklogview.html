@@ -17,7 +17,7 @@
 
         <table id="user_list" class="table table-striped">
             <thead>
-            <tr style="font-weight: bold">
+            <tr style="font-weight: bold" class="headings">
                 <td style="width:15%">Username</td>
                 <td style="width:15%">Date</td>
                 <!--<td style="width:10%">Total Hours</td>-->
@@ -26,12 +26,12 @@
             </thead>
             <tbody>
             <tr dir-paginate="wl in wlog.worklogs | itemsPerPage: 10 | filter:searchText">
-                <td>
+                <td style="padding-top:16px;">
                     <span>
                         {{ wl.userName || 'empty' }}
                     </span>
                 </td>
-                <td>
+                <td style="padding-top:16px;">
                     <span>
                         {{ wlog.formatDate(wl.dateLog) || 'empty' }}
                     </span>
@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="pr in wl.projects">
+                        <tr ng-repeat="pr in wl.projects" class="worklog-entry">
                             <td>
                                 <span>
                                     {{ pr.client || 'empty' }}
