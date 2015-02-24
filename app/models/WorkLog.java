@@ -11,6 +11,7 @@ import play.Logger;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -137,7 +138,17 @@ public class WorkLog {
     }
 
     public static List<WorkLog> fetchMissingHourWlogs(String userName) {
-        return WorkLog.coll.find(DBQuery.is("userName", userName)).lessThan("projects.hours",8).
+        List<WorkLog> wl = WorkLog.coll.find(DBQuery.is("userName", userName)).
                 sort(new BasicDBObject("dateLog",-1)).toArray();
+        List<WorkLog> filteredWl = new ArrayList<WorkLog>();
+        for (WorkLog wlog:wl) {
+            double totalDailyHours = 0;
+            for (Project pr:wlog.getProjects()) {
+                totalDailyHours += pr.getHours();
+            }
+            if (totalDailyHours < 8)
+                filteredWl.add(wlog);
+        }
+        return filteredWl;
     }
 }

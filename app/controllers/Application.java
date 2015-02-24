@@ -436,10 +436,13 @@ public class Application extends Controller {
         double totalMissingHours = 0;
         for (WorkLog wl:workLog) {
             double workingHours = 8;
+            double hoursInWorklog = 0;
             for (Project pr:wl.getProjects()) {
-                double missingHours = workingHours - pr.getHours();
-                totalMissingHours += missingHours;
+                hoursInWorklog += pr.getHours();
             }
+            double missingHours = workingHours - hoursInWorklog;
+            if (missingHours > 0)
+                totalMissingHours += missingHours;
         }
         String result = "{\"totalHours\":" + totalMissingHours + "}";
         return ok(result);
