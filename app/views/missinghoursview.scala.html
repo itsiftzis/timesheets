@@ -1,6 +1,6 @@
 @(display: String)
 <!doctype html>
-<html lang="en" ng-app="workl">
+<html lang="en" ng-app="mhours">
 <head>
     <meta charset="utf-8">
     <title>TimeSheets</title>
@@ -40,14 +40,6 @@
             </div>
         </div>
     </header>
-    <div class="sub-nav">   
-       	<div style="padding: 5px; float: left;">
-        	<a href="/worklog" class="navbar-brand selected" style="padding: 10px;">Add Work Log</a>
-        </div>
-        <div style="padding: 5px; float: left;">
-           	<a href="/totallogs" class="navbar-brand" style="padding: 10px;">Total Logs</a>
-        </div>
-    </div>   
     <div style="height:45px"></div>
  
     <div ng-view class="main-content"></div>
@@ -74,12 +66,9 @@
 <script src='@routes.Assets.at("javascripts/common/Config.js")' type="text/javascript"></script>
 <script src='@routes.Assets.at("javascripts/directives/AppVersion.js")' type="text/javascript"></script>
 
-<script src='@routes.Assets.at("javascripts/worklogs/WorkLogService.js")' type="text/javascript"></script>
-<script src='@routes.Assets.at("javascripts/worklogs/WorkLogCtrl.js")' type="text/javascript"></script>
-<script src='@routes.Assets.at("javascripts/worklogs/CreateWorkLogCtrl.js")' type="text/javascript"></script>
-<script src='@routes.Assets.at("javascripts/worklogs/BatchWorkLogCtrl.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/worklogs/MissingHoursService.js")' type="text/javascript"></script>
+<script src='@routes.Assets.at("javascripts/worklogs/MissingHoursCtrl.js")' type="text/javascript"></script>
 <script src='@routes.Assets.at("javascripts/dirPagination.js")' type="text/javascript"></script>
-<script src='@routes.Assets.at("javascripts/modal-window.js")' type="text/javascript"></script>
 
 <script src='@routes.Assets.at("javascripts/xeditable.js")'></script>
 

@@ -3,43 +3,46 @@
 # ~~~~
 
 #login/logout
-GET     /login          controllers.Application.login
-POST    /login          controllers.Application.authenticate
-GET     /logout         controllers.Application.logout
+GET         /login                            controllers.Application.login
+POST        /login                            controllers.Application.authenticate
+GET         /logout                           controllers.Application.logout
 
-GET     /          controllers.Application.login
+GET         /                                 controllers.Application.login
 
 # view/edit users
-GET     /user                       controllers.Application.indexUser
-GET     /worklog                    controllers.Application.indexWorkLog
+GET         /user                             controllers.Application.indexUser
+GET         /worklog                          controllers.Application.indexWorkLog
 
 #rest crud api
-GET     /users                      controllers.Application.users
-POST    /user                       controllers.Application.insertUser
-POST    /updateUser                 controllers.Application.updateUser
-POST    /deleteProjectClient        controllers.Application.deleteProjectClient
-POST    /deleteProjectName          controllers.Application.deleteProjectName
-POST    /deleteProjectComponent     controllers.Application.deleteProjectComponent
-POST    /fetchNamesForClient        controllers.Application.fetchNamesForClient
-POST    /fetchComponentsForName     controllers.Application.fetchComponentsForName
-GET     /projects                   controllers.Application.projects
-GET     /projectclients             controllers.Application.projectclients
-GET     /projectnames               controllers.Application.projectnames
-GET     /projectcomponents          controllers.Application.projectcomponents
-POST    /project                    controllers.Application.insertProject
-POST    /projectclient              controllers.Application.insertProjectClient
-POST    /projectname                controllers.Application.insertProjectName
-POST    /projectcomponent           controllers.Application.insertProjectComponent
-GET     /worklogs                   controllers.Application.workLogs
-GET     /totallogs                  controllers.Application.totallogs
-GET     /totalworklogs              controllers.Application.allWorkLogs
-POST    /serveJson                  controllers.Application.serveJson
-POST    /worklog                    controllers.Application.insertWorkLog
-POST    /batchworklog               controllers.Application.batchWorkLog
-GET     /fetchworklog/:id           controllers.Application.fetchWorklog(id: String)
-POST    /deleteWorklog              controllers.Application.deleteWorkLog
-POST    /updateWorkLog              controllers.Application.updateWorkLog
-GET     /downloadcsv/:user/:period  controllers.Application.downloadCsv(user: String, period: String)
+GET         /users                            controllers.Application.users
+POST        /user                             controllers.Application.insertUser
+POST        /updateUser                       controllers.Application.updateUser
+POST        /deleteProjectClient              controllers.Application.deleteProjectClient
+POST        /deleteProjectName                controllers.Application.deleteProjectName
+POST        /deleteProjectComponent           controllers.Application.deleteProjectComponent
+POST        /fetchNamesForClient              controllers.Application.fetchNamesForClient
+POST        /fetchComponentsForName           controllers.Application.fetchComponentsForName
+GET         /projects                         controllers.Application.projects
+GET         /projectclients                   controllers.Application.projectclients
+GET         /projectnames                     controllers.Application.projectnames
+GET         /projectcomponents                controllers.Application.projectcomponents
+POST        /project                          controllers.Application.insertProject
+POST        /projectclient                    controllers.Application.insertProjectClient
+POST        /projectname                      controllers.Application.insertProjectName
+POST        /projectcomponent                 controllers.Application.insertProjectComponent
+GET         /worklogs                         controllers.Application.workLogs
+GET         /missinghours                     controllers.Application.missinghours
+GET         /totallogs                        controllers.Application.totallogs
+GET         /totalworklogs                    controllers.Application.allWorkLogs
+POST        /serveJson                        controllers.Application.serveJson
+POST        /worklog                          controllers.Application.insertWorkLog
+POST        /batchworklog                     controllers.Application.batchWorkLog
+GET         /fetchworklog/:id                 controllers.Application.fetchWorklog(id: String)
+POST        /deleteWorklog                    controllers.Application.deleteWorkLog
+POST        /updateWorkLog                    controllers.Application.updateWorkLog
+GET         /downloadcsv/:user/:period        controllers.Application.downloadCsv(user: String, period: String)
+GET         /hoursPerMonth/:period            controllers.Application.fetchTotalHoursPerMonth(period: String)
+GET         /missinghourlogs                  controllers.Application.fetchTotalMissingHours
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET         /assets/*file                     controllers.Assets.at(path="/public", file)

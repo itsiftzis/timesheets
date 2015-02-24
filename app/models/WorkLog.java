@@ -121,8 +121,23 @@ public class WorkLog {
 
     public static List<WorkLog> getReport(Date startDate, Date endDate, String user) {
         if (user!="all")
-            return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).is("userName", user).toArray();
+            return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).
+                    is("userName", user).toArray();
         else
             return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).toArray();
+    }
+
+    public static List<WorkLog> getWorkLogsPerMonth(String user, Date startDate, Date endDate) {
+        return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).
+                is("userName", user).toArray();
+    }
+
+    public static List<WorkLog> getWorkLogs(String user) {
+        return WorkLog.coll.find(DBQuery.is("userName", user)).toArray();
+    }
+
+    public static List<WorkLog> fetchMissingHourWlogs(String userName) {
+        return WorkLog.coll.find(DBQuery.is("userName", userName)).lessThan("projects.hours",8).
+                sort(new BasicDBObject("dateLog",-1)).toArray();
     }
 }
