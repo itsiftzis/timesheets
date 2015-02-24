@@ -1,5 +1,9 @@
 <div class="row" ng-controller="WorkLogCtrl as wlog">
-    <div class="row top-padding">
+    <div style="font-weight: bolder;font-size: 20px;">
+        <a style="text-decoration: none; color:#c74640;" href="/missinghours">Total Missing hours: <b>{{wlog.missinghours}}</b></a>
+    </div>
+    <div class="row">
+    	<div class="blur"></div>
         <div class="form-group">
             <h3>
                 WorkLogs
@@ -16,7 +20,7 @@
 
         <table id="user_list" class="table table-striped">
             <thead>
-            <tr style="font-weight: bold">
+            <tr style="font-weight: bold" class="headings">
                 <td style="width:15%">Username</td>
                 <td style="width:15%">Date</td>
                 <!--<td style="width:10%">Total Hours</td>-->
@@ -25,12 +29,12 @@
             </thead>
             <tbody>
             <tr dir-paginate="wl in wlog.worklogs | itemsPerPage: 10 | filter:searchText">
-                <td>
+                <td style="padding-top:16px;">
                     <span>
                         {{ wl.userName || 'empty' }}
                     </span>
                 </td>
-                <td>
+                <td style="padding-top:16px;">
                     <span>
                         {{ wlog.formatDate(wl.dateLog) || 'empty' }}
                     </span>
@@ -52,7 +56,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="pr in wl.projects">
+                        <tr ng-repeat="pr in wl.projects" class="worklog-entry">
                             <td>
                                 <span>
                                     {{ pr.client || 'empty' }}
