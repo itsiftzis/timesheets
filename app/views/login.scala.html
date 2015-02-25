@@ -7,36 +7,36 @@
     <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
 </head>
 <body>
-<header>
+<div class="container-fade">
     <div class="jumbotron" style="text-align: center; font-size: 25px;">
-    <a href="@routes.Application.login" id="logo"><span>TimeSheets</span> mGage</a><br/>
-    <dl id="user">
+    <a href="@routes.Application.login" id="logo"><img src="assets/images/logo.png"</a><br/>
+<!--    <dl id="user">
         <dt>User</dt><br/>
         <dd>
             <a href="@routes.Application.logout()">Logout</a>
         </dd>
-    </dl>
+    </dl>-->
     </div>
-</header>
-<div style="text-align: center;">
-@helper.form(routes.Application.authenticate) {
-<h1>Sign in</h1>
-@if(form.hasGlobalErrors) {
-<p class="error">
-    @form.globalError.message
-</p>
-}
-
-<p>
-    <input type="text" name="userName" placeholder="userName" value='@form("userName").value'>
-</p>
-<p>
-    <input type="password" name="password" placeholder="Password">
-</p>
-<p>
-    <button class="btn btn-primary" type="submit">Login</button>
-</p>
-}
+    <div class="login-panel" style="text-align: center;">
+        @helper.form(routes.Application.authenticate) {
+        <!-- h1>Sign in</h1> -->
+        @if(form.hasGlobalErrors) {
+        <p class="error">
+            @form.globalError.message
+        </p>
+        }
+        
+        <p>
+            <input type="text" name="userName" placeholder="userName" value='@form("userName").value'>
+        </p>
+        <p>
+            <input type="password" name="password" placeholder="Password">
+        </p>
+        <p>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </p>
+        }
+        </div>
 </div>
 </body>
 </html>

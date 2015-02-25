@@ -1,6 +1,7 @@
-<div class="row" ng-controller="WorkLogCtrl as wlog">
-    <div style="font-weight: bolder;font-size: 20px;">
-        <a style="text-decoration: none; color:#c74640;" href="/missinghours">Total Missing hours: <b>{{wlog.missinghours}}</b></a>
+<div class="row panel" ng-controller="WorkLogCtrl as wlog">
+    <div class="hours">
+    <img class="clock" src= "assets/images/clock.png"/>
+        <a style="text-decoration: none; color:#fff;" href="/missinghours">Total Missing hours: <b><span style="color:red">{{wlog.missinghours}}</span></b></a>
     </div>
     <div class="row">
     	<div class="blur"></div>
