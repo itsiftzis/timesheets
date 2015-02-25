@@ -53,15 +53,17 @@ class WorkLogCtrl
       @$log.debug @id
 
     removeWorkLog: (@wrl, @index) ->
-      @worklogs.splice(@index, 1)
-      @WorkLogService.deleteWorkLog(@wrl)
-      .then(
-        (data) =>
-          @$log.debug "Promise returned #{data} "
-      ,
-      (error) =>
-        @$log.error "Unable to delete Worklog: #{error}"
-      )
+      msg = @wrl.projects[0].client + ' ' + @wrl.projects[0].name + ' ' + @wrl.projects[0].component + ' ' + @wrl.projects[0].hours
+      if (confirm "delete " + msg + " ?")
+        @worklogs.splice(@index, 1)
+        @WorkLogService.deleteWorkLog(@wrl)
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} "
+        ,
+        (error) =>
+          @$log.error "Unable to delete Worklog: #{error}"
+        )
 
     editWorklog: (@wl) ->
       @$log.debug(@wl)
