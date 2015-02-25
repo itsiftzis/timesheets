@@ -51,7 +51,7 @@
                 <label id="lbl_projects" class="col-sm-4 control-label width20 project-label">Projects</label>
 
                 <div class="col-sm-8 width80">
-                    <a class="btn pull-right" ng-click="bwlc.addInputRow()">add project</a>
+                    <a class="btn pull-right add-project" ng-click="bwlc.addInputRow()">add project</a>
                     <p ng-repeat="project in bwlc.projects track by $index">
                         client:<select ng-change="bwlc.fillNames(bwlc.projects[$index].client, $index)" required class="span2" name="client" ng-model="bwlc.projects[$index].client" ng-options="prclient.client for prclient in bwlc.prclients  track by prclient.client">
                         <option value=""></option>

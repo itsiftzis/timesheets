@@ -20,12 +20,12 @@
             </thead>
             <tbody>
             <tr ng-repeat="prc in pc.projectclients">
-                <td>
+                <td class="first-rounded">
                     <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
                         {{ prc.client || 'empty' }}
                     </span>
                 </td>
-                <td style="white-space: nowrap">
+                <td class="last-rounded" style="white-space: nowrap">
                     <!-- form -->
                     <form editable-form name="rowform" onbeforesave="prc.saveProjectClient($data, prc.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == prc">
                         <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
@@ -58,7 +58,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="prc in pc.projectnames">
-                <td>
+                <td class="first-rounded" >
                     <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
                         {{ prc.client || 'empty' }}
                     </span>
@@ -68,7 +68,7 @@
                         {{ prc.name || 'empty' }}
                     </span>
                 </td>
-                <td style="white-space: nowrap">
+                <td class="last-rounded" style="white-space: nowrap">
                     <!-- form -->
                     <form editable-form name="rowform" onbeforesave="prc.saveProjectName($data, prc.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == prc">
                         <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
@@ -102,7 +102,7 @@
             </thead>
             <tbody>
             <tr dir-paginate="prc in pc.projectcomponents | itemsPerPage: 10">
-                <td>
+                <td class="first-rounded" >
                     <span editable-text="prc.client" e-name="client" e-form="rowform" onbeforesave="checkName($data, prc.id)" e-required>
                         {{ prc.client || 'empty' }}
                     </span>
@@ -117,7 +117,7 @@
                         {{ prc.component || 'empty' }}
                     </span>
                 </td>
-                <td style="white-space: nowrap">
+                <td class="last-rounded"  style="white-space: nowrap">
                     <!-- form -->
                     <form editable-form name="rowform" onbeforesave="prc.saveProjectComponent($data, prc.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == prc">
                         <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">

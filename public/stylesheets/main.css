@@ -407,3 +407,13 @@ background-color: rgba(0, 0, 0, 0.35);
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
 	background-color: rgba(0, 0, 0, 0.35); 
 }
+
+.first-rounded {
+	-webkit-border-radius: 8px 0 0 8px;
+	border-radius: 8px 0 0 8px;
+}
+
+.last-rounded {
+	-webkit-border-radius: 0 8px 8px 0;
+	border-radius: 0 8px 8px 0;
+}

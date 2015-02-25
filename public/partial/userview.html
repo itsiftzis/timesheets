@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="usr in uc.users | filter:searchText">
-                <td>
+                <td class="first-rounded" >
                     <span editable-text="usr.userName" e-name="userName" e-form="rowform" onbeforesave="checkName($data, usr.id)" e-required>
                         {{ usr.userName || 'empty' }}
                     </span>
@@ -51,7 +51,7 @@
                         {{ usr.lastName }}
                     </span>
                 </td>
-                <td style="white-space: nowrap">
+                <td class="last-rounded" style="white-space: nowrap">
                     <!-- form -->
                     <form editable-form name="rowform" onbeforesave="uc.saveUser($data, usr.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == usr">
                         <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">

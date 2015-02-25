@@ -31,22 +31,22 @@
             </thead>
             <tbody>
             <tr dir-paginate="wl in totalwlog.worklogs | itemsPerPage: 10">
-                <td>
+                <td style="padding-top:16px;" class="first-rounded">
                     <span>
                         {{ wl.userName || 'empty' }}
                     </span>
                 </td>
-                <td>
+                <td style="padding-top:16px;">
                     <span>
                         {{ totalwlog.formatDate(wl.dateLog) || 'empty' }}
                     </span>
                 </td>
-                <td>
+                <td style="padding-top:16px;">
                     <span>
                         {{ wl.totalHours || 'empty' }}
                     </span>
                 </td>
-                <td>
+                <td class="last-rounded">
                     <table class="table table-striped">
                         <thead>
                             <tr style="font-weight: bold">
@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="pr in wl.projects" class="worklog-entry">
-                            <td>
+                            <td class="first-rounded">
                                 <span>
                                     {{ pr.client || 'empty' }}
                                 </span>
@@ -84,7 +84,7 @@
                                     {{ pr.hours || 'empty' }}
                                 </span>
                             </td>
-                            <td style="white-space: nowrap">
+                            <td style="white-space: nowrap" class="last-rounded">
                             </td>
                         </tr>
                         </tbody>
