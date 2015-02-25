@@ -144,7 +144,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 	border: 1px solid transparent;
 	border-radius: 4px;		
 	width:281px;
-	height:281px;
+	height:470px;
 	float:left;
 	margin:2px;
 	margin-top: 3px;
@@ -156,7 +156,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 	border: 1px solid transparent;
 	border-radius: 4px;		
 	width:280px;
-	height:281px;
+	height:470px;
 	float:left;
 	margin:2px;
 	margin-left:0px;
@@ -169,7 +169,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 	border: 1px solid transparent;
 	border-radius: 4px;		
 	width:281px;
-	height:281px;
+	height:470px;
 	float:left;
 	margin:2px;
 	margin-right:0px;
