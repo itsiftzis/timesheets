@@ -15,11 +15,39 @@ class CreateWorkLogCtrl
         @prccurrentclient = {}
         @prcurrentname = {}
         @fetchProjectClients()
+        @myRecentWorklogs = {}
+        @getMyRecentWorklogs()
+        @teamRecentWorklogs = {}
+        @getTeamRecentWorklogs()
 
     open: ($event) ->
         $event.preventDefault();
         $event.stopPropagation();
         @$scope.opened = true;
+
+    getTeamRecentWorklogs: () ->
+        @$log.debug "@getTeamRecentWorklogs()"
+        @WorkLogService.getTeamRecentWorklogs()
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} teams recent Projects"
+            @teamRecentWorklogs = data
+        ,
+          (error) =>
+            @$log.error "Unable to fetch Project Clients: #{error}"
+        )
+
+    getMyRecentWorklogs: () ->
+        @$log.debug "@getMyRecentWorklogs()"
+        @WorkLogService.getMyRecentWorklogs()
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} recent Project"
+            @myRecentWorklogs = data
+        ,
+          (error) =>
+            @$log.error "Unable to fetch Project Clients: #{error}"
+        )
 
     fetchProjectClients: () ->
       @$log.debug "fetchProjectClients()"
@@ -127,5 +155,10 @@ class CreateWorkLogCtrl
         @worklogEdit.worklog.projects.push({client:"", name:"", component:"", region:"", hours:""})
     deleteThisEdit: (st) ->
         @worklogEdit.worklog.projects.splice(st,1)
+
+    addworklog: (@client, @component, @name) ->
+        @$log.info(@client + ' ' + @component + ' ' + @name)
+        @controlNumberOfInputRows.push(0)
+        @projects.push({client:@client, name:@name, component:@component, region:"", hours:""})
 
 controllersModule2.controller('CreateWorkLogCtrl', CreateWorkLogCtrl)

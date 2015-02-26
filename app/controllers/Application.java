@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -61,13 +62,44 @@ public class Application extends Controller {
         User user = SessionManager.get("user");
         List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName(), count);
         Logger.info("found worklogs for user " + user.getUserName() + " " + workLogs.size());
-        return ok(Json.toJson(workLogs));
+
+        if (count == -1)
+            return ok(Json.toJson(workLogs));
+        else {
+            int counter = 0;
+            List<WorkLog> limitedWorklogs = new ArrayList<WorkLog>();
+            for (WorkLog wl : workLogs) {
+                for (Project pr : wl.getProjects()) {
+                    counter++;
+                    if (counter <= count) {
+                        if (limitedWorklogs.indexOf(wl) == -1)
+                            limitedWorklogs.add(wl);
+                    }
+                }
+            }
+            return ok(Json.toJson(limitedWorklogs));
+        }
     }
 
     public static Result allRecentWorklogs(Integer count) {
         List<WorkLog> workLogs = WorkLog.recentWorklogs(count);
         Logger.info("found worklogs " + count + " " + workLogs.size());
-        return ok(Json.toJson(workLogs));
+        if (count == -1)
+            return ok(Json.toJson(workLogs));
+        else {
+            int counter = 0;
+            List<WorkLog> limitedWorklogs = new ArrayList<WorkLog>();
+            for (WorkLog wl : workLogs) {
+                for (Project pr : wl.getProjects()) {
+                    counter++;
+                    if (counter <= count) {
+                        if (limitedWorklogs.indexOf(wl) == -1)
+                            limitedWorklogs.add(wl);
+                    }
+                }
+            }
+            return ok(Json.toJson(limitedWorklogs));
+        }
     }
 
     public static Result user(String userName) {

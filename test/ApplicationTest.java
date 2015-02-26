@@ -49,7 +49,7 @@ public class ApplicationTest {
                 worklogs.add(project);
                 WorkLog workLog = new WorkLog(new Date(), 8, worklogs, "admin");
                 WorkLog.create(workLog);
-                List<WorkLog> worklogsPerUser = WorkLog.worklogPerUser("admin");
+                List<WorkLog> worklogsPerUser = WorkLog.worklogPerUser("admin", -1);
                 assertThat(worklogsPerUser.size()).isGreaterThan(0);
                 assertThat(worklogsPerUser.get(0).getUserName()).isEqualTo("admin");
             }
@@ -65,7 +65,7 @@ public class ApplicationTest {
                 worklogs.add(project);
                 WorkLog workLog = new WorkLog(new Date(), 8, worklogs, "admin");
                 WorkLog.create(workLog);
-                List<WorkLog> worklogsPerUser = WorkLog.worklogPerUser("admin");
+                List<WorkLog> worklogsPerUser = WorkLog.worklogPerUser("admin", -1);
 
                 WorkLog fromDB = worklogsPerUser.get(0);
                 Date now = new Date();
@@ -75,7 +75,7 @@ public class ApplicationTest {
                 fromDB.setUser("seconduser");
                 WorkLog.update(fromDB);
 
-                List<WorkLog> afterUpdate = WorkLog.worklogPerUser("seconduser");
+                List<WorkLog> afterUpdate = WorkLog.worklogPerUser("seconduser", -1);
                 assertThat(afterUpdate.size()).isGreaterThan(0);
                 assertThat(afterUpdate.get(0).getTotalHours()).isEqualTo(1);
             }

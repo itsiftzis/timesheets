@@ -86,8 +86,18 @@ public class WorkLog {
         return WorkLog.coll.find().sort(new BasicDBObject("dateLog",-1)).toArray();
     }
 
-    public static List<WorkLog> worklogPerUser(String userName) {
-        return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).toArray();
+    public static List<WorkLog> worklogPerUser(String userName, int count) {
+        if (count == -1)
+            return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).toArray();
+        else
+            return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).limit(count).toArray();
+    }
+
+    public static List<WorkLog> recentWorklogs(int count) {
+        if (count == -1)
+            return WorkLog.coll.find().sort(new BasicDBObject("dateLog",-1)).toArray();
+        else
+            return WorkLog.coll.find().sort(new BasicDBObject("dateLog",-1)).limit(count).toArray();
     }
 
     public static void create(WorkLog task) {
@@ -130,11 +140,11 @@ public class WorkLog {
 
     public static List<WorkLog> getWorkLogsPerMonth(String user, Date startDate, Date endDate) {
         return WorkLog.coll.find(DBQuery.greaterThan("dateLog", startDate).lessThan("dateLog", endDate)).
-                is("userName", user).toArray();
+                is("userName", user).sort(new BasicDBObject("dateLog",-1)).toArray();
     }
 
     public static List<WorkLog> getWorkLogs(String user) {
-        return WorkLog.coll.find(DBQuery.is("userName", user)).toArray();
+        return WorkLog.coll.find(DBQuery.is("userName", user)).sort(new BasicDBObject("dateLog",-1)).toArray();
     }
 
     public static List<WorkLog> fetchMissingHourWlogs(String userName) {

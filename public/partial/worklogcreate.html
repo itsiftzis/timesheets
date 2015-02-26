@@ -112,6 +112,44 @@
             </div>
 
 
+            <div class="panels-container">
+                <div class="panel-small-first"><div class="entry-headings">My Recent Entries</div>
+                    <table>
+                        <tbody>
+                        <tr ng-repeat="wl in cwlc.myRecentWorklogs" style="color: rgba(255, 243, 211, 1);">
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <tr ng-repeat="pr in wl.projects">
+                                        <span><td ng-click="cwlc.addworklog(pr.client, pr.component, pr.name)">{{pr.client}}-{{pr.component}}-{{pr.name}}</td></span>
+                                    </tr>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-small"><div class="entry-headings">My Frequent Entries</div></div>
+                <div class="panel-small"><div class="entry-headings">My Team's Recent Entries</div>
+                    <table>
+                        <tbody>
+                        <tr ng-repeat="wl in cwlc.teamRecentWorklogs" style="color: rgba(255, 243, 211, 1);">
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <tr ng-repeat="pr in wl.projects">
+                                        <span><td ng-click="cwlc.addworklog(pr.client, pr.component, pr.name)">{{pr.client}}-{{pr.component}}-{{pr.name}}</td></span>
+                                    </tr>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-small-last"><div class="entry-headings">My Team's Frequent Entries</div></div>
+            </div>
             <!--<pre>{{ cwlc.worklogs | json }}</pre>-->
 
             <div class="form-group">
@@ -125,10 +163,4 @@
 
         </form>
     </div>
-</div>
-<div class="panels-container">
-    <div class="panel-small-first"><div class="entry-headings">My Recent Entries</div></div>
-    <div class="panel-small"><div class="entry-headings">My Frequent Entries</div></div>
-    <div class="panel-small"><div class="entry-headings">My Team's Recent Entries</div></div>
-    <div class="panel-small-last"><div class="entry-headings">My Team's Frequent Entries</div></div>
 </div>
