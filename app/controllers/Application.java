@@ -57,6 +57,19 @@ public class Application extends Controller {
         return ok(Json.toJson(workLogs));
     }
 
+    public static Result recentWorklogs(Integer count) {
+        User user = SessionManager.get("user");
+        List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName(), count);
+        Logger.info("found worklogs for user " + user.getUserName() + " " + workLogs.size());
+        return ok(Json.toJson(workLogs));
+    }
+
+    public static Result allRecentWorklogs(Integer count) {
+        List<WorkLog> workLogs = WorkLog.recentWorklogs(count);
+        Logger.info("found worklogs " + count + " " + workLogs.size());
+        return ok(Json.toJson(workLogs));
+    }
+
     public static Result user(String userName) {
         User user = User.userByUsername(userName);
         return ok(Json.toJson(user));
@@ -294,7 +307,7 @@ public class Application extends Controller {
         User user = SessionManager.get("user");
         if (user == null || user.getUserName().equals(""))
             return badRequest("user not logged in");
-        List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName());
+        List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName(), -1);
         Gson gson = new Gson();
         String json = gson.toJson(workLogs);
         return ok(json);
@@ -444,8 +457,21 @@ public class Application extends Controller {
             if (missingHours > 0)
                 totalMissingHours += missingHours;
         }
-        String result = "{\"totalHours\":" + totalMissingHours + "}";
+        int additionalHours = 0;
+        if (workLog.size()>0)
+            additionalHours = 8 * calculateAdditionalHours(workLog.get(0));
+        String result = "{\"totalHours\":" + (totalMissingHours + additionalHours) + "}";
         return ok(result);
+    }
+
+    private static int calculateAdditionalHours(WorkLog workLog) {
+        Date d1 = Calendar.getInstance().getTime();
+        Date d2 = workLog.getDateLog();
+
+        long diff = d1.getTime() - d2.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000)+1;
+        int daysdiff = (int) diffDays;
+        return daysdiff;
     }
 
     public static Result downloadCsv(String user, String period) {
@@ -556,4 +582,13 @@ public class Application extends Controller {
 
         }
     }
+    /**
+     * db.worklog.aggregate(
+     [
+     { $unwind: "$projects"  },
+     { $group: { _id: "$projects.client", total: { $sum: "$projects.client" }, count{$sum: 1}}},
+     { $sort : {count: -1}  }
+     ]
+     )
+     */
 }
