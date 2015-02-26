@@ -139,11 +139,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .panel-small {
-	background-color: rgba(255, 206, 184, 0.5);
+	background-color: rgba(0,0,0,0.35);
 	padding:22px;
 	border: 1px solid transparent;
 	border-radius: 4px;		
-	width:281px;
+	width:270px;
 	height:470px;
 	float:left;
 	margin:2px;
@@ -151,11 +151,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .panel-small-first {
-	background-color: rgba(255, 206, 184, 0.5);
+	background-color: rgba(0,0,0,0.35);
 	padding:22px;
 	border: 1px solid transparent;
 	border-radius: 4px;		
-	width:280px;
+	width:270px;
 	height:470px;
 	float:left;
 	margin:2px;
@@ -164,11 +164,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .panel-small-last {
-	background-color: rgba(255, 206, 184, 0.5);
+	background-color: rgba(0,0,0,0.35);
 	padding:22px;
 	border: 1px solid transparent;
 	border-radius: 4px;		
-	width:281px;
+	width:270px;
 	height:470px;
 	float:left;
 	margin:2px;
@@ -178,7 +178,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .panels-container {
-	width: 1137px;
+	width: 100%;
 	height:281px;
 	margin: 0 auto;	
 }
@@ -261,12 +261,12 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .nav-container {
-	width:1165px;
+	width:1168px;
 	margin:0 auto;	
 }
 
 .col-md-offset-1 {
-	width: 1165px;
+	width: 1168px;
 	margin:0 auto;
 }
 
@@ -433,5 +433,5 @@ background-color: rgba(0, 0, 0, 0.35);
 	width:100%;
 	font-weight:bold;
 	border-bottom: 1px solid #e5e5e5;
-	color:rgb(51, 51, 51);
+	color:#e5e5e5;
 }

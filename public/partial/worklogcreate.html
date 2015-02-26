@@ -1,6 +1,6 @@
 <div class="row panel">
 	<div class="blur"></div>
-    <div ng-controller="CreateWorkLogCtrl as cwlc">
+    <div ng-controller="CreateWorkLogCtrl as cwlc" style="margin:0 auto;">
         <div>
             <div style="float: left; width:33%;"><b>Create Worklog</b></div>
 
@@ -110,6 +110,15 @@
                     </p>
                 </div>
             </div>
+            
+            
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8 text-right">
+                    <a ng-href="/worklog#/" id="btn_cancel" class="btn btn-warning">Cancel</a>
+
+                    <button type="submit" class="btn btn-success" id="btn_create">Create WorkLog</button>
+                </div>
+            </div>
 
 
             <div class="panels-container">
@@ -152,13 +161,6 @@
             </div>
             <!--<pre>{{ cwlc.worklogs | json }}</pre>-->
 
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-8 text-right">
-                    <a ng-href="/worklog#/" id="btn_cancel" class="btn btn-warning">Cancel</a>
-
-                    <button type="submit" class="btn btn-success" id="btn_create">Create WorkLog</button>
-                </div>
-            </div>
 
 
         </form>
