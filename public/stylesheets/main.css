@@ -183,6 +183,13 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 	margin: 0 auto;	
 }
 
+.panel-text {
+	color: rgba(255, 243, 211, 1);
+	border-bottom:1px solid rgba(188,186,186,0.46);
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
 .logo-container {
 	background-color: black;
 	width: 100%;
