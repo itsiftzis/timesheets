@@ -156,9 +156,11 @@ class CreateWorkLogCtrl
     deleteThisEdit: (st) ->
         @worklogEdit.worklog.projects.splice(st,1)
 
-    addworklog: (@client, @component, @name) ->
-        @$log.info(@client + ' ' + @component + ' ' + @name)
+    addworklog: (@_client, @_component, @_name, @_description, @_hours) ->
+        @$log.info(@_client + ' ' + @_component + ' ' + @_name, + ' ' + @_description, + ' ' + @_hours)
         @controlNumberOfInputRows.push(0)
-        @projects.push({client:@client, name:@name, component:@component, region:"", hours:""})
+        @fillNames({client:@_client}, 0)
+        @fillComponents({name:@_name}, 0)
+        @projects.push({client:@_client, name:{@_name,@_name}, component:@_component, region:"", hours:@_hours})
 
 controllersModule2.controller('CreateWorkLogCtrl', CreateWorkLogCtrl)
