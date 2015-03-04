@@ -479,6 +479,7 @@ public class Application extends Controller {
             workLog = WorkLog.getWorkLogs(userName);
         }
         double totalMissingHours = 0;
+        totalMissingHours = calculateMissingHours(workLog);
         for (WorkLog wl:workLog) {
             double workingHours = 8;
             double hoursInWorklog = 0;
@@ -494,6 +495,11 @@ public class Application extends Controller {
             additionalHours = 8 * calculateAdditionalHours(workLog.get(0));
         String result = "{\"totalHours\":" + (totalMissingHours + additionalHours) + "}";
         return ok(result);
+    }
+
+    private static double calculateMissingHours(List<WorkLog> workLog) {
+
+        return 0;
     }
 
     private static int calculateAdditionalHours(WorkLog workLog) {

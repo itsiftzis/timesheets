@@ -87,7 +87,7 @@
             </div>
 
             <div class="form-group">
-                <label id="lbl_projects" for="projects" class="col-sm-4 width20 project-label">Projects</label>
+                <label id="lbl_projects" class="col-sm-4 width20 project-label">Projects</label>
 
                 <div class="col-sm-8 width80">
                     <a class="btn pull-right add-project" ng-click="cwlc.addInputRow()">add project</a>
@@ -107,6 +107,15 @@
                         description:<input name="region" type="text" class="span2" ng-model="cwlc.projects[$index].region"/>
                         hours:<input name="hours" type="number" min="0.01" max="23" step="0.01" ng-required="true" class="span3" ng-model="cwlc.projects[$index].hours"/>
                         <a class="class" ng-click="cwlc.deleteThis($index)">X</a>
+                    </p>
+
+                    <p ng-repeat="project in cwlc.projectsSelected track by $index">
+                        client:<input required name="client" type="text" class="span2" ng-model="cwlc.projectsSelected[$index].client" />
+                        name:<input required class="span2" name="name" ng-model="cwlc.projectsSelected[$index].name" />
+                        component:<input class="span2" name="component" ng-model="cwlc.projectsSelected[$index].component" />
+                        description:<input name="region" type="text" class="span2" ng-model="cwlc.projectsSelected[$index].region"/>
+                        hours:<input name="hours" type="number" min="0.01" max="23" step="0.01" ng-required="true" class="span3" ng-model="cwlc.projectsSelected[$index].hours"/>
+                        <a class="class" ng-click="cwlc.deleteThisSelected($index)">X</a>
                     </p>
                 </div>
             </div>

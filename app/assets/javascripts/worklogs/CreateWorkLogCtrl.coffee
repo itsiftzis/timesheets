@@ -6,6 +6,7 @@ class CreateWorkLogCtrl
         @worklog = {}
         @controlNumberOfInputRows = []
         @projects = [];
+        @projectsSelected = [];
         @worklogEdit = []
         if @$routeParams.worklog
           @getObjectFromUrl(@$routeParams)
@@ -114,6 +115,8 @@ class CreateWorkLogCtrl
           pr.component = pr.component.component
         @worklog.dateLog.setHours(18)
         @worklog.projects = @projects
+        for pr in @projectsSelected
+          @worklog.projects.push pr
         ###@worklog.dateLog = new Date(@worklog.dateLog).getTime()###
         @WorkLogService.createWorkLog(@worklog)
         .then(
@@ -151,16 +154,17 @@ class CreateWorkLogCtrl
     deleteThis: (st) ->
         @controlNumberOfInputRows.splice(st,1)
         @projects.splice(st,1)
+    deleteThisSelected: (st) ->
+        @controlNumberOfInputRows.splice(st,1)
+        @projectsSelected.splice(st,1)
     addInputRowEdit: () ->
         @worklogEdit.worklog.projects.push({client:"", name:"", component:"", region:"", hours:""})
     deleteThisEdit: (st) ->
         @worklogEdit.worklog.projects.splice(st,1)
 
-    addworklog: (@_client, @_component, @_name, @_description, @_hours) ->
-        @$log.info(@_client + ' ' + @_component + ' ' + @_name, + ' ' + @_description, + ' ' + @_hours)
+    addworklog: (_client, _component, _name, _description, _hours) ->
+        @$log.info(_client + ' ' + _component + ' ' + _name, + ' ' + _description, + ' ' + _hours)
         @controlNumberOfInputRows.push(0)
-        @fillNames({client:@_client}, 0)
-        @fillComponents({name:@_name}, 0)
-        @projects.push({client:@_client, name:{@_name,@_name}, component:@_component, region:"", hours:@_hours})
+        @projectsSelected.push({client:_client, name:_name, component:_component, region:"", hours:_hours})
 
 controllersModule2.controller('CreateWorkLogCtrl', CreateWorkLogCtrl)
