@@ -12,10 +12,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static play.data.Form.form;
@@ -480,7 +477,7 @@ public class Application extends Controller {
         }
         double totalMissingHours = 0;
         totalMissingHours = calculateMissingHours(workLog);
-        for (WorkLog wl:workLog) {
+        /*for (WorkLog wl:workLog) {
             double workingHours = 8;
             double hoursInWorklog = 0;
             for (Project pr:wl.getProjects()) {
@@ -489,7 +486,7 @@ public class Application extends Controller {
             double missingHours = workingHours - hoursInWorklog;
             if (missingHours > 0)
                 totalMissingHours += missingHours;
-        }
+        }*/
         int additionalHours = 0;
         if (workLog.size()>0)
             additionalHours = 8 * calculateAdditionalHours(workLog.get(0));
@@ -498,8 +495,33 @@ public class Application extends Controller {
     }
 
     private static double calculateMissingHours(List<WorkLog> workLog) {
+        Map<Date, List<WorkLog>> groupedWorkLogs = new HashMap<Date, List<WorkLog>>();
+        Calendar wlCalendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
+        for (WorkLog wl:workLog) {
+            wlCalendar.setTime(wl.getDateLog());
+            calendar.set(wlCalendar.get(Calendar.YEAR), wlCalendar.get(Calendar.MONTH), wlCalendar.get(Calendar.DATE));
 
-        return 0;
+            if (!groupedWorkLogs.containsKey(calendar.getTime())) {
+                List<WorkLog> innerWl = new ArrayList<WorkLog>();
+                innerWl.add(wl);
+                groupedWorkLogs.put(calendar.getTime(), innerWl);
+            } else {
+                groupedWorkLogs.get(calendar.getTime()).add(wl);
+            }
+        }
+        double totalMissingHours = 0;
+        for (Map.Entry<Date, List<WorkLog>> entry:groupedWorkLogs.entrySet()) {
+            double dailyHours = 0;
+            for (WorkLog wl:entry.getValue()) {
+                for (Project pr:wl.getProjects()) {
+                    dailyHours += pr.getHours();
+                }
+            }
+            if (dailyHours <8 )
+                totalMissingHours += (8-dailyHours);
+        }
+        return totalMissingHours;
     }
 
     private static int calculateAdditionalHours(WorkLog workLog) {
