@@ -529,9 +529,9 @@ public class Application extends Controller {
         Date d2 = workLog.getDateLog();
 
         long diff = d1.getTime() - d2.getTime();
-        long diffDays = diff / (24 * 60 * 60 * 1000)+1;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
         int daysdiff = (int) diffDays;
-        return daysdiff;
+        return daysdiff > 0 ? daysdiff : 0;
     }
 
     public static Result downloadCsv(String user, String period) {
