@@ -25,3 +25,5 @@ libraryDependencies ++= Seq(
   "com.google.code.gson" % "gson" % "2.2.4",
   "net.sf.flexjson" % "flexjson" % "3.2"
 )
+
+libraryDependencies += "org.mongodb" % "mongo-java-driver" % "2.13.0"
