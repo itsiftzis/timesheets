@@ -1,6 +1,6 @@
 package models;
 
-import com.mongodb.BasicDBObject;
+import com.mongodb.*;
 import db.MongoDB;
 import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.Id;
@@ -11,9 +11,8 @@ import play.Logger;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.net.UnknownHostException;
+import java.util.*;
 
 /**
  * Created by giannis on 8/2/14.
@@ -148,6 +147,11 @@ public class WorkLog {
     }
 
     public static List<WorkLog> fetchMissingHourWlogs(String userName) {
+        try {
+            fetchUserFrequentWlogs(userName);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         List<WorkLog> wl = WorkLog.coll.find(DBQuery.is("userName", userName)).
                 sort(new BasicDBObject("dateLog",-1)).toArray();
         List<WorkLog> filteredWl = new ArrayList<WorkLog>();
@@ -161,4 +165,51 @@ public class WorkLog {
         }
         return filteredWl;
     }
+
+    public static List<WorkLog> fetchUserFrequentWlogs(String userName) throws UnknownHostException {
+        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
+        DB db = mongoClient.getDB( "mydb" );
+        DBCollection coll = db.getCollection("worklog");
+
+        /*db.eval("db.worklog.aggregate(\n" +
+                "     [\n" +
+                "     { $unwind: \"$projects\"  },\n" +
+                "     { $group: { _id: \"$projects.client\", total: { $sum: \"$projects.client\" }, count{$sum: 1}}},\n" +
+                "     { $sort : {count: -1}  }\n" +
+                "     ]\n" +
+                "     )");
+*/
+        DBObject match = new BasicDBObject("$match", new BasicDBObject("userName", "itsiftzis"));
+
+        DBObject fields = new BasicDBObject("worklog", 4);
+        fields.put("projects.component", 3);
+        fields.put("projects.client", 2);
+        fields.put("projects.name", 1);
+        fields.put("_id", 0);
+        DBObject project = new BasicDBObject("$project", fields );
+
+        Map<String, Object> dbObjIdMap = new HashMap<String, Object>();
+        dbObjIdMap.put("projects.component", "$projects.component");
+        dbObjIdMap.put("projects.client", "$projects.client");
+        dbObjIdMap.put("projects.name", "$projects.name");
+
+        DBObject groupFields = new BasicDBObject( "_id", new BasicDBObject(dbObjIdMap));
+        groupFields.put("total", new BasicDBObject( "$sum", "$projects.client"));
+        DBObject group = new BasicDBObject("$group", groupFields);
+        DBObject sort = new BasicDBObject("$sort", new BasicDBObject("total", -1));
+
+        List<DBObject> pipeline = Arrays.asList(match, project, group, sort);
+        AggregationOutput output = coll.aggregate(pipeline);
+        return null;
+    }
+
+    /**
+     * db.worklog.aggregate(
+     [
+     { $unwind: "$projects"  },
+     { $group: { _id: "$projects.client", total: { $sum: "$projects.client" }, count{$sum: 1}}},
+     { $sort : {count: -1}  }
+     ]
+     )
+     */
 }

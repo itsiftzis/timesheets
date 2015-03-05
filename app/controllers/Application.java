@@ -630,7 +630,7 @@ public class Application extends Controller {
             if (user != null && user.getPassword() != null && user.getPassword().equals(loginForm.get().password)) {
                 SessionManager.addSession("user", user);
                 return redirect(controllers.routes.Application.indexWorkLog());
-            }  else {
+            } else {
                 if (user.getUserName() == null)
                     loginForm.reject("Unknown User");
                 else if (user.getPassword() != null && !user.getPassword().equals(loginForm.get().password))
@@ -642,13 +642,4 @@ public class Application extends Controller {
 
         }
     }
-    /**
-     * db.worklog.aggregate(
-     [
-     { $unwind: "$projects"  },
-     { $group: { _id: "$projects.client", total: { $sum: "$projects.client" }, count{$sum: 1}}},
-     { $sort : {count: -1}  }
-     ]
-     )
-     */
 }
