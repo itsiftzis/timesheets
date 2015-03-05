@@ -188,6 +188,13 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 	border-bottom:1px solid rgba(188,186,186,0.46);
 	padding-top:5px;
 	padding-bottom:5px;
+	cursor:pointer;
+}
+.trunc {
+	width: 226px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .logo-container {
