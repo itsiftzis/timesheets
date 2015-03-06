@@ -148,7 +148,23 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-small"><div class="entry-headings">My Frequent Entries</div></div>
+                <div class="panel-small"><div class="entry-headings">My Frequent Entries</div>
+                    <table>
+                        <tbody>
+                        <tr ng-repeat="wl in cwlc.myFrequentWorklogs" style="color: rgba(255, 243, 211, 1);">
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <tr ng-repeat="pr in wl.projects">
+                                        <td class="panel-text" ng-click="cwlc.addworklog(pr.client, pr.component, pr.name, pr.region, pr.hours)"><div class="trunc">{{pr.client}}-{{pr.component}}-{{pr.name}}</div></td>
+                                    </tr>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="panel-small"><div class="entry-headings">My Team's Recent Entries</div>
                     <table>
                         <tbody>
@@ -166,7 +182,23 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-small-last"><div class="entry-headings">My Team's Frequent Entries</div></div>
+                <div class="panel-small-last"><div class="entry-headings">My Team's Frequent Entries</div>
+                    <table>
+                        <tbody>
+                        <tr ng-repeat="wl in cwlc.teamFrequentWorklogs" style="color: rgba(255, 243, 211, 1);">
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <tr ng-repeat="pr in wl.projects">
+                                        <span><td class="panel-text" ng-click="cwlc.addworklog(pr.client, pr.component, pr.name, pr.region, pr.hours)"><div class="trunc">{{pr.client}}-{{pr.component}}-{{pr.name}}</div></td></span>
+                                    </tr>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!--<pre>{{ cwlc.worklogs | json }}</pre>-->
 

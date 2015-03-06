@@ -14,6 +14,8 @@ GET         /user                             controllers.Application.indexUser
 GET         /worklog                          controllers.Application.indexWorkLog
 GET         /recentWorklogs/:count            controllers.Application.recentWorklogs(count: Integer)
 GET         /allRecentWorklogs/:count         controllers.Application.allRecentWorklogs(count: Integer)
+GET         /frequentWorklogs/:count          controllers.Application.frequentWorklogs(count: Integer)
+GET         /teamFrequentWorklogs/:count      controllers.Application.teamFrequentWorklogs(count: Integer)
 
 #rest crud api
 GET         /users                            controllers.Application.users
