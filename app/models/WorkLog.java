@@ -147,11 +147,6 @@ public class WorkLog {
     }
 
     public static List<WorkLog> fetchMissingHourWlogs(String userName) {
-        try {
-            fetchUserFrequentWlogs(userName);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
         List<WorkLog> wl = WorkLog.coll.find(DBQuery.is("userName", userName)).
                 sort(new BasicDBObject("dateLog",-1)).toArray();
         List<WorkLog> filteredWl = new ArrayList<WorkLog>();
@@ -166,7 +161,7 @@ public class WorkLog {
         return filteredWl;
     }
 
-    public static List<WorkLog> fetchUserFrequentWlogs(String userName) throws UnknownHostException {
+    public static List<WorkLog> fetchUserFrequentWlogs(String userName, int count) throws UnknownHostException {
         MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
         DB db = mongoClient.getDB( "mydb" );
         DBCollection coll = db.getCollection("worklog");
@@ -179,28 +174,42 @@ public class WorkLog {
                 "     ]\n" +
                 "     )");
 */
-        DBObject match = new BasicDBObject("$match", new BasicDBObject("userName", "itsiftzis"));
+        DBObject match = new BasicDBObject("$match", new BasicDBObject("userName", userName));
 
         DBObject fields = new BasicDBObject("worklog", 4);
-        fields.put("projects.component", 3);
-        fields.put("projects.client", 2);
-        fields.put("projects.name", 1);
+        fields.put("projects.component", 2);
+        fields.put("projects.client", 1);
+        fields.put("projects.name", 3);
         fields.put("_id", 0);
         DBObject project = new BasicDBObject("$project", fields );
 
         Map<String, Object> dbObjIdMap = new HashMap<String, Object>();
-        dbObjIdMap.put("projects.component", "$projects.component");
         dbObjIdMap.put("projects.client", "$projects.client");
+        dbObjIdMap.put("projects.component", "$projects.component");
         dbObjIdMap.put("projects.name", "$projects.name");
 
         DBObject groupFields = new BasicDBObject( "_id", new BasicDBObject(dbObjIdMap));
-        groupFields.put("total", new BasicDBObject( "$sum", "$projects.client"));
+        groupFields.put("count", new BasicDBObject( "$sum", 1));
         DBObject group = new BasicDBObject("$group", groupFields);
-        DBObject sort = new BasicDBObject("$sort", new BasicDBObject("total", -1));
+        DBObject sort = new BasicDBObject("$sort", new BasicDBObject("count", -1));
+        DBObject limit = new BasicDBObject("$limit", count);
 
-        List<DBObject> pipeline = Arrays.asList(match, project, group, sort);
+        List<DBObject> myList = new ArrayList<DBObject>();
+        if (!userName.equals("all"))
+            myList.add(match);
+        myList.add(project);
+
+        List<DBObject> pipeline = Arrays.asList(match, project, group, sort, limit);
         AggregationOutput output = coll.aggregate(pipeline);
+        Iterator iter = output.results().iterator();
+        while (iter.hasNext()) {
+            System.out.println(iter.next());
+        }
         return null;
+    }
+
+    public static List<WorkLog> frequentWorklogs(Integer count, String userName) {
+        return fetchUserFrequentWlogs(userName, count);
     }
 
     /**

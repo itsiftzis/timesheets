@@ -99,6 +99,19 @@ public class Application extends Controller {
         }
     }
 
+    public static Result frequentWorklogs(Integer count) {
+        User user = SessionManager.get("user");
+        List<WorkLog> workLogs = WorkLog.frequentWorklogs(count, user.getUserName());
+        Logger.info("found worklogs " + count + " " + workLogs.size());
+        return null;
+    }
+
+    public static Result teamFrequentWorklogs(Integer count) {
+        List<WorkLog> workLogs = WorkLog.recentWorklogs(count);
+        Logger.info("found worklogs " + count + " " + workLogs.size());
+        return null;
+    }
+
     public static Result user(String userName) {
         User user = User.userByUsername(userName);
         return ok(Json.toJson(user));
