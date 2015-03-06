@@ -18,6 +18,8 @@ class CreateWorkLogCtrl
         @fetchProjectClients()
         @myRecentWorklogs = {}
         @getMyRecentWorklogs()
+        @myFrequentWorklogs()
+        @teamFrequentWorklogs()
         @teamRecentWorklogs = {}
         @getTeamRecentWorklogs()
 
@@ -45,6 +47,32 @@ class CreateWorkLogCtrl
           (data) =>
             @$log.debug "Promise returned #{data} recent Project"
             @myRecentWorklogs = data
+        ,
+          (error) =>
+            @$log.error "Unable to fetch Project Clients: #{error}"
+        )
+
+    ###myFrequentWorklogs###
+    myFrequentWorklogs: () ->
+      @$log.debug "myFrequentWorklogs()"
+      @WorkLogService.myFrequentWorklogs()
+      .then(
+        (data) =>
+          @$log.debug "Promise returned #{data} frequent Project"
+          @myFrequentWorklogs = data
+      ,
+        (error) =>
+          @$log.error "Unable to fetch Project Clients: #{error}"
+      )
+
+      ###teamFrequentWorklogs###
+      teamFrequentWorklogs: () ->
+        @$log.debug "teamFrequentWorklogs()"
+        @WorkLogService.getTeamFrequentWorklogs()
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data} frequent Project"
+            @teamFrequentWorklogs = data
         ,
           (error) =>
             @$log.error "Unable to fetch Project Clients: #{error}"

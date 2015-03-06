@@ -155,6 +155,38 @@ class WorkLogService
         )
         deferred.promise
 
+    ###myFrequentWorklogs###
+    myFrequentWorklogs: () ->
+        @$log.debug "myFrequentWorklogs()"
+        deferred = @$q.defer()
+
+        @$http.get("/frequentWorklogs/5")
+        .success((data, status, headers) =>
+          @$log.info("Successfully listed Projects - status #{status}")
+          deferred.resolve(data)
+        )
+        .error((data, status, headers) =>
+          @$log.error("Failed to list Projects - status #{status}")
+          deferred.reject(data);
+        )
+        deferred.promise
+
+    ###myFrequentWorklogs###
+    teamFrequentWorklogs: () ->
+        @$log.debug "teamFrequentWorklogs()"
+        deferred = @$q.defer()
+
+        @$http.get("/teamFrequentWorklogs/5")
+        .success((data, status, headers) =>
+          @$log.info("Successfully listed Projects - status #{status}")
+          deferred.resolve(data)
+        )
+        .error((data, status, headers) =>
+          @$log.error("Failed to list Projects - status #{status}")
+          deferred.reject(data);
+        )
+        deferred.promise
+
     fetchNamesForClient: (client) ->
       deferred = @$q.defer()
 
