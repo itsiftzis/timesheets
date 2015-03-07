@@ -218,7 +218,7 @@ public class WorkLog {
                                 project1.setClient(clientsList.get(i).toString());
                                 project1.setName(namesList.get(i).toString());
                                 project1.setComponent(componentsList.get(i).toString());
-                                if (projectsCounter < count) {
+                                if (projectsCounter < count && !containsOverride(projectsList, project1)) {
                                     projectsList.add(project1);
                                     projectsCounter++;
                                 }
@@ -231,6 +231,14 @@ public class WorkLog {
         workLog.setProjects(projectsList);
         listOfWorkLogs.add(workLog);
         return listOfWorkLogs;
+    }
+
+    private static boolean containsOverride(List<Project> projectsList, Project project1) {
+        for (Project pr:projectsList) {
+            if (project1.getClient().equals(pr.getClient()) && project1.getName().equals(pr.getName()) && project1.getComponent().equals(pr.getComponent()))
+                return true;
+        }
+        return false;
     }
 
     public static List<WorkLog> frequentWorklogs(Integer count, String userName) {
