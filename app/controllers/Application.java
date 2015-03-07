@@ -103,13 +103,13 @@ public class Application extends Controller {
         User user = SessionManager.get("user");
         List<WorkLog> workLogs = WorkLog.frequentWorklogs(count, user.getUserName());
         Logger.info("found worklogs " + count + " " + workLogs.size());
-        return null;
+        return ok(Json.toJson(workLogs));
     }
 
     public static Result teamFrequentWorklogs(Integer count) {
-        List<WorkLog> workLogs = WorkLog.recentWorklogs(count);
+        List<WorkLog> workLogs = WorkLog.frequentWorklogs(count, "all");
         Logger.info("found worklogs " + count + " " + workLogs.size());
-        return null;
+        return ok(Json.toJson(workLogs));
     }
 
     public static Result user(String userName) {

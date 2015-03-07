@@ -166,20 +166,12 @@ public class WorkLog {
         DB db = mongoClient.getDB( "mydb" );
         DBCollection coll = db.getCollection("worklog");
 
-        /*db.eval("db.worklog.aggregate(\n" +
-                "     [\n" +
-                "     { $unwind: \"$projects\"  },\n" +
-                "     { $group: { _id: \"$projects.client\", total: { $sum: \"$projects.client\" }, count{$sum: 1}}},\n" +
-                "     { $sort : {count: -1}  }\n" +
-                "     ]\n" +
-                "     )");
-*/
         DBObject match = new BasicDBObject("$match", new BasicDBObject("userName", userName));
 
-        DBObject fields = new BasicDBObject("worklog", 4);
-        fields.put("projects.component", 2);
+        DBObject fields = new BasicDBObject("compkey", 1);
         fields.put("projects.client", 1);
-        fields.put("projects.name", 3);
+        fields.put("projects.component", 1);
+        fields.put("projects.name", 1);
         fields.put("_id", 0);
         DBObject project = new BasicDBObject("$project", fields );
 
@@ -198,27 +190,64 @@ public class WorkLog {
         if (!userName.equals("all"))
             myList.add(match);
         myList.add(project);
+        myList.add(group);
+        myList.add(sort);
+        myList.add(limit);
 
-        List<DBObject> pipeline = Arrays.asList(match, project, group, sort, limit);
+        List<DBObject> pipeline = myList;
         AggregationOutput output = coll.aggregate(pipeline);
         Iterator iter = output.results().iterator();
+        List<WorkLog> listOfWorkLogs = new ArrayList<WorkLog>();
+        WorkLog workLog = new WorkLog();
+        List<Project> projectsList = new ArrayList<Project>();
+        int projectsCounter = 0;
         while (iter.hasNext()) {
-            System.out.println(iter.next());
+            BasicDBObject dbObject = (BasicDBObject)iter.next();
+            System.out.println(dbObject);
+            for (Map.Entry<String,Object> entry:dbObject.entrySet()) {
+                if (entry.getKey().equals("_id")) {
+                    DBObject val = (DBObject)entry.getValue();
+                    BasicDBList clientsList = (BasicDBList)val.get("projects.client");
+                    BasicDBList namesList = (BasicDBList)val.get("projects.name");
+                    BasicDBList componentsList = (BasicDBList)val.get("projects.component");
+
+                    if (clientsList != null && namesList != null && componentsList != null) {
+                        if (clientsList.size() == namesList.size() && clientsList.size() == componentsList.size()) {
+                            for (int i=0; i<clientsList.size(); i++) {
+                                Project project1 = new Project();
+                                project1.setClient(clientsList.get(i).toString());
+                                project1.setName(namesList.get(i).toString());
+                                project1.setComponent(componentsList.get(i).toString());
+                                if (projectsCounter < count) {
+                                    projectsList.add(project1);
+                                    projectsCounter++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return null;
+        workLog.setProjects(projectsList);
+        listOfWorkLogs.add(workLog);
+        return listOfWorkLogs;
     }
 
     public static List<WorkLog> frequentWorklogs(Integer count, String userName) {
-        return fetchUserFrequentWlogs(userName, count);
+        List<WorkLog> wl = new ArrayList<WorkLog>();
+        try {
+            wl = fetchUserFrequentWlogs(userName, count);
+        } catch (UnknownHostException e) {
+            Logger.error("Error fetcing frequent worklogs ", e);
+            wl.add(new WorkLog());
+            return wl;
+        }
+        if (wl == null) {
+            wl = new ArrayList<WorkLog>();
+            wl.add(new WorkLog());
+            return wl;
+        } else
+            return wl;
     }
 
-    /**
-     * db.worklog.aggregate(
-     [
-     { $unwind: "$projects"  },
-     { $group: { _id: "$projects.client", total: { $sum: "$projects.client" }, count{$sum: 1}}},
-     { $sort : {count: -1}  }
-     ]
-     )
-     */
 }
