@@ -156,7 +156,7 @@ class WorkLogService
         deferred.promise
 
     ###myFrequentWorklogs###
-    myFrequentWorklogs: () ->
+    getMyFrequentWorklogs: () ->
         @$log.debug "myFrequentWorklogs()"
         deferred = @$q.defer()
 
@@ -172,7 +172,7 @@ class WorkLogService
         deferred.promise
 
     ###myFrequentWorklogs###
-    teamFrequentWorklogs: () ->
+    getTeamFrequentWorklogs: () ->
         @$log.debug "teamFrequentWorklogs()"
         deferred = @$q.defer()
 
