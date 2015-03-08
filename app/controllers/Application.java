@@ -58,7 +58,7 @@ public class Application extends Controller {
     public static Result recentWorklogs(Integer count) {
         User user = SessionManager.get("user");
         List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName(), count);
-        Logger.info("found worklogs for user " + user.getUserName() + " " + workLogs.size());
+        Logger.info("found recent worklogs for user " + user.getUserName() + " " + workLogs.size());
 
         if (count == -1)
             return ok(Json.toJson(workLogs));
@@ -80,7 +80,7 @@ public class Application extends Controller {
 
     public static Result allRecentWorklogs(Integer count) {
         List<WorkLog> workLogs = WorkLog.recentWorklogs(count);
-        Logger.info("found worklogs " + count + " " + workLogs.size());
+        Logger.info("found all recent worklogs " + count + " " + workLogs.size());
         if (count == -1)
             return ok(Json.toJson(workLogs));
         else {

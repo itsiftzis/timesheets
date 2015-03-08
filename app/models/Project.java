@@ -108,4 +108,10 @@ public class Project {
         }
         return new Project();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.client.equals(((Project)obj).getClient()) && this.name.equals(((Project)obj).getName()) &&
+                this.component.equals(((Project)obj).getComponent());
+    }
 }

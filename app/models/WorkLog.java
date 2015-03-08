@@ -7,6 +7,7 @@ import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.springframework.format.annotation.DateTimeFormat;
+import play.Configuration;
 import play.Logger;
 
 import javax.persistence.Temporal;
@@ -18,6 +19,23 @@ import java.util.*;
  * Created by giannis on 8/2/14.
  */
 public class WorkLog {
+    private static Configuration configuration = play.Play.application().configuration();
+    private static Mongo mongo;
+    private static DB db;
+    private static MongoClient mongoClient;
+    static {
+        try {
+            String host = configuration.getString("mongodb.server.host");
+            String port = configuration.getString("mongodb.server.port");
+            String dbname = configuration.getString("mongodb.database");
+            mongoClient = new MongoClient(host, Integer.parseInt(port));
+            db = mongoClient.getDB( dbname );
+            Logger.info("mongodb connection with java driver " + host + ":" + port + " db->" + dbname);
+        } catch (UnknownHostException e) {
+            Logger.error("Error connection to MONGO", e);
+        }
+    }
+
     public String getId() {
         return id;
     }
@@ -162,8 +180,7 @@ public class WorkLog {
     }
 
     public static List<WorkLog> fetchUserFrequentWlogs(String userName, int count) throws UnknownHostException {
-        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-        DB db = mongoClient.getDB( "mydb" );
+
         DBCollection coll = db.getCollection("worklog");
 
         DBObject match = new BasicDBObject("$match", new BasicDBObject("userName", userName));
@@ -218,7 +235,7 @@ public class WorkLog {
                                 project1.setClient(clientsList.get(i).toString());
                                 project1.setName(namesList.get(i).toString());
                                 project1.setComponent(componentsList.get(i).toString());
-                                if (projectsCounter < count && !containsOverride(projectsList, project1)) {
+                                if (projectsCounter < count && !projectsList.contains(project1)) {
                                     projectsList.add(project1);
                                     projectsCounter++;
                                 }
