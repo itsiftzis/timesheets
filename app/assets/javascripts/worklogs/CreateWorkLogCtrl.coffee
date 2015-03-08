@@ -34,6 +34,7 @@ class CreateWorkLogCtrl
         .then(
           (data) =>
             @$log.debug "Promise returned #{data} teams recent Projects"
+            ###todo filter projects###
             @teamRecentWorklogs = data
         ,
           (error) =>
@@ -46,6 +47,7 @@ class CreateWorkLogCtrl
         .then(
           (data) =>
             @$log.debug "Promise returned #{data} recent Project"
+            ###todo filter projects###
             @myRecentWorklogs = data
         ,
           (error) =>

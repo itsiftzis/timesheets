@@ -129,7 +129,7 @@ class WorkLogService
         @$log.debug "getTeamRecentWorklogs()"
         deferred = @$q.defer()
 
-        @$http.get("/allRecentWorklogs/5")
+        @$http.get("/allRecentWorklogs/10")
         .success((data, status, headers) =>
           @$log.info("Successfully listed teams Projects - status #{status}")
           deferred.resolve(data)
@@ -144,7 +144,7 @@ class WorkLogService
         @$log.debug "getMyRecentWorklogs()"
         deferred = @$q.defer()
 
-        @$http.get("/recentWorklogs/5")
+        @$http.get("/recentWorklogs/10")
         .success((data, status, headers) =>
           @$log.info("Successfully listed Projects - status #{status}")
           deferred.resolve(data)
@@ -160,7 +160,7 @@ class WorkLogService
         @$log.debug "myFrequentWorklogs()"
         deferred = @$q.defer()
 
-        @$http.get("/frequentWorklogs/5")
+        @$http.get("/frequentWorklogs/10")
         .success((data, status, headers) =>
           @$log.info("Successfully listed Projects - status #{status}")
           deferred.resolve(data)
@@ -176,7 +176,7 @@ class WorkLogService
         @$log.debug "teamFrequentWorklogs()"
         deferred = @$q.defer()
 
-        @$http.get("/teamFrequentWorklogs/5")
+        @$http.get("/teamFrequentWorklogs/10")
         .success((data, status, headers) =>
           @$log.info("Successfully listed Projects - status #{status}")
           deferred.resolve(data)
