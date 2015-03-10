@@ -449,3 +449,44 @@ background-color: rgba(0, 0, 0, 0.35);
 	border-bottom: 1px solid #e5e5e5;
 	color:#e5e5e5;
 }
+
+.pagination>li>a, .pagination>li>span {
+	position: relative;
+	float: left;
+	padding: 6px 12px;
+	line-height: 1.42857143;
+	text-decoration: none;
+	color: #B2B2B2;
+	background-color: rgba(0, 0, 0, 0.7) !important;;
+	border: 1px solid #474747;
+	margin-left: -1px;
+}
+
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+	color: #999;
+	background-color: rgba(0, 0, 0, 0.8);
+	border:none !important; 
+	cursor: not-allowed;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+	z-index: 2;
+	color: #fff;
+	background-color: #FFE8AA !important;
+	border:none;
+	cursor: default;
+}
+
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+	color: #000000 !important;
+	background-color: #eee;
+	border: none;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+	z-index: 2;
+	color: #000;
+	background-color: rgb(255, 232, 172);;
+	border:none;
+	cursor: default;
+}
