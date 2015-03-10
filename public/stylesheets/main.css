@@ -490,3 +490,7 @@ background-color: rgba(0, 0, 0, 0.35);
 	border:none;
 	cursor: default;
 }
+.add-hover:hover {
+	color:black;
+	font-weight:bold;
+}
