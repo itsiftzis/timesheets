@@ -1,24 +1,41 @@
 package models;
 
-import com.mongodb.BasicDBObject;
+import com.mongodb.*;
 import db.MongoDB;
 import net.vz.mongodb.jackson.DBQuery;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.springframework.format.annotation.DateTimeFormat;
+import play.Configuration;
 import play.Logger;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.net.UnknownHostException;
+import java.util.*;
 
 /**
  * Created by giannis on 8/2/14.
  */
 public class WorkLog {
+    private static Configuration configuration = play.Play.application().configuration();
+    private static Mongo mongo;
+    private static DB db;
+    private static MongoClient mongoClient;
+    static {
+        try {
+            String host = configuration.getString("mongodb.server.host");
+            String port = configuration.getString("mongodb.server.port");
+            String dbname = configuration.getString("mongodb.database");
+            mongoClient = new MongoClient(host, Integer.parseInt(port));
+            db = mongoClient.getDB( dbname );
+            Logger.info("mongodb connection with java driver " + host + ":" + port + " db->" + dbname);
+        } catch (UnknownHostException e) {
+            Logger.error("Error connection to MONGO", e);
+        }
+    }
+
     public String getId() {
         return id;
     }
@@ -161,4 +178,101 @@ public class WorkLog {
         }
         return filteredWl;
     }
+
+    public static List<WorkLog> fetchUserFrequentWlogs(String userName, int count) throws UnknownHostException {
+
+        DBCollection coll = db.getCollection("worklog");
+
+        DBObject match = new BasicDBObject("$match", new BasicDBObject("userName", userName));
+
+        DBObject fields = new BasicDBObject("compkey", 1);
+        fields.put("projects.client", 1);
+        fields.put("projects.component", 1);
+        fields.put("projects.name", 1);
+        fields.put("_id", 0);
+        DBObject project = new BasicDBObject("$project", fields );
+
+        Map<String, Object> dbObjIdMap = new HashMap<String, Object>();
+        dbObjIdMap.put("projects.client", "$projects.client");
+        dbObjIdMap.put("projects.component", "$projects.component");
+        dbObjIdMap.put("projects.name", "$projects.name");
+
+        DBObject groupFields = new BasicDBObject( "_id", new BasicDBObject(dbObjIdMap));
+        groupFields.put("count", new BasicDBObject( "$sum", 1));
+        DBObject group = new BasicDBObject("$group", groupFields);
+        DBObject sort = new BasicDBObject("$sort", new BasicDBObject("count", -1));
+        DBObject limit = new BasicDBObject("$limit", count);
+
+        List<DBObject> myList = new ArrayList<DBObject>();
+        if (!userName.equals("all"))
+            myList.add(match);
+        myList.add(project);
+        myList.add(group);
+        myList.add(sort);
+        myList.add(limit);
+
+        List<DBObject> pipeline = myList;
+        AggregationOutput output = coll.aggregate(pipeline);
+        Iterator iter = output.results().iterator();
+        List<WorkLog> listOfWorkLogs = new ArrayList<WorkLog>();
+        WorkLog workLog = new WorkLog();
+        List<Project> projectsList = new ArrayList<Project>();
+        int projectsCounter = 0;
+        while (iter.hasNext()) {
+            BasicDBObject dbObject = (BasicDBObject)iter.next();
+            System.out.println(dbObject);
+            for (Map.Entry<String,Object> entry:dbObject.entrySet()) {
+                if (entry.getKey().equals("_id")) {
+                    DBObject val = (DBObject)entry.getValue();
+                    BasicDBList clientsList = (BasicDBList)val.get("projects.client");
+                    BasicDBList namesList = (BasicDBList)val.get("projects.name");
+                    BasicDBList componentsList = (BasicDBList)val.get("projects.component");
+
+                    if (clientsList != null && namesList != null && componentsList != null) {
+                        if (clientsList.size() == namesList.size() && clientsList.size() == componentsList.size()) {
+                            for (int i=0; i<clientsList.size(); i++) {
+                                Project project1 = new Project();
+                                project1.setClient(clientsList.get(i).toString());
+                                project1.setName(namesList.get(i).toString());
+                                project1.setComponent(componentsList.get(i).toString());
+                                if (projectsCounter < count && !projectsList.contains(project1)) {
+                                    projectsList.add(project1);
+                                    projectsCounter++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        workLog.setProjects(projectsList);
+        listOfWorkLogs.add(workLog);
+        return listOfWorkLogs;
+    }
+
+    private static boolean containsOverride(List<Project> projectsList, Project project1) {
+        for (Project pr:projectsList) {
+            if (project1.getClient().equals(pr.getClient()) && project1.getName().equals(pr.getName()) && project1.getComponent().equals(pr.getComponent()))
+                return true;
+        }
+        return false;
+    }
+
+    public static List<WorkLog> frequentWorklogs(Integer count, String userName) {
+        List<WorkLog> wl = new ArrayList<WorkLog>();
+        try {
+            wl = fetchUserFrequentWlogs(userName, count);
+        } catch (UnknownHostException e) {
+            Logger.error("Error fetcing frequent worklogs ", e);
+            wl.add(new WorkLog());
+            return wl;
+        }
+        if (wl == null) {
+            wl = new ArrayList<WorkLog>();
+            wl.add(new WorkLog());
+            return wl;
+        } else
+            return wl;
+    }
+
 }

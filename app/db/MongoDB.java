@@ -28,7 +28,7 @@ public class MongoDB {
             db = mongo.getDB( dbname );
             Logger.info("mongodb connection " + host + ":" + port + " db->" + dbname);
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            Logger.error("Error connection to MONGO", e);
         }
     }
 }

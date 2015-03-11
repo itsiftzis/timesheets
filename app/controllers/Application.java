@@ -58,7 +58,7 @@ public class Application extends Controller {
     public static Result recentWorklogs(Integer count) {
         User user = SessionManager.get("user");
         List<WorkLog> workLogs = WorkLog.worklogPerUser(user.getUserName(), count);
-        Logger.info("found worklogs for user " + user.getUserName() + " " + workLogs.size());
+        Logger.info("found recent worklogs for user " + user.getUserName() + " " + workLogs.size());
 
         if (count == -1)
             return ok(Json.toJson(workLogs));
@@ -80,7 +80,7 @@ public class Application extends Controller {
 
     public static Result allRecentWorklogs(Integer count) {
         List<WorkLog> workLogs = WorkLog.recentWorklogs(count);
-        Logger.info("found worklogs " + count + " " + workLogs.size());
+        Logger.info("found all recent worklogs " + count + " " + workLogs.size());
         if (count == -1)
             return ok(Json.toJson(workLogs));
         else {
@@ -97,6 +97,19 @@ public class Application extends Controller {
             }
             return ok(Json.toJson(limitedWorklogs));
         }
+    }
+
+    public static Result frequentWorklogs(Integer count) {
+        User user = SessionManager.get("user");
+        List<WorkLog> workLogs = WorkLog.frequentWorklogs(count, user.getUserName());
+        Logger.info("found worklogs " + count + " " + workLogs.size());
+        return ok(Json.toJson(workLogs));
+    }
+
+    public static Result teamFrequentWorklogs(Integer count) {
+        List<WorkLog> workLogs = WorkLog.frequentWorklogs(count, "all");
+        Logger.info("found worklogs " + count + " " + workLogs.size());
+        return ok(Json.toJson(workLogs));
     }
 
     public static Result user(String userName) {
@@ -630,7 +643,7 @@ public class Application extends Controller {
             if (user != null && user.getPassword() != null && user.getPassword().equals(loginForm.get().password)) {
                 SessionManager.addSession("user", user);
                 return redirect(controllers.routes.Application.indexWorkLog());
-            }  else {
+            } else {
                 if (user.getUserName() == null)
                     loginForm.reject("Unknown User");
                 else if (user.getPassword() != null && !user.getPassword().equals(loginForm.get().password))
@@ -642,13 +655,4 @@ public class Application extends Controller {
 
         }
     }
-    /**
-     * db.worklog.aggregate(
-     [
-     { $unwind: "$projects"  },
-     { $group: { _id: "$projects.client", total: { $sum: "$projects.client" }, count{$sum: 1}}},
-     { $sort : {count: -1}  }
-     ]
-     )
-     */
 }

@@ -49,6 +49,8 @@ class ProjectCtrl
         )
 
     removeProjectClient: (@prj, @index) ->
+      msg = @prj.client
+      if (confirm "delete " + msg + " ?")
         @projectclients.splice(@index, 1)
         @ProjectService.deleteProjectClient(@prj)
         .then(
@@ -59,7 +61,10 @@ class ProjectCtrl
           @$log.error "Unable to delete Project: #{error}"
         )
 
+
     removeProjectName: (@prj, @index) ->
+      msg = @prj.client + ' ' + @prj.name
+      if (confirm "delete " + msg + " ?")
         @projectnames.splice(@index, 1)
         @ProjectService.deleteProjectName(@prj)
         .then(
@@ -71,15 +76,17 @@ class ProjectCtrl
           )
 
     removeProjectComponent: (@prj, @index) ->
-      @projectcomponents.splice(@index, 1)
-      @ProjectService.deleteProjectComponent(@prj)
-      .then(
-          (data) =>
-            @$log.debug "Promise returned #{data} "
-        ,
-        (error) =>
-          @$log.error "Unable to delete Project components: #{error}"
-        )
+      msg = @prj.client + ' ' + @prj.name + ' ' + @prj.component
+      if (confirm "delete " + msg + " ?")
+        @projectcomponents.splice(@index, 1)
+        @ProjectService.deleteProjectComponent(@prj)
+        .then(
+            (data) =>
+              @$log.debug "Promise returned #{data} "
+          ,
+          (error) =>
+            @$log.error "Unable to delete Project components: #{error}"
+          )
 
 
 
