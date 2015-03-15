@@ -111,7 +111,15 @@ public class Project {
 
     @Override
     public boolean equals(Object obj) {
+        if (((Project)obj).getComponent() == null && this.getComponent() == null)
+            return this.client.equals(((Project)obj).getClient()) && this.name.equals(((Project)obj).getName());
+
         return this.client.equals(((Project)obj).getClient()) && this.name.equals(((Project)obj).getName()) &&
                 this.component.equals(((Project)obj).getComponent());
+    }
+
+    @Override
+    public String toString() {
+        return "Client:" + this.getClient() + " " + "Name:" + this.getName() + "Component:" + this.getComponent();
     }
 }
