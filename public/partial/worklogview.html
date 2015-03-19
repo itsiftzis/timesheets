@@ -103,6 +103,7 @@
                         <a ng-href="/worklog#/worklogs/edit/{{wl.id}}" class="btn btn-primary btn-primary-narrow">edit</a>
                         <button class="btn btn-danger btn-primary-narrow" ng-click="wlog.removeWorkLog(wl, $index)">del</button>
                     </div>
+                    <div style="font-weight: bold; padding-top: 20px">Sum: {{wlog.sumOfHours(wl.projects)}} </div>
                 </td>
             </tr>
             <tr>
