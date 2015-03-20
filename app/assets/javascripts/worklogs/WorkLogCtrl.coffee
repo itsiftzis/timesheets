@@ -85,5 +85,12 @@ class WorkLogCtrl
       else
         return value.toString()
 
+    sumOfHours: (@value) ->
+      @$log.debug "sumOfHours()"
+      @$log.debug @value
+      sum = 0.0;
+      for hour in @value
+        sum = sum + parseFloat(hour.hours);
+      return sum
 
 controllersModule2.controller('WorkLogCtrl', WorkLogCtrl)

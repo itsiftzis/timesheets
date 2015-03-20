@@ -118,7 +118,24 @@ public class WorkLog {
     }
 
     public static void create(WorkLog task) {
-        WorkLog.coll.save(task);
+        List<WorkLog> existingWorkLogs = WorkLog.coll.find(DBQuery.lessThanEquals("dateLog", task.getDateLog())).is("userName", task.getUserName()).toArray();
+        WorkLog sameday = null;
+        for (WorkLog wlog:existingWorkLogs) {
+            if(wlog.getDateLog().equals(task.getDateLog())){
+                for(Project proj :task.getProjects()){
+                    wlog.getProjects().add(proj);
+                }
+                sameday = wlog;
+            }
+        }
+
+
+        if(sameday != null){
+            Logger.info("Updating existing worklog with id ====>>>>  " + sameday.id);
+            WorkLog.coll.updateById(sameday.id,sameday);
+        }else {
+            WorkLog.coll.save(task);
+        }
     }
 
     public static void create(Date dateLog, int totalHours, List<Project> projects, String user){
