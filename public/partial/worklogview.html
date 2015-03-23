@@ -1,7 +1,12 @@
 <div class="row panel" ng-controller="WorkLogCtrl as wlog">
     <div class="hours">
-    <img class="clock" src= "assets/images/clock.png"/>
-        <a style="text-decoration: none; color:#fff;" href="/missinghours">Total Missing hours: <b><span style="color:red">{{wlog.missinghours}}</span></b></a>
+        <div style="float: left; padding-right: 10px;">
+            <img class="clock" src= "assets/images/clock.png"/>
+        </div>
+        <div style="float: left;">
+            <span style="text-decoration: none; color:#fff;">{{wlog.missinghours[0].missing.month}} Missing hours: <b><span style="color:red">{{wlog.missinghours[0].missing.missingHours}}</span></b></span></br>
+            <span style="text-decoration: none; color:#fff;">{{wlog.missinghours[1].missing.month}} Missing hours: <b><span style="color:red">{{wlog.missinghours[1].missing.missingHours}}</span></b></span>
+        </div>
     </div>
     <div class="row">
     	<div class="blur"></div>

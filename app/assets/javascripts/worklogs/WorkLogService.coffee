@@ -23,7 +23,7 @@ class WorkLogService
         deferred.promise
 
     getMissingHours: (date) ->
-        @$log.debug "getMissingHours()"
+        @$log.debug "getMissingHours() for " + date
         deferred = @$q.defer()
 
         @$http.get("/hoursPerMonth/" + date)

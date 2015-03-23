@@ -9,7 +9,7 @@ class WorkLogCtrl
         @curPage
         @pageSize
         @numberOfPages
-        @missinghours
+        @missinghours = []
         @getMissingHours()
 
     getAllWorkLogs: () ->
@@ -32,12 +32,25 @@ class WorkLogCtrl
 
     getMissingHours: () ->
         @$log.debug "getMissingHours()"
+        currentDate = new Date()
 
-        @WorkLogService.getMissingHours('all')
+        @WorkLogService.getMissingHours(currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1))
         .then(
             (data) =>
               @$log.debug "Promise returned #{data.length} WorkLogs"
-              @missinghours = data.totalHours
+              @missinghours.push(missing:{"missingHours": data.totalHours, month: + currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) })
+              @$log.debug(@missinghours)
+        ,
+          (error) =>
+            @$log.error "Unable to get WorkLogs: #{error}"
+        )
+
+        @WorkLogService.getMissingHours(currentDate.getFullYear() + '-' + (currentDate.getMonth()))
+        .then(
+          (data) =>
+            @$log.debug "Promise returned #{data.length} WorkLogs"
+            @missinghours.push(missing:{"missingHours":data.totalHours, month: + currentDate.getFullYear() + '-' + (currentDate.getMonth()) })
+            @$log.debug(@missinghours)
         ,
           (error) =>
             @$log.error "Unable to get WorkLogs: #{error}"

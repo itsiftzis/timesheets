@@ -5,6 +5,7 @@ import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.MongoCollection;
 import net.vz.mongodb.jackson.ObjectId;
+import play.*;
 
 import java.util.List;
 
@@ -111,11 +112,17 @@ public class Project {
 
     @Override
     public boolean equals(Object obj) {
-        if (((Project)obj).getComponent() == null && this.getComponent() == null)
-            return this.client.equals(((Project)obj).getClient()) && this.name.equals(((Project)obj).getName());
-
-        return this.client.equals(((Project)obj).getClient()) && this.name.equals(((Project)obj).getName()) &&
+        if (((Project)obj).getComponent() == null && this.getComponent() == null) {
+            boolean equals = this.client.equals(((Project) obj).getClient()) && this.name.equals(((Project) obj).getName());
+            if (!equals)
+                Logger.debug(((Project) obj).toString() + " equals ? " + this);
+            return equals;
+        }
+        boolean equals = this.client.equals(((Project)obj).getClient()) && this.name.equals(((Project)obj).getName()) &&
                 this.component.equals(((Project)obj).getComponent());
+        if (equals)
+            Logger.debug(((Project) obj).toString() + " equals ? " + this);
+        return equals;
     }
 
     @Override

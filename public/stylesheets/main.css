@@ -422,16 +422,17 @@ background-color: rgba(0, 0, 0, 0.35);
 	font-size: 14px; 
 	text-align:center;
 	padding: 7px;
-	width:20%;
+	width:28%;
 	background-color: rgba(0, 0, 0, 0.29);
 	border-radius: 8px;
 	bottom: 0;
 	left: 0;
+	height: 55px;
 }
 
 .clock {
 	width:32px !important;
-	height:32px !important;	
+	height:32px !important;
 }
 
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
@@ -663,5 +664,12 @@ legend {
 }
 
 
+.main-content {
+	-webkit-animation: anim-main 0.5s; 
+    -moz-animation: anim-main 0.5s; 
+    -ms-animation: anim-main 0.5s; 
+    -o-animation: anim-main 0.5s; 
+    animation: anim-main 0.5s;	
+}
 
 
