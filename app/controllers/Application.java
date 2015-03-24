@@ -65,15 +65,19 @@ public class Application extends Controller {
         else {
             int counter = 0;
             List<WorkLog> limitedWorklogs = new ArrayList<WorkLog>();
+            List<Project> uniqueprojects = new ArrayList<Project>();
+            int found = 0;
             for (WorkLog wl : workLogs) {
                 for (Project pr : wl.getProjects()) {
-                    counter++;
-                    if (counter <= count) {
-                        if (limitedWorklogs.indexOf(wl) == -1)
-                            limitedWorklogs.add(wl);
+                    if (!uniqueprojects.contains(pr) && (found < count)) {
+                        uniqueprojects.add(pr);
+                        found++;
                     }
                 }
             }
+            WorkLog finalWl = new WorkLog();
+            finalWl.setProjects(uniqueprojects);
+            limitedWorklogs.add(finalWl);
             return ok(Json.toJson(limitedWorklogs));
         }
     }
@@ -86,15 +90,19 @@ public class Application extends Controller {
         else {
             int counter = 0;
             List<WorkLog> limitedWorklogs = new ArrayList<WorkLog>();
+            List<Project> uniqueprojects = new ArrayList<Project>();
+            int found = 0;
             for (WorkLog wl : workLogs) {
                 for (Project pr : wl.getProjects()) {
-                    counter++;
-                    if (counter <= count) {
-                        if (limitedWorklogs.indexOf(wl) == -1)
-                            limitedWorklogs.add(wl);
+                    if (!uniqueprojects.contains(pr) && (found < count)) {
+                        uniqueprojects.add(pr);
+                        found++;
                     }
                 }
             }
+            WorkLog finalWl = new WorkLog();
+            finalWl.setProjects(uniqueprojects);
+            limitedWorklogs.add(finalWl);
             return ok(Json.toJson(limitedWorklogs));
         }
     }

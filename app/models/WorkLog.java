@@ -28,8 +28,10 @@ public class WorkLog {
             String host = configuration.getString("mongodb.server.host");
             String port = configuration.getString("mongodb.server.port");
             String dbname = configuration.getString("mongodb.database");
-            mongoClient = new MongoClient(host, Integer.parseInt(port));
-            db = mongoClient.getDB( dbname );
+            if (mongoClient == null)
+                mongoClient = new MongoClient(host, Integer.parseInt(port));
+            if (db == null)
+                db = mongoClient.getDB( dbname );
             Logger.info("mongodb connection with java driver " + host + ":" + port + " db->" + dbname);
         } catch (UnknownHostException e) {
             Logger.error("Error connection to MONGO", e);
