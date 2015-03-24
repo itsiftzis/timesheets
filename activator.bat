@@ -6,8 +6,8 @@
 @REM Configuration:
 @REM activatorconfig.txt found in the ACTIVATOR_HOME or ACTIVATOR_HOME/ACTIVATOR_VERSION
 @setlocal enabledelayedexpansion
-#set JAVA_HOME=C:\dev\jdk\jdk1.7.0_10
-set META_SIZE=-XX:PermSize=512M -XX:MaxPermSize=768M -Xmx512M
+@REM set JAVA_HOME=C:\dev\jdk\jdk1.7.0_10
+@REM set META_SIZE=-XX:PermSize=512M -XX:MaxPermSize=768M -Xmx512M
 
 @echo off
 
