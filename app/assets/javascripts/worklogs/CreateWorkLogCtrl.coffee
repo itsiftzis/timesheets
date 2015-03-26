@@ -144,6 +144,8 @@ class CreateWorkLogCtrl
           pr.name = pr.name.name
           pr.component = pr.component.component
         @worklog.dateLog.setHours(18)
+        @$log.debug 'setting hours to 18'
+        @$log.debug @worklog
         @worklog.projects = @projects
         for pr in @projectsSelected
           @worklog.projects.push pr
@@ -161,6 +163,8 @@ class CreateWorkLogCtrl
 
     editWorkLog: () ->
         @$log.debug "editWorkLog()"
+        @worklogEdit.worklog.dateLog.setHours(18)
+        @$log.debug 'setting hours to 18'
         @$log.debug @worklogEdit.worklog
         @WorkLogService.updateWorkLog(@worklogEdit.worklog)
           .then(
