@@ -2,7 +2,7 @@ import play.PlayJava
 
 name := """mmbu-timesheets"""
 
-organization := "com.mgage.mmbu.internalapps.timesheets"
+organization := "com.whitelabel.internalapps.timesheets"
 
 version := "1.0-SNAPSHOT"
 
