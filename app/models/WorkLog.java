@@ -109,14 +109,14 @@ public class WorkLog {
         if (count == -1)
             return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).toArray();
         else
-            return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).limit(count+40).toArray();
+            return WorkLog.coll.find().is("userName", userName).sort(new BasicDBObject("dateLog",-1)).limit(count).toArray();
     }
 
     public static List<WorkLog> recentWorklogs(int count) {
         if (count == -1)
             return WorkLog.coll.find().sort(new BasicDBObject("dateLog",-1)).toArray();
         else
-            return WorkLog.coll.find().sort(new BasicDBObject("dateLog",-1)).limit(count+40).toArray();
+            return WorkLog.coll.find().sort(new BasicDBObject("dateLog",-1)).limit(count).toArray();
     }
 
     public static void create(WorkLog task) {
@@ -254,17 +254,6 @@ public class WorkLog {
                                 project1.setClient(clientsList.get(i).toString());
                                 project1.setName(namesList.get(i).toString());
                                 project1.setComponent(componentsList.get(i).toString());
-                                if (projectsCounter < count && !projectsList.contains(project1)) {
-                                    projectsList.add(project1);
-                                    projectsCounter++;
-                                }
-                            }
-                        } else if (clientsList.size() == namesList.size() && componentsList.size() == 0) {
-                            for (int i=0; i<clientsList.size(); i++) {
-                                Project project1 = new Project();
-                                project1.setClient(clientsList.get(i).toString());
-                                project1.setName(namesList.get(i).toString());
-                                project1.setComponent("");
                                 if (projectsCounter < count && !projectsList.contains(project1)) {
                                     projectsList.add(project1);
                                     projectsCounter++;

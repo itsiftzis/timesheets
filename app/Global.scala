@@ -29,7 +29,7 @@ object Global extends GlobalSettings {
       def user = User.userByUsername("admin")
       if (user == null || user.getUserName == null) {
         Logger.info("user admin does not exist")
-        User.create("admin", "admin", "admin@localhost", "admin", "admin")
+        User.create("admin", "admin", "admin@mgage.com", "admin", "admin")
         Logger.info("created admin user")
       }
       super.onStart(app)
