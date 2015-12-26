@@ -17,3 +17,4 @@ dist
 application-log-*
 dump/
 *.gz
+vagrant/.vagrant
